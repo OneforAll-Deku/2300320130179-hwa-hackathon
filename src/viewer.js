@@ -690,12 +690,13 @@ export function createModelViewer(root) {
     spinButton.setAttribute('aria-pressed', String(spinEnabled))
   })
 
-  const clock = new THREE.Clock()
+  const timer = new THREE.Timer()
+  timer.start()
 
   function render() {
     requestAnimationFrame(render)
     if (!visible) return
-    controls.update(Math.min(clock.getDelta(), 0.05))
+    controls.update(Math.min(timer.getDelta(), 0.05))
     renderer.render(scene, camera)
   }
 
