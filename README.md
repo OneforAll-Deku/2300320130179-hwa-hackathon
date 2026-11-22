@@ -61,6 +61,10 @@ Click **Reserve this configuration** to jump to the reservation form with your s
 
 Below **The ritual** heading is an interactive 2-hour timeline scrubber covering the four phases (Lick → Sniff → Chew → Settle). Click or drag across the track to select a phase; it shows the phase name, duration, canine neurological state (Endorphin release, Dopamine foraging, Tension relief, Delta sleep), and a quick link to jump to that phase card. Styled with warm paper (`#f6f1e7`), deep teal (`#0c5a52`), and brass accents (`#b98a3c`), with keyboard navigation and `prefers-reduced-motion` support.
 
+## Botanical Scent Apothecary
+
+Inside **Phase 04 · Settle** is an interactive "Botanical Scent Apothecary" card. Toggle between four calming scents (Lavender, Valerian Root, Ginger, Roman Chamomile) to see each one's botanical name and primary calming benefit. A prominent red alert box highlights toxic essential oils to avoid (Tea tree, eucalyptus, citrus, pine, clove, wintergreen, pennyroyal) with veterinary safety advice: dilute scents, diffuse 10–15 minutes in a ventilated room, use pet-safe products, always let your dog leave if they want, and consult your vet before introducing new aromas.
+
 ---
 
 ## Order endpoint

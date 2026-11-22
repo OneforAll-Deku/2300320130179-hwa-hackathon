@@ -38,6 +38,7 @@ This file is the single source of truth for decisions and progress, so any model
 - (2026-11-23) Interactive product configurator added: Teal/Cyan/Warm Peach colorway picker (#008296, #0abfd7, #eaf7fb) with live swatch preview, and optional refill subscriptions (Broth Pods ₹599/mo, Calming Chews ₹499/mo) with live total; selections carried to the order form as hidden fields.
 - (2026-11-23) MaskedHeading component added: vanilla JS text-masked heading (`src/ui/MaskedHeading.js`) revealing a metallic gradient through the letters, cursor-following spotlight, 1px brass (#b98a3c) outline, text-wrap: balance, prefers-reduced-motion support; used on the ritual section header.
 - (2026-11-23) RitualScrubber component added: interactive 2-hour timeline scrubber (`src/ui/RitualScrubber.js`) below the ritual heading; click or drag across 4 phases showing name, duration, canine neurological state, and jump-to-phase link; styled with warm paper, deep teal, brass accents; prefers-reduced-motion and keyboard support.
+- (2026-11-23) Botanical Scent Apothecary card added to Phase 04 Settle: toggle tabs for Lavender, Valerian Root, Ginger, Roman Chamomile showing botanical name + primary calming benefit, plus a red alert box for toxic scents to avoid with veterinary safety advice.
 
 ## Structure
 
