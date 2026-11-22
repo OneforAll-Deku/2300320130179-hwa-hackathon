@@ -1326,6 +1326,37 @@ li {
   color: var(--brass-light);
 }
 
+.buy__set-note {
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+/* ---------- Back to top ---------- */
+
+#back-to-top {
+  position: fixed;
+  right: clamp(1rem, 4vw, 2rem);
+  bottom: clamp(1rem, 4vw, 2rem);
+  z-index: 150;
+  transform: translateY(140%);
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#back-to-top.is-visible {
+  transform: translateY(0);
+  opacity: 0.9;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #back-to-top {
+    transition: none;
+  }
+}
+
 /* ---------- Phase video ---------- */
 
 .phase__video {
