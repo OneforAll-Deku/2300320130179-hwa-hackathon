@@ -9,7 +9,7 @@
     <title>PawClock™ — The 4-Phase Chrono-Feeder</title>
     <meta
       name="description"
-      content="PawClock turns the first two hours of home-alone into a four-stage enrichment ritual — lick, sniff, chew, settle. No app, no batteries, no guesswork."
+      content="PawClock turns the first two hours of home-alone into a four-stage enrichment ritual — lick, play, chew, settle. No app, no batteries, no guesswork."
     />
     <meta name="theme-color" content="#f6f1e7" />
     <link rel="canonical" href="https://2300320130179-hwa-hackathon.vercel.app/" />
@@ -18,7 +18,7 @@
     <meta property="og:title" content="PawClock™ — The 4-Phase Chrono-Feeder" />
     <meta
       property="og:description"
-      content="A four-stage enrichment ritual for the two-hour home-alone curve. Lick, sniff, chew, settle."
+      content="A four-stage enrichment ritual for the two-hour home-alone curve. Lick, play, chew, settle."
     />
     <meta property="og:url" content="https://2300320130179-hwa-hackathon.vercel.app/" />
     <meta property="og:image" content="https://2300320130179-hwa-hackathon.vercel.app/images/phase-2-sniff.jpg" />
@@ -75,7 +75,7 @@
             <p class="eyebrow reveal"><span class="eyebrow__dot"></span>4-phase chrono-feeder</p>
             <h1 class="reveal" style="--delay: 60ms">Alone time,<br /><em>beautifully</em> handled.</h1>
             <p class="lede reveal" style="--delay: 120ms">
-              PawClock turns the first two hours of home-alone into a four-stage ritual — lick, sniff, chew, settle —
+              PawClock turns the first two hours of home-alone into a four-stage ritual — lick, play, chew, settle —
               so your dog stays engaged, calm and cared for until the door opens again.
             </p>
             <div class="hero__actions reveal" style="--delay: 180ms">
@@ -140,8 +140,8 @@
               <button class="viewer__phase" type="button" data-viewer-phase="0" aria-label="Jump to Phase 01, Lick">
                 <span>01</span>Lick
               </button>
-              <button class="viewer__phase" type="button" data-viewer-phase="1" aria-label="Jump to Phase 02, Sniff">
-                <span>02</span>Sniff
+              <button class="viewer__phase" type="button" data-viewer-phase="1" aria-label="Jump to Phase 02, Play">
+                <span>02</span>Play
               </button>
               <button class="viewer__phase" type="button" data-viewer-phase="2" aria-label="Jump to Phase 03, Chew">
                 <span>03</span>Chew
@@ -157,7 +157,7 @@
               <summary>Parts in the model</summary>
               <ul class="viewer__parts-list">
                 <li><b>Phase 01 · Lick</b> — Frozen lick-well bowl, Lick-well lid</li>
-                <li><b>Phase 02 · Sniff</b> — Scent chamber housing, Maze ball food dispenser, Treat reservoir</li>
+                <li><b>Phase 02 · Play</b> — Scent chamber housing, Maze ball food dispenser, Treat reservoir</li>
                 <li><b>Phase 03 · Chew</b> — Dental-chew collar</li>
                 <li><b>Phase 04 · Settle</b> — Weighted chrono base, Sealed damping ring</li>
               </ul>
@@ -168,13 +168,13 @@
 
         <div class="marquee" aria-hidden="true">
           <div class="marquee__track">
-            <span>Lick</span><span class="marquee__dot">·</span><span>Sniff</span><span class="marquee__dot">·</span
+            <span>Lick</span><span class="marquee__dot">·</span><span>Play</span><span class="marquee__dot">·</span
             ><span>Chew</span><span class="marquee__dot">·</span><span>Settle</span><span class="marquee__dot">·</span>
-            <span>Lick</span><span class="marquee__dot">·</span><span>Sniff</span><span class="marquee__dot">·</span
+            <span>Lick</span><span class="marquee__dot">·</span><span>Play</span><span class="marquee__dot">·</span
             ><span>Chew</span><span class="marquee__dot">·</span><span>Settle</span><span class="marquee__dot">·</span>
-            <span>Lick</span><span class="marquee__dot">·</span><span>Sniff</span><span class="marquee__dot">·</span
+            <span>Lick</span><span class="marquee__dot">·</span><span>Play</span><span class="marquee__dot">·</span
             ><span>Chew</span><span class="marquee__dot">·</span><span>Settle</span><span class="marquee__dot">·</span>
-            <span>Lick</span><span class="marquee__dot">·</span><span>Sniff</span><span class="marquee__dot">·</span
+            <span>Lick</span><span class="marquee__dot">·</span><span>Play</span><span class="marquee__dot">·</span
             ><span>Chew</span><span class="marquee__dot">·</span><span>Settle</span><span class="marquee__dot">·</span>
           </div>
         </div>
@@ -232,76 +232,6 @@
             </p>
           </div>
 
-          <div class="ritual-scrubber reveal">
-            <div class="ritual-scrubber__track">
-              <div class="ritual-scrubber__line"></div>
-              <button
-                type="button"
-                class="ritual-scrubber__phase ritual-scrubber__phase--active"
-                data-phase="0"
-                data-label="01 · Lick"
-                data-name="Lick"
-                data-duration="20–30 min"
-                data-state="Endorphin release"
-                data-target="#phase-lick"
-                aria-pressed="true"
-              >
-                <span class="ritual-scrubber__dot"></span>
-                <span class="ritual-scrubber__label">01 · Lick</span>
-              </button>
-              <button
-                type="button"
-                class="ritual-scrubber__phase"
-                data-phase="1"
-                data-label="02 · Sniff"
-                data-name="Sniff"
-                data-duration="15–20 min"
-                data-state="Dopamine foraging"
-                data-target="#phase-sniff"
-                aria-pressed="false"
-              >
-                <span class="ritual-scrubber__dot"></span>
-                <span class="ritual-scrubber__label">02 · Sniff</span>
-              </button>
-              <button
-                type="button"
-                class="ritual-scrubber__phase"
-                data-phase="2"
-                data-label="03 · Chew"
-                data-name="Chew"
-                data-duration="20–30 min"
-                data-state="Tension relief"
-                data-target="#phase-chew"
-                aria-pressed="false"
-              >
-                <span class="ritual-scrubber__dot"></span>
-                <span class="ritual-scrubber__label">03 · Chew</span>
-              </button>
-              <button
-                type="button"
-                class="ritual-scrubber__phase"
-                data-phase="3"
-                data-label="04 · Settle"
-                data-name="Settle"
-                data-duration="60 min"
-                data-state="Delta sleep"
-                data-target="#phase-settle"
-                aria-pressed="false"
-              >
-                <span class="ritual-scrubber__dot"></span>
-                <span class="ritual-scrubber__label">04 · Settle</span>
-              </button>
-            </div>
-            <div class="ritual-scrubber__detail">
-              <div class="ritual-scrubber__detail-card">
-                <p class="ritual-scrubber__detail-name">01 · Lick</p>
-                <p class="ritual-scrubber__detail-duration">20–30 min</p>
-                <p class="ritual-scrubber__detail-state">Canine state: Endorphin release</p>
-                <a class="btn btn--ghost ritual-scrubber__jump" href="#phase-lick">Jump to 01 · Lick</a>
-              </div>
-            </div>
-          </div>
-
           <div class="phases">
             <article class="phase reveal" id="phase-lick">
               <figure class="phase__media">
@@ -354,7 +284,7 @@
               </figure>
               <div class="phase__copy">
                 <div class="phase__meta">
-                  <p class="eyebrow">Sniff</p>
+                  <p class="eyebrow">Play</p>
                   <span class="chip">15–20 min</span>
                 </div>
                 <h3>Maze ball food dispenser</h3>
@@ -653,7 +583,7 @@
             </article>
 
             <article class="buy__card reveal" style="--delay: 60ms">
-              <p class="buy__eyebrow">Phase 02 · Sniff</p>
+              <p class="buy__eyebrow">Phase 02 · Play</p>
               <h3>Maze ball food dispenser</h3>
               <p>Rolling treat maze with food chambers for focused scent work.</p>
               <p class="buy__price">₹9,999</p>

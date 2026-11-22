@@ -1,6 +1,6 @@
 # PawClock™ — 4-Phase Chrono-Feeder
 
-**Lick → Sniff → Chew → Settle.** A mechanical, app-free enrichment sequence for the two-hour home-alone curve.
+**Lick → Play → Chew → Settle.** A mechanical, app-free enrichment sequence for the two-hour home-alone curve.
 
 **Live site:** https://2300320130179-hwa-hackathon.vercel.app  
 **Detailed 3D viewer:** https://2300320130179-hwa-hackathon.vercel.app/pawclock-3d-model.html  
@@ -21,7 +21,7 @@ The idea: the first two hours after the door clicks shut are the hardest for man
 | Phase | Name | Module | Time | What it does |
 |-------|------|--------|------|--------------|
 | 01 | Lick | Frozen lick-well bowl | 20–30 min | Slow, rhythmic licking is a natural self-soother. Fill, freeze, clip on for the first stretch. |
-| 02 | Sniff | Maze ball food dispenser | 15–20 min | Treats hide inside a rolling maze ball, turning pacing into focused foraging; also works as a dog toy. |
+| 02 | Play | Maze ball food dispenser | 15–20 min | Treats hide inside a rolling maze ball, turning pacing into focused foraging; also works as a dog toy. |
 | 03 | Chew | Dental-chew core | 20–30 min | Textured ring redirects stress into healthy chewing, massaging gums with a treat reward. |
 | 04 | Settle | Weighted chrono base | 60 min | A 1.4 kg base keeps modules steady while a mechanical timer counts down the final stretch; pairs with a calming scent routine. |
 
@@ -38,7 +38,7 @@ You can buy **individual phases separately** or combine all four into **one set*
 | Item | Price (INR) |
 |------|-------------|
 | Phase 01 · Lick — Frozen lick module | ₹8,999 |
-| Phase 02 · Sniff — Maze ball food dispenser | ₹9,999 |
+| Phase 02 · Play — Maze ball food dispenser | ₹9,999 |
 | Phase 03 · Chew — Dental-chew module | ₹8,999 |
 | Phase 04 · Settle — Weighted chrono base | ₹9,999 |
 | **Full set — all four phases in one kit** | **₹34,999** *(saves ₹3,000 vs separate total of ₹37,998)* |
@@ -56,10 +56,6 @@ Before reserving, use the **Build your PawClock** configurator to tailor your or
 - **Live total:** PawClock full set ₹34,999 (one-time) plus selected monthly refills. Your colorway and refill choices are carried over to the reservation form as hidden fields.
 
 Click **Reserve this configuration** to jump to the reservation form with your selections noted.
-
-## Ritual timeline scrubber
-
-Below **The ritual** heading is an interactive 2-hour timeline scrubber covering the four phases (Lick → Sniff → Chew → Settle). Click or drag across the track to select a phase; it shows the phase name, duration, canine neurological state (Endorphin release, Dopamine foraging, Tension relief, Delta sleep), and a quick link to jump to that phase card. Styled with warm paper (`#f6f1e7`), deep teal (`#0c5a52`), and brass accents (`#b98a3c`), with keyboard navigation and `prefers-reduced-motion` support.
 
 ## Botanical Scent Apothecary
 
@@ -111,7 +107,6 @@ Used on the **The ritual** section heading ("Four phases, one quiet countdown.")
 index.html          # Single landing page: hero + 3D viewer, ritual curve, four phases, engineering, specs, buy, reserve, FAQ, footer
 src/main.js         # Nav, reveal animations, lazy viewer load, order form submission, back-to-top, MaskedHeading mount
 src/ui/MaskedHeading.js  # Text-masked heading with brass stroke, metallic gradient reveal, cursor spotlight
-src/ui/RitualScrubber.js # Interactive 2-hour ritual timeline scrubber with phase detail and jump-to-phase links
 src/ui/SpotlightCard.js # Cursor-tracking brass sheen spotlight overlay for phase and buy cards
 src/viewer.js       # Three.js scene, GLB load, per-mesh materials, part hover/tooltips, phase chips, click-to-phase
 src/styles/main.css # Design system and responsive layout

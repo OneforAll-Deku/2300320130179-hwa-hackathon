@@ -15,7 +15,7 @@ const MATERIAL_RECOLOR = {
 
 const PHASES = [
   { id: 'phase-lick', name: 'Lick', label: 'Phase 01 · Lick' },
-  { id: 'phase-sniff', name: 'Sniff', label: 'Phase 02 · Sniff' },
+  { id: 'phase-sniff', name: 'Play', label: 'Phase 02 · Play' },
   { id: 'phase-chew', name: 'Chew', label: 'Phase 03 · Chew' },
   { id: 'phase-settle', name: 'Settle', label: 'Phase 04 · Settle' }
 ]

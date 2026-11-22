@@ -1,6 +1,5 @@
 import './styles/main.css'
 import { MaskedHeading } from './ui/MaskedHeading.js'
-import { RitualScrubber } from './ui/RitualScrubber.js'
 import { SpotlightCard } from './ui/SpotlightCard.js'
 
 document.documentElement.classList.add('js')
@@ -132,7 +131,6 @@ navToggle?.addEventListener('click', () => {
 
   updateConfig()
   MountMaskedHeading()
-  MountRitualScrubber()
   MountApothecary()
   MountSpotlightCard()
 
@@ -143,14 +141,6 @@ navToggle?.addEventListener('click', () => {
       MaskedHeading({ el: container, text, tag: 'h2', background: 'gradient' })
     }
   }
-
-  function MountRitualScrubber() {
-    const container = document.querySelector('.ritual-scrubber')
-    if (container) {
-      RitualScrubber({ el: container })
-    }
-  }
-
   function MountApothecary() {
     const container = document.querySelector('.apothecary')
     if (!container) return
