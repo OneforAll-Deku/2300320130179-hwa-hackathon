@@ -1,5 +1,6 @@
 import './styles/main.css'
 import { MaskedHeading } from './ui/MaskedHeading.js'
+import { RitualScrubber } from './ui/RitualScrubber.js'
 
 document.documentElement.classList.add('js')
 
@@ -130,12 +131,20 @@ navToggle?.addEventListener('click', () => {
 
   updateConfig()
   MountMaskedHeading()
+  MountRitualScrubber()
 
   function MountMaskedHeading() {
     const container = document.querySelector('[data-masked-heading]')
     if (container) {
       const text = container.dataset.maskedHeading || ''
       MaskedHeading({ el: container, text, tag: 'h2', background: 'gradient' })
+    }
+  }
+
+  function MountRitualScrubber() {
+    const container = document.querySelector('.ritual-scrubber')
+    if (container) {
+      RitualScrubber({ el: container })
     }
   }
 

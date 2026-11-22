@@ -1747,6 +1747,126 @@ li {
   }
 }
 
+/* ---------- Ritual Scrubber ---------- */
+
+.ritual-scrubber {
+  margin-top: 3rem;
+  padding: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.ritual-scrubber__track {
+  position: relative;
+  margin-bottom: 2rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+  height: 44px;
+}
+
+.ritual-scrubber__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 3px;
+  background: var(--line);
+  border-radius: 2px;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.ritual-scrubber__phase {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--white);
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  cursor: pointer;
+  z-index: 2;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ritual-scrubber__phase:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.ritual-scrubber__phase--active {
+  border-color: var(--brass);
+  color: var(--brass);
+  transform: translate(-50%, -50%) scale(1.15);
+  box-shadow: var(--shadow);
+}
+
+.ritual-scrubber__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line);
+  border: 2px solid currentColor;
+  box-shadow: 0 0 0 4px var(--paper);
+}
+
+.ritual-scrubber__phase--active .ritual-scrubber__dot {
+  background: var(--brass);
+}
+
+.ritual-scrubber__phase:nth-child(1) { left: 0%; }
+.ritual-scrubber__phase:nth-child(2) { left: 33.333%; }
+.ritual-scrubber__phase:nth-child(3) { left: 66.667%; }
+.ritual-scrubber__phase:nth-child(4) { left: 100%; }
+
+.ritual-scrubber__detail {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ritual-scrubber__detail-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--ink);
+  margin: 0;
+}
+
+.ritual-scrubber__detail-duration {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.ritual-scrubber__detail-state {
+  font-size: 0.88rem;
+  color: var(--teal);
+  font-weight: 600;
+  margin: 0;
+}
+
+.ritual-scrubber__detail .btn {
+  width: fit-content;
+  align-self: flex-start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ritual-scrubber__phase {
+    transition: none;
+  }
+}
+
 /* ---------- Reserve ---------- */
 
 .reserve {
