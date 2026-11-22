@@ -132,6 +132,7 @@ navToggle?.addEventListener('click', () => {
   updateConfig()
   MountMaskedHeading()
   MountRitualScrubber()
+  MountApothecary()
 
   function MountMaskedHeading() {
     const container = document.querySelector('[data-masked-heading]')
@@ -146,6 +147,42 @@ navToggle?.addEventListener('click', () => {
     if (container) {
       RitualScrubber({ el: container })
     }
+  }
+
+  function MountApothecary() {
+    const container = document.querySelector('.apothecary')
+    if (!container) return
+    const tabs = container.querySelectorAll('.apothecary__tab')
+    const panels = container.querySelectorAll('.apothecary__panel')
+
+    function showScent(scent) {
+      tabs.forEach((tab) => {
+        const active = tab.dataset.scent === scent
+        tab.classList.toggle('apothecary__tab--active', active)
+        tab.setAttribute('aria-selected', String(active))
+      })
+      panels.forEach((panel) => {
+        const active = panel.dataset.scent === scent
+        panel.classList.toggle('apothecary__panel--active', active)
+        panel.setAttribute('hidden', !active)
+      })
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => showScent(tab.dataset.scent))
+      tab.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+          event.preventDefault()
+          const index = Array.from(tabs).indexOf(tab)
+          const step = event.key === 'ArrowLeft' ? -1 : 1
+          const next = (index + step + tabs.length) % tabs.length
+          tabs[next].focus()
+          showScent(tabs[next].dataset.scent)
+        }
+      })
+    })
+
+    showScent(tabs[0].dataset.scent)
   }
 
   document.addEventListener('keydown', (event) => {

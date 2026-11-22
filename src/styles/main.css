@@ -1425,30 +1425,113 @@ li {
   color: var(--ink-soft);
 }
 
-/* ---------- Phase scent guide ---------- */
+/* ---------- Botanical Scent Apothecary ---------- */
 
-.phase__scent-guide {
+.apothecary {
   margin-top: 1.2rem;
-  padding: 1rem 1.2rem;
-  border-radius: var(--radius);
-  background: var(--surface);
-  border: 1px solid var(--line);
 }
 
-.scent-list {
-  margin: 0.6rem 0 0;
-  padding-left: 1.2rem;
+.apothecary__eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
   color: var(--ink-soft);
-  font-size: 0.78rem;
+  margin: 0 0 1rem;
+}
+
+.apothecary__tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.apothecary__tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  border: 2px solid var(--line);
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.apothecary__tab:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.apothecary__tab--active {
+  border-color: var(--brass);
+  color: var(--brass);
+  background: rgba(185, 138, 60, 0.1);
+}
+
+.apothecary__panels {
+  margin-bottom: 1rem;
+}
+
+.apothecary__panel {
+  display: none;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  padding: 1.25rem;
+}
+
+.apothecary__panel--active {
+  display: block;
+  animation: apothecary-fade 0.3s ease;
+}
+
+.apothecary__botanical-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--ink);
+  margin: 0 0 0.4rem;
+}
+
+.apothecary__benefit {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
   line-height: 1.55;
 }
 
-.scent-list li {
-  margin: 0.35rem 0;
+.apothecary__alert {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  border: 2px solid #d32f2f;
+  background: #fdecea;
+  color: #8e0000;
 }
 
-.scent-list strong {
-  color: var(--ink);
+.apothecary__alert strong {
+  color: #b71c1c;
+}
+
+@keyframes apothecary-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apothecary__panel--active {
+    animation: none;
+  }
 }
 
 /* ---------- Configurator ---------- */
