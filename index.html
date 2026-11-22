@@ -549,6 +549,110 @@
         </div>
       </section>
 
+      <section class="section configurator" id="configurator">
+        <div class="wrap configurator__inner">
+          <div class="section__head reveal">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>Configure</p>
+            <h2>Build your PawClock.</h2>
+            <p>
+              Pick a colorway and add refill subscriptions. Your choices carry over to your reservation.
+            </p>
+          </div>
+
+          <div class="configurator__grid reveal">
+            <div class="configurator__preview reveal">
+              <div class="configurator__preview-card">
+                <div class="configurator__swatch" id="config-swatch" style="background-color: var(--color-teal);"></div>
+                <div class="configurator__preview-info">
+                  <p class="configurator__preview-label">Selected colorway</p>
+                  <h3 class="configurator__preview-name" id="config-color-name">Teal</h3>
+                  <p class="configurator__preview-hex" id="config-color-hex">#008296</p>
+                </div>
+              </div>
+              <div class="configurator__colorways" aria-label="Choose a colorway">
+                <button
+                  type="button"
+                  class="configurator__chip configurator__chip--active"
+                  data-color="teal"
+                  data-name="Teal"
+                  data-hex="#008296"
+                  aria-pressed="true"
+                >
+                  <span class="configurator__chip-dot" style="background:#008296"></span>
+                  <span>Teal</span>
+                </button>
+                <button
+                  type="button"
+                  class="configurator__chip"
+                  data-color="cyan"
+                  data-name="Cyan"
+                  data-hex="#0abfd7"
+                  aria-pressed="false"
+                >
+                  <span class="configurator__chip-dot" style="background:#0abfd7"></span>
+                  <span>Cyan</span>
+                </button>
+                <button
+                  type="button"
+                  class="configurator__chip"
+                  data-color="peach"
+                  data-name="Warm Peach"
+                  data-hex="#eaf7fb"
+                  aria-pressed="false"
+                >
+                  <span class="configurator__chip-dot" style="background:#eaf7fb"></span>
+                  <span>Warm Peach</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="configurator__refills reveal">
+              <div class="configurator__refill-group">
+                <p class="configurator__refill-eyebrow">Refill subscriptions</p>
+                <p class="configurator__refill-desc">
+                  Optional monthly refills delivered to your door.
+                </p>
+
+                <label class="configurator__refill-item">
+                  <input type="checkbox" name="refill" value="broth-pods" data-price="599" />
+                  <span class="configurator__refill-check"></span>
+                  <div class="configurator__refill-info">
+                    <strong>Broth Pods</strong>
+                    <p>Savoury frozen broth drops for the lick well. ₹599/month.</p>
+                  </div>
+                  <span class="configurator__refill-price">₹599/mo</span>
+                </label>
+
+                <label class="configurator__refill-item">
+                  <input type="checkbox" name="refill" value="calming-chews" data-price="499" />
+                  <span class="configurator__refill-check"></span>
+                  <div class="configurator__refill-info">
+                    <strong>Calming Chews</strong>
+                    <p>Gentle chews to support the settle phase. ₹499/month.</p>
+                  </div>
+                  <span class="configurator__refill-price">₹499/mo</span>
+                </label>
+              </div>
+
+              <div class="configurator__total reveal">
+                <div class="configurator__total-row">
+                  <span>PawClock full set</span>
+                  <span id="config-base-price">₹34,999</span>
+                </div>
+                <div class="configurator__total-row configurator__total-row--refills" id="config-refill-rows"></div>
+                <div class="configurator__total-row configurator__total-row--grand">
+                  <span>Estimated total</span>
+                  <span id="config-grand-total">₹34,999</span>
+                </div>
+                <button class="btn btn--dark btn--full configurator__reserve" type="button">
+                  Reserve this configuration
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="section reserve" id="reserve">
         <div class="wrap reserve__grid">
           <div class="reserve__copy reveal">
@@ -590,6 +694,8 @@
                 <option value="2">2 — ₹17,998</option>
                 <option value="3">3 — ₹25,997</option>
               </select>
+              <input type="hidden" name="colorway" value="teal" />
+              <input type="hidden" name="refills" value="" />
             </label>
 
             <div class="field field--honeypot" aria-hidden="true">

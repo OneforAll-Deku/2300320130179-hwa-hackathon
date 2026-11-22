@@ -41,6 +41,94 @@ navToggle?.addEventListener('click', () => {
     })
   }
 
+  // Interactive product configurator
+  const colorChips = document.querySelectorAll('.configurator__chip')
+  const configSwatch = document.getElementById('config-swatch')
+  const configColorName = document.getElementById('config-color-name')
+  const configColorHex = document.getElementById('config-color-hex')
+  const configBasePrice = document.getElementById('config-base-price')
+  const configRefillRows = document.getElementById('config-refill-rows')
+  const configGrandTotal = document.getElementById('config-grand-total')
+  const configReserve = document.querySelector('.configurator__reserve')
+  const colorwayInput = document.querySelector('input[name="colorway"]')
+  const refillsInput = document.querySelector('input[name="refills"]')
+
+  const BASE_PRICE = 34999
+  const REFILL_PRICES = { 'broth-pods': 599, 'calming-chews': 499 }
+
+  let selectedColor = 'teal'
+  let selectedRefills = new Set()
+
+  function formatINR(n) {
+    return '₹' + n.toLocaleString('en-IN')
+  }
+
+  function updateConfig() {
+    const activeChip = document.querySelector('.configurator__chip--active')
+    if (activeChip && configSwatch) {
+      configSwatch.style.backgroundColor = activeChip.dataset.hex
+      configColorName.textContent = activeChip.dataset.name
+      configColorHex.textContent = activeChip.dataset.hex
+    }
+
+    configRefillRows.innerHTML = ''
+    let monthlyTotal = 0
+    const selectedValues = []
+    selectedRefills.forEach((value) => {
+      const price = REFILL_PRICES[value]
+      monthlyTotal += price
+      selectedValues.push(value)
+      const row = document.createElement('div')
+      row.className = 'configurator__total-row configurator__total-row--refills'
+      const name = value === 'broth-pods' ? 'Broth Pods (monthly)' : 'Calming Chews (monthly)'
+      row.innerHTML = `<span>${name}</span><span>${formatINR(price)}/mo</span>`
+      configRefillRows.appendChild(row)
+    })
+    if (selectedValues.length === 0) {
+      const row = document.createElement('div')
+      row.className = 'configurator__total-row configurator__total-row--refills'
+      row.innerHTML = `<span>Refill subscriptions</span><span>None selected</span>`
+      configRefillRows.appendChild(row)
+    }
+
+    const grand = BASE_PRICE + monthlyTotal
+    configBasePrice.textContent = formatINR(BASE_PRICE)
+    configGrandTotal.textContent = formatINR(grand)
+
+    if (colorwayInput) colorwayInput.value = selectedColor
+    if (refillsInput) refillsInput.value = selectedValues.join(',')
+  }
+
+  colorChips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      colorChips.forEach((c) => {
+        c.classList.remove('configurator__chip--active')
+        c.setAttribute('aria-pressed', 'false')
+      })
+      chip.classList.add('configurator__chip--active')
+      chip.setAttribute('aria-pressed', 'true')
+      selectedColor = chip.dataset.color
+      updateConfig()
+    })
+  })
+
+  document.querySelectorAll('.configurator__refill-item input').forEach((cb) => {
+    cb.addEventListener('change', () => {
+      if (cb.checked) selectedRefills.add(cb.value)
+      else selectedRefills.delete(cb.value)
+      updateConfig()
+    })
+  })
+
+  if (configReserve) {
+    configReserve.addEventListener('click', () => {
+      const reserve = document.getElementById('reserve')
+      if (reserve) reserve.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
+
+  updateConfig()
+
   document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') setMenu(false)
 })

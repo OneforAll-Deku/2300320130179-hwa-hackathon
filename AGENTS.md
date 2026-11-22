@@ -35,6 +35,7 @@ This file is the single source of truth for decisions and progress, so any model
 - (2026-11-22) Phase content updated with YouTube/Facebook enrichment videos, Phase 04 calming-scent guide link, and an INR-priced buy-all-four-parts section.
 - (2026-11-22) Phase 02 now frames the maze ball as a dog toy/food dispenser; Phase 04 calming-scent guide is read in detail; all site prices now use INR.
 - (2026-11-23) Phase 02 changed to Maze ball food dispenser; Facebook video replaced with YouTube https://youtu.be/3NEa7C8JqvI; viewer module list, cutaway caption, and buy card updated.
+- (2026-11-23) Interactive product configurator added: Teal/Cyan/Warm Peach colorway picker (#008296, #0abfd7, #eaf7fb) with live swatch preview, and optional refill subscriptions (Broth Pods ₹599/mo, Calming Chews ₹499/mo) with live total; selections carried to the order form as hidden fields.
 
 ## Structure
 

@@ -45,6 +45,18 @@ You can buy **individual phases separately** or combine all four into **one set*
 
 Reserve via the form at the bottom of the page (name, email, quantity 1–3). On success you receive a reservation code such as `PC-XXXXXX`.
 
+## Product configurator
+
+Before reserving, use the **Build your PawClock** configurator to tailor your order:
+
+- **Colorway picker:** Choose Teal (`#008296`), Cyan (`#0abfd7`), or Warm Peach (`#eaf7fb`). The live swatch preview updates instantly.
+- **Refill subscriptions (optional, monthly):**
+  - Broth Pods — savoury frozen broth drops for the lick well, ₹599/month
+  - Calming Chews — gentle chews to support the settle phase, ₹499/month
+- **Live total:** PawClock full set ₹34,999 (one-time) plus selected monthly refills. Your colorway and refill choices are carried over to the reservation form as hidden fields.
+
+Click **Reserve this configuration** to jump to the reservation form with your selections noted.
+
 ---
 
 ## Order endpoint
