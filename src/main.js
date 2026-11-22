@@ -39,8 +39,8 @@ navToggle?.addEventListener('click', () => {
     const toggleBackToTop = () => backToTop.classList.toggle('is-visible', window.scrollY > 500)
     window.addEventListener('scroll', toggleBackToTop, { passive: true })
     backToTop.addEventListener('click', () => {
-      const top = document.getElementById('top')
-      if (top) top.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.location.hash = ''
     })
   }
 

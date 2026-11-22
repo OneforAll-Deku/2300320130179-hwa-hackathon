@@ -641,10 +641,13 @@ export function createModelViewer(root) {
     const moved = Math.hypot(event.clientX - pressPoint.x, event.clientY - pressPoint.y)
     const elapsed = performance.now() - pressTime
     pressPoint = null
-    if (moved > 8 || elapsed > 650) return
+    if (moved > 4 || elapsed > 300) return
 
     const hit = pickAt(event)
-    if (hit) goToPhase(hit.object.userData.partInfo.phase)
+    if (hit) {
+      event.preventDefault()
+      goToPhase(hit.object.userData.partInfo.phase)
+    }
   })
 
   renderer.domElement.addEventListener('pointercancel', () => {
