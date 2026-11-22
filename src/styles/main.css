@@ -1248,6 +1248,149 @@ li {
   color: var(--ink-soft);
 }
 
+/* ---------- Buy ---------- */
+
+.buy__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.4rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.buy__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: clamp(1.2rem, 2vw, 1.6rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.buy__eyebrow {
+  margin: 0;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+
+.buy__card h3 {
+  font-size: 1.45rem;
+}
+
+.buy__card > p {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.buy__price {
+  margin-top: auto;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: -0.03em;
+  color: var(--teal);
+}
+
+.buy__card .btn {
+  align-self: flex-start;
+  margin-top: 0.6rem;
+}
+
+.buy__set {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: clamp(1.8rem, 3vw, 2.5rem);
+  padding: clamp(1.6rem, 3vw, 2.5rem);
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.buy__set h3 {
+  color: var(--paper);
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+}
+
+.buy__set > div {
+  max-width: 46ch;
+}
+
+.buy__set > div > p {
+  color: rgba(246, 241, 231, 0.72);
+}
+
+.buy__set .buy__price {
+  color: var(--brass-light);
+}
+
+/* ---------- Phase video ---------- */
+
+.phase__video {
+  position: relative;
+  margin-top: 1.8rem;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--ink);
+}
+
+.phase__video iframe,
+.phase__video--external {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.phase__video--external {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(70% 60% at 50% 40%, rgba(12, 90, 82, 0.35), transparent 70%),
+    var(--ink);
+}
+
+.phase__video-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.3rem;
+  border-radius: 999px;
+  background: var(--brass-light);
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.phase__video-link-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--brass-light);
+  font-size: 0.7rem;
+}
+
+.phase__video-link-text {
+  text-align: left;
+}
+
+.phase__video-note {
+  margin-top: 0.8rem;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
 /* ---------- Reserve ---------- */
 
 .reserve {
