@@ -65,6 +65,7 @@ This file is the single source of truth for decisions and progress, so any model
 - Phase 02 dog-toy/food-dispenser context, Phase 04 calming-scent detail, and INR-wide price updates complete and locally verified: production build passes, no console errors, no horizontal overflow.
 - Phase 02 maze-ball video/content change complete: YouTube https://youtu.be/3NEa7C8JqvI replaces Facebook embed; build passes, no console errors.
 - Phase 04 Settle expanded: weighted chrono base + calming scent routine copy, A-Z Animals calming-scent reference list, external guide link, and new phase-4-settle.svg placeholder image; build passes, no console errors.
+- Phase 04 now includes the YouTube calming-scent video alongside the A-Z Animals blog link; build passes, no console errors.
 - Viewer timer updated: deprecated THREE.Clock replaced with THREE.Timer in src/viewer.js; build passes.
 
 ## Next steps
