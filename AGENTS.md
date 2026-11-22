@@ -34,6 +34,7 @@ This file is the single source of truth for decisions and progress, so any model
 - (2026-11-22) Standalone detailed 3D studio viewer integrated at `public/pawclock-3d-model.html`; landing page adds an "Explore the detailed 3D model" link and the viewer adds a back link; missing GLB export/server save and hidden auto-export removed; responsive HUD fixes applied.
 - (2026-11-22) Phase content updated with YouTube/Facebook enrichment videos, Phase 04 calming-scent guide link, and an INR-priced buy-all-four-parts section.
 - (2026-11-22) Phase 02 now frames the maze ball as a dog toy/food dispenser; Phase 04 calming-scent guide is read in detail; all site prices now use INR.
+- (2026-11-23) Phase 02 changed to Maze ball food dispenser; Facebook video replaced with YouTube https://youtu.be/3NEa7C8JqvI; viewer module list, cutaway caption, and buy card updated.
 
 ## Structure
 
@@ -62,6 +63,7 @@ This file is the single source of truth for decisions and progress, so any model
 - Detailed standalone viewer integration complete and locally verified: production build passes, detailed page loads with no console errors, interactions/steppers work, mobile layout avoids horizontal overflow, and the landing-page link navigates to the detail page with no console errors.
 - Phase video, calming-scent, and INR buy-content additions complete and locally verified: build passes, phase videos and buy cards render, no console errors, no horizontal overflow.
 - Phase 02 dog-toy/food-dispenser context, Phase 04 calming-scent detail, and INR-wide price updates complete and locally verified: production build passes, no console errors, no horizontal overflow.
+- Phase 02 maze-ball video/content change complete: YouTube https://youtu.be/3NEa7C8JqvI replaces Facebook embed; build passes, no console errors.
 
 ## Next steps
 
