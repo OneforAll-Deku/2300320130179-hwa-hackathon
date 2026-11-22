@@ -57,6 +57,10 @@ Before reserving, use the **Build your PawClock** configurator to tailor your or
 
 Click **Reserve this configuration** to jump to the reservation form with your selections noted.
 
+## Ritual timeline scrubber
+
+Below **The ritual** heading is an interactive 2-hour timeline scrubber covering the four phases (Lick → Sniff → Chew → Settle). Click or drag across the track to select a phase; it shows the phase name, duration, canine neurological state (Endorphin release, Dopamine foraging, Tension relief, Delta sleep), and a quick link to jump to that phase card. Styled with warm paper (`#f6f1e7`), deep teal (`#0c5a52`), and brass accents (`#b98a3c`), with keyboard navigation and `prefers-reduced-motion` support.
+
 ---
 
 ## Order endpoint
@@ -103,6 +107,7 @@ Used on the **The ritual** section heading ("Four phases, one quiet countdown.")
 index.html          # Single landing page: hero + 3D viewer, ritual curve, four phases, engineering, specs, buy, reserve, FAQ, footer
 src/main.js         # Nav, reveal animations, lazy viewer load, order form submission, back-to-top, MaskedHeading mount
 src/ui/MaskedHeading.js  # Text-masked heading with brass stroke, metallic gradient reveal, cursor spotlight
+src/ui/RitualScrubber.js # Interactive 2-hour ritual timeline scrubber with phase detail and jump-to-phase links
 src/viewer.js       # Three.js scene, GLB load, per-mesh materials, part hover/tooltips, phase chips, click-to-phase
 src/styles/main.css # Design system and responsive layout
 api/order.js        # Vercel order endpoint validation
