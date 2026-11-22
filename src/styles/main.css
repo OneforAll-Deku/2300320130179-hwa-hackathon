@@ -331,10 +331,6 @@ li {
   gap: 0.75rem;
 }
 
-.nav__links .nav__reserve {
-  display: none;
-}
-
 .nav__toggle {
   display: none;
   width: 42px;
@@ -370,7 +366,7 @@ li {
 .hero {
   position: relative;
   padding-top: clamp(7rem, 13vh, 9.5rem);
-  padding-bottom: 0;
+  padding-bottom: clamp(3.5rem, 7vw, 6rem);
   overflow: hidden;
 }
 
@@ -437,19 +433,6 @@ li {
 
 .hero__stage {
   position: relative;
-}
-
-.stage__caption {
-  margin-top: 0.9rem;
-  text-align: center;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-.stage__caption span {
-  color: var(--brass);
 }
 
 /* ---------- 3D viewer ---------- */
@@ -726,48 +709,6 @@ li {
   outline-offset: 2px;
 }
 
-.viewer__parts {
-  margin-top: 0.6rem;
-  font-size: 0.72rem;
-  color: var(--ink-soft);
-}
-
-.viewer__parts summary {
-  cursor: pointer;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--teal);
-  list-style: none;
-}
-
-.viewer__parts summary::-webkit-details-marker {
-  display: none;
-}
-
-.viewer__parts summary::before {
-  content: '+ ';
-  color: var(--brass);
-}
-
-.viewer__parts[open] summary::before {
-  content: '− ';
-}
-
-.viewer__parts-list {
-  margin: 0.6rem 0 0;
-  padding-left: 1.1rem;
-  line-height: 1.55;
-}
-
-.viewer__parts-list li {
-  margin-bottom: 0.25rem;
-}
-
-.viewer__parts-list b {
-  color: var(--ink);
-}
-
 .viewer__controls {
   position: absolute;
   top: 18px;
@@ -837,43 +778,6 @@ li {
   }
   100% {
     box-shadow: 0 0 0 0 rgba(12, 90, 82, 0);
-  }
-}
-
-/* ---------- Marquee ---------- */
-
-.marquee {
-  margin-top: clamp(3.5rem, 7vw, 6rem);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  overflow: hidden;
-  padding-block: 1.05rem;
-}
-
-.marquee__track {
-  display: flex;
-  align-items: center;
-  gap: 1.6rem;
-  width: max-content;
-  animation: marquee 30s linear infinite;
-}
-
-.marquee__track span {
-  font-family: var(--font-display);
-  font-size: 0.92rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-.marquee__dot {
-  color: var(--brass) !important;
-  font-size: 1.1rem !important;
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
   }
 }
 
@@ -1255,20 +1159,64 @@ li {
 
 .buy__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: clamp(1rem, 2.5vw, 1.4rem);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.5rem);
   margin-top: clamp(2rem, 4vw, 3rem);
 }
 
 .buy__card {
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
-  padding: clamp(1.2rem, 2vw, 1.6rem);
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--white);
   box-shadow: var(--shadow);
+}
+
+.buy__media {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+
+.buy__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.buy__card:hover .buy__media img {
+  transform: scale(1.04);
+}
+
+.buy__tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-grid;
+  place-items: center;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(246, 241, 231, 0.92);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  box-shadow: 0 6px 18px -10px rgba(16, 46, 42, 0.5);
+}
+
+.buy__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  flex: 1;
+  padding: clamp(1.1rem, 2vw, 1.4rem);
 }
 
 .buy__eyebrow {
@@ -1281,35 +1229,61 @@ li {
 }
 
 .buy__card h3 {
-  font-size: 1.45rem;
+  font-size: 1.35rem;
 }
 
-.buy__card > p {
+.buy__body > p:not(.buy__eyebrow):not(.buy__price) {
   color: var(--ink-soft);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.buy__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
 }
 
 .buy__price {
-  margin-top: auto;
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 1.4rem;
   letter-spacing: -0.03em;
   color: var(--teal);
 }
 
-.buy__card .btn {
-  align-self: flex-start;
-  margin-top: 0.6rem;
+.buy__foot .btn {
+  flex: none;
 }
 
 .buy__set {
   display: grid;
-  gap: 0.8rem;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.4rem, 3vw, 2.5rem);
   margin-top: clamp(1.8rem, 3vw, 2.5rem);
-  padding: clamp(1.6rem, 3vw, 2.5rem);
+  padding: clamp(1.6rem, 3.5vw, 2.8rem);
   border-radius: var(--radius);
-  background: var(--ink);
+  background:
+    radial-gradient(600px 320px at 88% 8%, rgba(185, 138, 60, 0.22), transparent 65%),
+    var(--teal-deep);
   color: var(--paper);
+}
+
+.buy__badge {
+  display: inline-block;
+  margin-bottom: 0.9rem;
+  padding: 0.42rem 0.95rem;
+  border-radius: 999px;
+  background: var(--brass);
+  color: var(--ink);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .buy__set h3 {
@@ -1317,22 +1291,40 @@ li {
   font-size: clamp(1.7rem, 3vw, 2.2rem);
 }
 
-.buy__set > div {
+.buy__set-copy > p {
+  margin-top: 0.6rem;
   max-width: 46ch;
+  color: rgba(246, 241, 231, 0.75);
+  font-size: 0.95rem;
 }
 
-.buy__set > div > p {
-  color: rgba(246, 241, 231, 0.72);
+.buy__set-buy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem 1.4rem;
 }
 
 .buy__set .buy__price {
+  font-size: clamp(1.7rem, 2.6vw, 2.1rem);
   color: var(--brass-light);
 }
 
-.buy__set-note {
-  margin-top: 0.4rem;
-  font-size: 0.78rem;
-  color: var(--ink-soft);
+.buy__set .buy__price s {
+  margin-right: 0.5rem;
+  font-size: 0.72em;
+  color: rgba(246, 241, 231, 0.45);
+}
+
+@media (max-width: 860px) {
+  .buy__set {
+    grid-template-columns: 1fr;
+  }
+
+  .buy__set-buy {
+    justify-content: flex-start;
+  }
 }
 
 /* ---------- Back to top ---------- */
@@ -1416,13 +1408,6 @@ li {
 
 .phase__video-link-text {
   text-align: left;
-}
-
-.phase__video-note {
-  margin-top: 0.8rem;
-  font-size: 0.78rem;
-  line-height: 1.55;
-  color: var(--ink-soft);
 }
 
 /* ---------- Botanical Scent Apothecary ---------- */
@@ -2275,21 +2260,6 @@ li {
     display: none;
   }
 
-  .nav.is-open .nav__links .nav__reserve {
-    display: block;
-    margin-top: 0.4rem;
-    padding: 0.8rem 1rem;
-    border-radius: 12px;
-    background: var(--ink);
-    color: var(--paper);
-    text-align: center;
-  }
-
-  .nav.is-open .nav__links .nav__reserve:hover {
-    background: var(--teal);
-    color: var(--paper);
-  }
-
   .curve {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2421,10 +2391,6 @@ li {
   .js .reveal {
     opacity: 1;
     transform: none;
-  }
-
-  .marquee__track {
-    animation: none;
   }
 
   .phase.is-active .phase__media {
