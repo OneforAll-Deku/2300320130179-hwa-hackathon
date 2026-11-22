@@ -1534,6 +1534,41 @@ li {
   }
 }
 
+/* ---------- Spotlight Card ---------- */
+
+.spotlight-card__inner {
+  position: relative;
+  z-index: 2;
+}
+
+.spotlight-card__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  background: radial-gradient(
+    650px 650px at var(--sx, 50%) var(--sy, 50%),
+    rgba(185, 138, 60, 0.15),
+    transparent 75%
+  );
+}
+
+.spotlight-card.is-hovered .spotlight-card__overlay {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-card__overlay {
+    transition: none;
+    display: none;
+  }
+  .spotlight-card.is-hovered .spotlight-card__overlay {
+    display: none;
+  }
+}
+
 /* ---------- Configurator ---------- */
 
 .configurator__inner {

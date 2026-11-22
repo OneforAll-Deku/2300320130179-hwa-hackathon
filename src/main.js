@@ -1,6 +1,7 @@
 import './styles/main.css'
 import { MaskedHeading } from './ui/MaskedHeading.js'
 import { RitualScrubber } from './ui/RitualScrubber.js'
+import { SpotlightCard } from './ui/SpotlightCard.js'
 
 document.documentElement.classList.add('js')
 
@@ -133,6 +134,7 @@ navToggle?.addEventListener('click', () => {
   MountMaskedHeading()
   MountRitualScrubber()
   MountApothecary()
+  MountSpotlightCard()
 
   function MountMaskedHeading() {
     const container = document.querySelector('[data-masked-heading]')
@@ -183,6 +185,11 @@ navToggle?.addEventListener('click', () => {
     })
 
     showScent(tabs[0].dataset.scent)
+  }
+
+  function MountSpotlightCard() {
+    SpotlightCard({ selector: '.phase' })
+    SpotlightCard({ selector: '.buy__card' })
   }
 
   document.addEventListener('keydown', (event) => {
