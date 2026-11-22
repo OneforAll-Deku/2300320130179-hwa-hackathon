@@ -4,3 +4,6 @@ init (*).py
 submit.py
 hwa-start.*
 opencode.json
+.env*
+dist
+design

@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PawClock™ 4-Phase Chrono-Feeder — Photorealistic Kinematic Simulation</title>
+  <style>
+    :root {
+      --bg: #06090e;
+      --card-bg: rgba(11, 19, 32, 0.90);
+      --card-border: rgba(255, 255, 255, 0.14);
+      --cyan: #0abfd7;
+      --cyan-glow: rgba(10, 191, 215, 0.5);
+      --teal: #008296;
+      --amber: #f59e0b;
+      --red-chew: #e11d48;
+      --purple: #a855f7;
+      --green: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #fff;
+      user-select: none;
+    }
+
+    #webgl-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      outline: none;
+      z-index: 10;
+    }
+
+    /* Studio Vignette Overlay */
+    .studio-vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 55%, rgba(4,7,12,0.85) 100%);
+      z-index: 15;
+    }
+
+    /* HUD Layer */
+    .hud {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px 20px;
+      z-index: 30;
+    }
+
+    .hud * { pointer-events: auto; }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(18px);
+      padding: 10px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-badge {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: rgba(10, 191, 215, 0.2);
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .brand-subtitle {
+      font-size: 10.5px;
+      color: #94a3b8;
+      margin-top: 3px;
+    }
+
+    /* Action Toolbar */
+    .action-toolbar {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .tool-btn {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #e2e8f0;
+      padding: 7px 12px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+    }
+
+    .tool-btn:hover {
+      background: rgba(10, 191, 215, 0.22);
+      border-color: var(--cyan);
+      color: #fff;
+    }
+
+    .tool-btn.active {
+      background: var(--cyan);
+      color: #070c14;
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px var(--cyan-glow);
+    }
+
+    /* Action Buttons */
+    .btn-swat {
+      background: linear-gradient(135deg, #0abfd7, #008296);
+      color: #070c14;
+      font-weight: 800;
+      border: none;
+      padding: 7px 13px;
+      border-radius: 10px;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 4px 14px rgba(10, 191, 215, 0.4);
+      transition: transform 0.15s;
+    }
+    .btn-swat:hover { transform: scale(1.04); }
+
+    .btn-eject {
+      background: linear-gradient(135deg, #e11d48, #9f1239);
+      color: #fff;
+      font-weight: 800;
+      border: none;
+      padding: 7px 13px;
+      border-radius: 10px;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.45);
+      animation: pulseGlow 2.5s infinite;
+      transition: transform 0.15s;
+    }
+    .btn-eject:hover { transform: scale(1.05); }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 12px rgba(225, 29, 72, 0.4); }
+      50% { box-shadow: 0 0 22px rgba(225, 29, 72, 0.85); }
+    }
+
+    .btn-invert {
+      background: linear-gradient(135deg, #f59e0b, #b45309);
+      color: #070c14;
+      font-weight: 800;
+      border: none;
+      padding: 7px 13px;
+      border-radius: 10px;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+      transition: transform 0.15s;
+    }
+    .btn-invert:hover { transform: scale(1.04); }
+
+    /* Right Sidebar */
+    .sidebar-right {
+      position: absolute;
+      top: 68px;
+      right: 20px;
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 11px 13px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-title {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 7px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Broth Dish Customizer */
+    .customizer-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 10px;
+    }
+
+    .pill-group {
+      display: flex;
+      gap: 5px;
+    }
+
+    .pill-btn {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 5px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #cbd5e1;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .pill-btn:hover { background: rgba(10, 191, 215, 0.18); border-color: var(--cyan); color: #fff; }
+    .pill-btn.active {
+      background: var(--cyan);
+      color: #070c14;
+      border-color: var(--cyan);
+      box-shadow: 0 0 10px rgba(10, 191, 215, 0.5);
+    }
+
+    /* Telemetry Display */
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      font-size: 10px;
+    }
+
+    .telemetry-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 5px 7px;
+    }
+
+    .telemetry-label {
+      color: #94a3b8;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .telemetry-val {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--cyan);
+      margin-top: 1px;
+      font-family: monospace;
+    }
+
+    .telemetry-status {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 4px;
+      margin-top: 3px;
+      display: inline-block;
+    }
+    .status-ok { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .status-lock { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+
+    /* Sliders */
+    .slider-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9.5px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .custom-range {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .custom-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      cursor: pointer;
+    }
+
+    /* Bottom Stepper Bar */
+    .bottom-bar {
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 11px 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bottom-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .phase-badge-large {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stepper-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr 1.15fr 1.25fr 1fr;
+      gap: 7px;
+    }
+
+    .step-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 7px 9px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .step-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(10, 191, 215, 0.4);
+    }
+
+    .step-item.active {
+      background: rgba(10, 191, 215, 0.18);
+      border-color: var(--cyan);
+      box-shadow: 0 0 16px rgba(10, 191, 215, 0.3);
+    }
+
+    .step-time {
+      font-size: 8.5px;
+      font-weight: 800;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .step-name {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .step-mech {
+      font-size: 8.5px;
+      color: #94a3b8;
+      margin-top: 2px;
+      line-height: 1.2;
+    }
+
+    .owner-step { border-color: var(--amber) !important; }
+    .owner-step.active {
+      background: rgba(245, 158, 11, 0.22) !important;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.4) !important;
+    }
+    .owner-step .step-time { color: var(--amber) !important; }
+
+    /* Interaction Hint */
+    .drag-hint {
+      position: absolute;
+      bottom: 110px;
+      left: 18px;
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 9.5px;
+      color: #94a3b8;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .drag-hint b { color: var(--cyan); }
+
+    @media (max-width: 900px) {
+      .sidebar-right { display: none; }
+      .stepper-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/GLTFExporter.js"></script>
+</head>
+<body>
+
+  <canvas id="webgl-canvas"></canvas>
+  <div class="studio-vignette"></div>
+
+  <div class="hud">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="brand-card">
+        <div class="brand-title">
+          <span>🐾 PawClock™ 4-Phase Chrono-Feeder</span>
+          <span class="brand-badge">Photorealistic Studio</span>
+        </div>
+        <p class="brand-subtitle">
+          Studio PBR IBL Shading • Sub-Stepped RK4 Wobble Dynamics • Ejecting Chew Core • Dog-Proof Timer
+        </p>
+      </div>
+
+      <div class="action-toolbar">
+        <button class="tool-btn active" id="mode-normal">🔮 Full Armor</button>
+        <button class="tool-btn" id="mode-cutaway">🔬 X-Ray Cutaway</button>
+        <button class="tool-btn" id="mode-section">📐 CAD Section</button>
+        <button class="tool-btn" id="mode-exploded">💥 Exploded View</button>
+        <button class="tool-btn" id="btn-bottom-timer">⏱️ View Hidden Timer</button>
+        <button class="tool-btn" id="btn-export-glb" style="border-color:#10b981; color:#34d399; background:rgba(16,185,129,0.15); font-weight:800;">💾 Export .GLB</button>
+        <button class="tool-btn active" id="btn-sound-toggle">🔊 Audio: ON</button>
+        <!-- Kinetic Action Buttons -->
+        <button class="btn-swat" id="btn-swat">🐾 Dog Paw Swat</button>
+        <button class="btn-eject" id="btn-eject">🚀 Eject Chew Ring (Phase 3)</button>
+        <button class="btn-invert" id="btn-invert">🙃 Flip Upside Down</button>
+      </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="sidebar-right">
+      <!-- Frozen Broth Lick Basin Customizer -->
+      <div class="glass-card">
+        <div class="card-title">
+          <span>🥣 Phase 1 Lick Basin Customizer</span>
+          <span style="color: #38bdf8; font-size: 8.5px;">Surgical 316 Stainless</span>
+        </div>
+        <div class="customizer-grid">
+          <div>
+            <div style="color: #94a3b8; font-size: 8.5px; margin-bottom: 3px; font-weight: 700;">DISH CAPACITY / DOG SIZE:</div>
+            <div class="pill-group">
+              <button class="pill-btn" id="dish-sz-sm">Small (25ml)</button>
+              <button class="pill-btn active" id="dish-sz-md">Med (40ml)</button>
+              <button class="pill-btn" id="dish-sz-lg">Large (65ml)</button>
+            </div>
+          </div>
+          <div>
+            <div style="color: #94a3b8; font-size: 8.5px; margin-bottom: 3px; font-weight: 700;">SURFACE TEXTURE STYLE:</div>
+            <div class="pill-group">
+              <button class="pill-btn active" id="dish-tx-honey">🍯 Honeycomb</button>
+              <button class="pill-btn" id="dish-tx-diamond">🔷 Diamond Nub</button>
+              <button class="pill-btn" id="dish-tx-spiral">🌀 Spiral Zen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3 Ejection Lifecycle -->
+      <div class="glass-card">
+        <div class="card-title">
+          <span>⚙️ Phase 3 Ejection & Timer Lifecycle</span>
+          <span style="color: #f43f5e; font-size: 8.5px;">Chassis Protection</span>
+        </div>
+        <div style="font-size: 9.5px; line-height: 1.45; color: #cbd5e1; display: flex; flex-direction: column; gap: 5px;">
+          <div>
+            <b style="color: #f43f5e;">1. Chew Core Jumps Off Onto Floor:</b>
+            <div style="color: #94a3b8;">
+              At min 60, spring latches trigger: the <b>textured dental chew ring pops off the unit onto the floor</b>! The dog takes the chew ring to its bed, leaving the base unit pristine.
+            </div>
+          </div>
+          <div>
+            <b style="color: #34d399;">2. Hidden Bottom Dog-Proof Timer:</b>
+            <div style="color: #94a3b8;">
+              Recessed inside the concave cast-iron base. Dog paws/teeth cannot reach it. Owner winds 3 clicks before departure.
+            </div>
+          </div>
+          <div>
+            <b style="color: #a855f7;">3. Phase 4 Passive Scent Shutter (&lt;$0.80 BOM):</b>
+            <div style="color: #94a3b8;">
+              <b>Zero atomizers, zero liquids, zero leaks:</b> Holds a solid pressed ceramic aroma puck (organic lavender + valerian). At min 90, the clockwork releases a torsion spring, rotating an aperture plate 22.5° to align 8 brass vents. Base wobble acts as a <b>passive bellows</b>, puffing calming aroma into the room!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Telemetry -->
+      <div class="glass-card">
+        <div class="card-title">
+          <span>⚡ Live Kinematics Telemetry</span>
+          <span style="color: #34d399; font-size: 8.5px;">Sub-Stepped Solver</span>
+        </div>
+        <div class="telemetry-grid">
+          <div class="telemetry-item">
+            <div class="telemetry-label">Tilt Angle</div>
+            <div class="telemetry-val" id="telem-tilt">0.0°</div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-label">Restoring Torque</div>
+            <div class="telemetry-val" id="telem-torque">0.0 N·m</div>
+          </div>
+          <div class="telemetry-item" style="grid-column: span 2;">
+            <div class="telemetry-label">Chew Ring State</div>
+            <div id="telem-ring" class="telemetry-status status-ok">LOCKED ON BASE CHASSIS</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sliders -->
+      <div class="glass-card">
+        <div class="card-title">
+          <span>⚙️ Live Assembly Sliders</span>
+        </div>
+        <div class="slider-box">
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Exploded View Height</span>
+              <span id="label-explode">0%</span>
+            </div>
+            <input type="range" min="0" max="100" value="0" class="custom-range" id="range-explode">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Armor X-Ray Transparency</span>
+              <span id="label-xray">0%</span>
+            </div>
+            <input type="range" min="0" max="100" value="0" class="custom-range" id="range-xray">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>2-Hour Timeline Scrubber</span>
+              <span id="label-time">15 min</span>
+            </div>
+            <input type="range" min="0" max="120" value="15" class="custom-range" id="range-time">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Stepper Bar with 5 Modes -->
+    <div class="bottom-bar">
+      <div class="bottom-header">
+        <div class="phase-badge-large">
+          <span id="badge-phase-num">PHASE 1 (0 – 30 MIN)</span>
+          <span style="color: #94a3b8; font-weight: normal;">•</span>
+          <span id="badge-phase-title" style="color: #fff;">Frozen Calming Broth Well</span>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <button class="tool-btn" id="btn-toggle-spin">🔄 Auto-Orbit: Off</button>
+          <button class="tool-btn" id="btn-reset-view">🎯 Center Camera</button>
+        </div>
+      </div>
+
+      <div class="stepper-grid">
+        <div class="step-item owner-step" data-step="0">
+          <div class="step-time">Setup • Morning</div>
+          <div class="step-name">👨‍🔧 Owner Installs Feed</div>
+          <div class="step-mech">Top dish lifts off; kibbles pour into conical intake funnel.</div>
+        </div>
+        <div class="step-item active" data-step="1">
+          <div class="step-time">Phase 1 • 0–30 Min</div>
+          <div class="step-name">1. Frozen Broth Lick</div>
+          <div class="step-mech">Rhythmic licking drops cortisol; melts clean into dish by min 20.</div>
+        </div>
+        <div class="step-item" data-step="2">
+          <div class="step-time" style="color: #38bdf8;">Phase 2 • 30–60 Min</div>
+          <div class="step-name" style="color: #38bdf8;">2. Maze & Feed Dispenser</div>
+          <div class="step-mech">Illuminated inner labyrinth; treat ball rolls & kibble shoots out!</div>
+        </div>
+        <div class="step-item" data-step="3">
+          <div class="step-time" style="color: #f43f5e;">Phase 3 • 60–90 Min</div>
+          <div class="step-name" style="color: #f43f5e;">3. Dental Chew Ring Springs Off!</div>
+          <div class="step-mech"><b>Chew ring launches onto floor!</b> Dog chews separate toy on rug.</div>
+        </div>
+        <div class="step-item" data-step="4">
+          <div class="step-time">Phase 4 • 90–120 Min</div>
+          <div class="step-name">4. Calming Scent Vents</div>
+          <div class="step-mech">Base emits organic lavender mist while dog rests with chew ring.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mouse Interaction Hint -->
+    <div class="drag-hint">
+      <div>🚀 <b>Phase 3 Floor Launch:</b> Click "Eject Chew Ring" to watch the dental core jump onto the floor!</div>
+      <div>⏱️ <b>Hidden Timer:</b> Click "View Hidden Timer" to inspect the recessed underside dial</div>
+      <div>🥣 <b>Broth Customizer:</b> Switch Small/Med/Large & Honeycomb/Diamond/Spiral textures</div>
+      <div>🖱️ <b>Drag Model:</b> Hold Shift + drag to tilt or invert the self-righting base</div>
+    </div>
+  </div>
+
+  <script>
+    // --- 3D WebGL Photorealistic Assembly Engine ---
+    const canvas = document.getElementById('webgl-canvas');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x06090e, 0.032);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 3.2, 7.2);
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.18;
+    renderer.localClippingEnabled = true;
+
+    // --- PROCEDURAL PHOTOREALISTIC STUDIO ENVIRONMENT MAP ---
+    // Generates high-dynamic-range softbox lighting reflections for authentic metallic & rubber sheen
+    function createStudioEnvironment() {
+      const envCanvas = document.createElement('canvas');
+      envCanvas.width = 1024;
+      envCanvas.height = 512;
+      const ctx = envCanvas.getContext('2d');
+
+      // Studio background gradient
+      const bgGrad = ctx.createLinearGradient(0, 0, 0, 512);
+      bgGrad.addColorStop(0, '#0f172a');
+      bgGrad.addColorStop(0.5, '#070b12');
+      bgGrad.addColorStop(1, '#020408');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, 1024, 512);
+
+      // Overhead Primary Softbox
+      const topBox = ctx.createRadialGradient(512, 120, 20, 512, 120, 280);
+      topBox.addColorStop(0, '#ffffff');
+      topBox.addColorStop(0.3, '#e0f2fe');
+      topBox.addColorStop(0.8, 'rgba(10, 191, 215, 0.15)');
+      topBox.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = topBox;
+      ctx.fillRect(100, 0, 824, 260);
+
+      // Warm Key Light (Side Softbox)
+      const warmBox = ctx.createRadialGradient(180, 240, 10, 180, 240, 180);
+      warmBox.addColorStop(0, '#fffbeb');
+      warmBox.addColorStop(0.4, '#fde68a');
+      warmBox.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = warmBox;
+      ctx.fillRect(0, 100, 360, 280);
+
+      // Cool Cyan Rim Light (Opposite Softbox)
+      const coolBox = ctx.createRadialGradient(840, 240, 10, 840, 240, 180);
+      coolBox.addColorStop(0, '#e0f2fe');
+      coolBox.addColorStop(0.5, '#38bdf8');
+      coolBox.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = coolBox;
+      ctx.fillRect(660, 100, 360, 280);
+
+      const envTex = new THREE.CanvasTexture(envCanvas);
+      envTex.mapping = THREE.EquirectangularReflectionMapping;
+      return envTex;
+    }
+
+    const studioEnvMap = createStudioEnvironment();
+    scene.environment = studioEnvMap;
+
+    // --- PROCEDURAL MICRO-TEXTURES FOR ULTRA-REALISM ---
+    // A. Vulcanized Natural Rubber Micro-Grain Bump Map
+    function createRubberNoiseTexture() {
+      const c = document.createElement('canvas');
+      c.width = 256; c.height = 256;
+      const ctx = c.getContext('2d');
+      const imgData = ctx.createImageData(256, 256);
+      for (let i = 0; i < imgData.data.length; i += 4) {
+        const val = 128 + (Math.random() - 0.5) * 42;
+        imgData.data[i] = val;
+        imgData.data[i+1] = val;
+        imgData.data[i+2] = val;
+        imgData.data[i+3] = 255;
+      }
+      ctx.putImageData(imgData, 0, 0);
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(8, 8);
+      return tex;
+    }
+    const rubberBumpMap = createRubberNoiseTexture();
+
+    // B. Luxury Living Room Woven Pet Rug Floor Texture
+    function createRugTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#0a101d';
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Cross-woven micro-threads
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+      ctx.lineWidth = 1.5;
+      for (let x = 0; x < 512; x += 6) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 512); ctx.stroke();
+      }
+      for (let y = 0; y < 512; y += 6) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(512, y); ctx.stroke();
+      }
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(24, 24);
+      return tex;
+    }
+    const rugTexture = createRugTexture();
+
+    // CAD Section Clipping Plane
+    const clipPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0.0);
+    let sectionCutActive = false;
+
+    // Orbit Controls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.maxPolarAngle = Math.PI / 2 + 0.02;
+    controls.minDistance = 2.4;
+    controls.maxDistance = 14.0;
+    controls.target.set(0, 1.35, 0);
+
+    // --- Web Audio API Procedural Synthesizer ---
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function getAudioContext() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+
+    function playSound(type) {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+        if (type === 'click') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(1400, now);
+          osc.frequency.exponentialRampToValueAtTime(320, now + 0.06);
+          gain.gain.setValueAtTime(0.35, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(); osc.stop(now + 0.065);
+        } else if (type === 'launch') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(180, now);
+          osc.frequency.exponentialRampToValueAtTime(560, now + 0.09);
+          gain.gain.setValueAtTime(0.55, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(); osc.stop(now + 0.13);
+        } else if (type === 'thud') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(120, now);
+          osc.frequency.exponentialRampToValueAtTime(38, now + 0.18);
+          gain.gain.setValueAtTime(0.5, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(); osc.stop(now + 0.19);
+        } else if (type === 'reload') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(600, now);
+          osc.frequency.setValueAtTime(1200, now + 0.04);
+          gain.gain.setValueAtTime(0.4, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(); osc.stop(now + 0.09);
+        } else if (type === 'swat') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(140, now);
+          osc.frequency.exponentialRampToValueAtTime(45, now + 0.25);
+          gain.gain.setValueAtTime(0.5, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(); osc.stop(now + 0.26);
+        } else if (type === 'invert') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(90, now);
+          osc.frequency.linearRampToValueAtTime(180, now + 0.35);
+          osc.frequency.exponentialRampToValueAtTime(40, now + 0.7);
+          gain.gain.setValueAtTime(0.6, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.7);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(); osc.stop(now + 0.72);
+        } else if (type === 'pour') {
+          for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = 'square';
+              osc.frequency.setValueAtTime(850 + Math.random() * 400, ctx.currentTime);
+              gain.gain.setValueAtTime(0.12, ctx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.03);
+              osc.connect(gain); gain.connect(ctx.destination);
+              osc.start(); osc.stop(ctx.currentTime + 0.035);
+            }, i * 40);
+          }
+        } else if (type === 'puff') {
+          const bufferSize = Math.floor(ctx.sampleRate * 0.25);
+          const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
+          const noise = ctx.createBufferSource();
+          noise.buffer = buffer;
+          const filter = ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.value = 2400;
+          const gain = ctx.createGain();
+          gain.gain.value = 0.25;
+          noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination);
+          noise.start();
+        }
+      } catch (e) {}
+    }
+
+    // --- Studio Lighting Rig with Soft Contact Floor Shadows ---
+    scene.add(new THREE.AmbientLight(0xffffff, 0.85));
+    const mainLight = new THREE.DirectionalLight(0x0abfd7, 1.5);
+    mainLight.position.set(6, 9, 6);
+    mainLight.castShadow = true;
+    mainLight.shadow.mapSize.width = 2048;
+    mainLight.shadow.mapSize.height = 2048;
+    mainLight.shadow.bias = -0.0001;
+    scene.add(mainLight);
+
+    const warmFill = new THREE.DirectionalLight(0xf59e0b, 0.9);
+    warmFill.position.set(-6, 5, -4);
+    scene.add(warmFill);
+
+    const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.1);
+    rimLight.position.set(0, 7, -6);
+    scene.add(rimLight);
+
+    // Living Room Woven Pet Rug Floor
+    const floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(36, 36),
+      new THREE.MeshStandardMaterial({
+        color: 0x090e17,
+        map: rugTexture,
+        roughness: 0.88,
+        metalness: 0.05
+      })
+    );
+    floor.rotation.x = -Math.PI / 2;
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    // Realistic Radial Baked Contact Shadow beneath Tumbler Base
+    function createContactShadowTexture() {
+      const c = document.createElement('canvas');
+      c.width = 256; c.height = 256;
+      const ctx = c.getContext('2d');
+      const grad = ctx.createRadialGradient(128, 128, 10, 128, 128, 120);
+      grad.addColorStop(0, 'rgba(0, 0, 0, 0.75)');
+      grad.addColorStop(0.5, 'rgba(0, 0, 0, 0.35)');
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 256, 256);
+      return new THREE.CanvasTexture(c);
+    }
+    const contactShadow = new THREE.Mesh(
+      new THREE.PlaneGeometry(2.8, 2.8),
+      new THREE.MeshBasicMaterial({
+        map: createContactShadowTexture(),
+        transparent: true,
+        opacity: 0.85,
+        depthWrite: false
+      })
+    );
+    contactShadow.rotation.x = -Math.PI / 2;
+    contactShadow.position.y = 0.01;
+    scene.add(contactShadow);
+
+    // Master Pivot for Coupled Physics
+    const wobblePivot = new THREE.Group();
+    scene.add(wobblePivot);
+
+    // 5 Mechanical Tiers in Exact CAD Non-Colliding Stack
+    const tierBase = new THREE.Group();
+    const tierScent = new THREE.Group();
+    const tierChassis = new THREE.Group();
+    const tierMaze = new THREE.Group();
+    const tierFreeze = new THREE.Group();
+    const tierEscapement = new THREE.Group();
+
+    wobblePivot.add(tierBase);
+    wobblePivot.add(tierScent);
+    wobblePivot.add(tierChassis);
+    wobblePivot.add(tierMaze);
+    wobblePivot.add(tierFreeze);
+    wobblePivot.add(tierEscapement);
+
+    // Photorealistic PBR Materials
+    const matRubberTeal = new THREE.MeshPhysicalMaterial({
+      color: 0x008296,
+      roughness: 0.48,
+      metalness: 0.05,
+      clearcoat: 0.12,
+      clearcoatRoughness: 0.4,
+      bumpMap: rubberBumpMap,
+      bumpScale: 0.003
+    });
+
+    const matRubberCyan = new THREE.MeshPhysicalMaterial({
+      color: 0x0abfd7,
+      roughness: 0.44,
+      metalness: 0.04,
+      clearcoat: 0.15,
+      bumpMap: rubberBumpMap,
+      bumpScale: 0.003
+    });
+
+    const matSteel316 = new THREE.MeshStandardMaterial({
+      color: 0xf1f5f9,
+      roughness: 0.14,
+      metalness: 0.96
+    });
+
+    const matBrass = new THREE.MeshStandardMaterial({
+      color: 0xd4af37,
+      roughness: 0.24,
+      metalness: 0.90
+    });
+
+    const matPolycarb = new THREE.MeshPhysicalMaterial({
+      color: 0xe0f7fa,
+      transmission: 0.96,
+      opacity: 1,
+      transparent: true,
+      roughness: 0.04,
+      ior: 1.586,
+      thickness: 1.5,
+      specularIntensity: 1.0
+    });
+
+    const matHopper = new THREE.MeshPhysicalMaterial({
+      color: 0xffedd5,
+      transmission: 0.88,
+      opacity: 0.95,
+      transparent: true,
+      roughness: 0.12,
+      ior: 1.48
+    });
+
+    const matFrozenBroth = new THREE.MeshPhysicalMaterial({
+      color: 0xd97706,
+      roughness: 0.18,
+      metalness: 0.08,
+      transmission: 0.55,
+      emissive: 0x854d0e,
+      emissiveIntensity: 0.22,
+      ior: 1.33
+    });
+
+    const matKibble = new THREE.MeshStandardMaterial({
+      color: 0xb45309,
+      roughness: 0.85,
+      metalness: 0.02
+    });
+
+    const matDentalCore = new THREE.MeshPhysicalMaterial({
+      color: 0xe11d48,
+      roughness: 0.38,
+      metalness: 0.08,
+      clearcoat: 0.2,
+      emissive: 0x881337,
+      emissiveIntensity: 0.25,
+      bumpMap: rubberBumpMap,
+      bumpScale: 0.004
+    });
+
+    function setSectionCut(enabled) {
+      sectionCutActive = enabled;
+      const planes = enabled ? [clipPlane] : [];
+      matRubberTeal.clippingPlanes = planes;
+      matRubberCyan.clippingPlanes = planes;
+      matSteel316.clippingPlanes = planes;
+      matPolycarb.clippingPlanes = planes;
+      matHopper.clippingPlanes = planes;
+      matDentalCore.clippingPlanes = planes;
+    }
+
+    // ==========================================
+    // 1. TIER 1: BASE TUMBLER (Y: 0.00 to 1.25m)
+    // ==========================================
+    const baseSphereGeo = new THREE.SphereGeometry(1.15, 48, 24, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+    const baseMesh = new THREE.Mesh(baseSphereGeo, matRubberTeal);
+    baseMesh.rotation.x = Math.PI;
+    baseMesh.position.y = 1.15;
+    baseMesh.castShadow = true;
+    tierBase.add(baseMesh);
+
+    const baseFlange = new THREE.Mesh(new THREE.CylinderGeometry(1.16, 1.15, 0.10, 48), matRubberTeal);
+    baseFlange.position.y = 1.20;
+    tierBase.add(baseFlange);
+
+    for (let b = 0; b < 8; b++) {
+      const bAngle = (b / 8) * Math.PI * 2;
+      const bolt = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.04, 16), matSteel316);
+      bolt.position.set(Math.cos(bAngle) * 1.12, 1.24, Math.sin(bAngle) * 1.12);
+      tierBase.add(bolt);
+    }
+
+    const scuffRib = new THREE.Mesh(new THREE.TorusGeometry(0.65, 0.025, 16, 48), matRubberCyan);
+    scuffRib.rotation.x = Math.PI / 2;
+    scuffRib.position.y = 0.06;
+    tierBase.add(scuffRib);
+
+    const ironCore = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.85, 0.70, 0.45, 32),
+      new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.65, metalness: 0.88 })
+    );
+    ironCore.position.y = 0.42;
+    tierBase.add(ironCore);
+
+    // Hidden Underside Dog-Proof Timer (Recessed Cavity: Y: 0.04 to 0.16)
+    const timerRecessGroup = new THREE.Group();
+    timerRecessGroup.position.set(0, 0.08, 0);
+
+    const recessShroud = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.12, 32, 1, true), matSteel316);
+    timerRecessGroup.add(recessShroud);
+
+    const timerDial = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 0.06, 32), matBrass);
+    timerDial.position.y = 0.03;
+    timerRecessGroup.add(timerDial);
+
+    const coinSlot = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.02, 0.04), new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.8 }));
+    coinSlot.position.y = 0.065;
+    timerRecessGroup.add(coinSlot);
+
+    for (let dm = 0; dm < 4; dm++) {
+      const dmAngle = (dm / 4) * Math.PI * 2;
+      const marker = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.02, 0.03), new THREE.MeshStandardMaterial({ color: 0xe11d48 }));
+      marker.position.set(Math.cos(dmAngle) * 0.32, 0.065, Math.sin(dmAngle) * 0.32);
+      marker.rotation.y = -dmAngle;
+      timerRecessGroup.add(marker);
+    }
+    tierBase.add(timerRecessGroup);
+
+    // ==========================================
+    // 2. TIER 2: SCENT RING & PASSIVE ROTARY SHUTTER (Y: 1.25 to 1.50m)
+    // ==========================================
+    const scentRing = new THREE.Mesh(new THREE.CylinderGeometry(1.15, 1.16, 0.25, 48), matRubberTeal);
+    scentRing.position.y = 1.375;
+    tierScent.add(scentRing);
+
+    // Replaceable Solid Porous Ceramic Scent Disc (Organic Lavender + Valerian)
+    const matScentPuck = new THREE.MeshStandardMaterial({ color: 0xd8b4fe, roughness: 0.75, metalness: 0.05 });
+    const scentPuck = new THREE.Mesh(new THREE.CylinderGeometry(0.96, 0.96, 0.10, 36), matScentPuck);
+    scentPuck.position.y = 1.375;
+    tierScent.add(scentPuck);
+
+    // Passive Rotary Aperture Shutter Disc (Rotates 22.5 deg at Min 90 to align ports)
+    const matShutter = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.35, metalness: 0.8 });
+    const scentShutterDisc = new THREE.Group();
+    const shutterRingMesh = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.05, 0.04, 36, 1, true), matShutter);
+    scentShutterDisc.add(shutterRingMesh);
+    for (let sp = 0; sp < 8; sp++) {
+      const spAngle = (sp / 8) * Math.PI * 2;
+      const portHole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.06, 16), matBrass);
+      portHole.rotation.z = Math.PI / 2;
+      portHole.rotation.y = -spAngle;
+      portHole.position.set(Math.cos(spAngle) * 1.05, 0, Math.sin(spAngle) * 1.05);
+      scentShutterDisc.add(portHole);
+    }
+    scentShutterDisc.position.y = 1.375;
+    // Initial state: rotated 22.5 deg out of phase (sealed shut)
+    scentShutterDisc.rotation.y = Math.PI / 8;
+    tierScent.add(scentShutterDisc);
+
+    for (let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2;
+      const ventMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.16, 16), matBrass);
+      ventMesh.rotation.z = Math.PI / 2;
+      ventMesh.rotation.y = -angle;
+      ventMesh.position.set(Math.cos(angle) * 1.13, 1.375, Math.sin(angle) * 1.13);
+      tierScent.add(ventMesh);
+    }
+
+    const particleCount = 60;
+    const particleGeo = new THREE.BufferGeometry();
+    const particlePos = new Float32Array(particleCount * 3);
+    for (let p = 0; p < particleCount; p++) {
+      particlePos[p * 3] = (Math.random() - 0.5) * 2.5;
+      particlePos[p * 3 + 1] = 1.35 + Math.random() * 0.7;
+      particlePos[p * 3 + 2] = (Math.random() - 0.5) * 2.5;
+    }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+    const particleMat = new THREE.PointsMaterial({ color: 0xc084fc, size: 0.09, transparent: true, opacity: 0.0 });
+    const scentParticles = new THREE.Points(particleGeo, particleMat);
+    tierScent.add(scentParticles);
+
+    // ==========================================
+    // 3. TIER 3: INNER CHASSIS & EJECTING DENTAL RING (Y: 1.50 to 1.98m)
+    // ==========================================
+    const innerChassisMesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.82, 0.90, 0.48, 36),
+      new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.35, metalness: 0.85 })
+    );
+    innerChassisMesh.position.y = 1.74;
+    tierChassis.add(innerChassisMesh);
+
+    const latchGroup = new THREE.Group();
+    for (let l = 0; l < 4; l++) {
+      const lAngle = (l / 4) * Math.PI * 2;
+      const latchPin = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.06, 0.12), matBrass);
+      latchPin.position.set(Math.cos(lAngle) * 0.88, 1.74, Math.sin(lAngle) * 0.88);
+      latchPin.rotation.y = -lAngle;
+      latchGroup.add(latchPin);
+    }
+    tierChassis.add(latchGroup);
+
+    // THE EJECTING DENTAL CHEW FLEX-RING (Inner Radius 0.96m, Outer 1.14m, Height 0.44m)
+    const chewRingMesh = new THREE.Group();
+
+    const ringBody = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.12, 1.14, 0.44, 36, 1, false),
+      matDentalCore
+    );
+    ringBody.castShadow = true;
+    chewRingMesh.add(ringBody);
+
+    for (let j = 0; j < 5; j++) {
+      const rib = new THREE.Mesh(new THREE.TorusGeometry(1.14, 0.025, 16, 40), matRubberTeal);
+      rib.rotation.x = Math.PI / 2;
+      rib.position.y = -0.16 + j * 0.08;
+      chewRingMesh.add(rib);
+    }
+
+    for (let r = 0; r < 2; r++) {
+      const yr = -0.09 + r * 0.18;
+      for (let cl = 0; cl < 12; cl++) {
+        const ca = (cl / 12) * Math.PI * 2 + (r % 2) * (Math.PI / 12);
+        const cleat = new THREE.Mesh(new THREE.OctahedronGeometry(0.038), matDentalCore);
+        cleat.position.set(Math.cos(ca) * 1.15, yr, Math.sin(ca) * 1.15);
+        chewRingMesh.add(cleat);
+      }
+    }
+
+    chewRingMesh.position.set(0, 1.74, 0);
+    wobblePivot.add(chewRingMesh);
+
+    let isRingEjected = false;
+    let ringPos = new THREE.Vector3(0, 1.74, 0);
+    let ringVel = new THREE.Vector3(0, 0, 0);
+    let ringRot = new THREE.Vector3(0, 0, 0);
+    let ringRotVel = new THREE.Vector3(0, 0, 0);
+
+    function ejectChewRing() {
+      if (isRingEjected) return;
+      isRingEjected = true;
+      playSound('launch');
+
+      const worldPos = new THREE.Vector3();
+      chewRingMesh.getWorldPosition(worldPos);
+
+      wobblePivot.remove(chewRingMesh);
+      scene.add(chewRingMesh);
+
+      ringPos.copy(worldPos);
+      chewRingMesh.position.copy(ringPos);
+
+      ringVel.set(2.2, 3.8, 1.0);
+      ringRotVel.set((Math.random() - 0.5) * 6, 3.5, (Math.random() - 0.5) * 5);
+
+      document.getElementById('btn-eject').innerText = "🧲 Reload Ring Onto Base";
+      document.getElementById('btn-eject').style.background = "linear-gradient(135deg, #10b981, #059669)";
+      const telemRing = document.getElementById('telem-ring');
+      telemRing.className = "telemetry-status status-lock";
+      telemRing.innerText = "EJECTED ON FLOOR • Dog Chewing Separately";
+    }
+
+    function reloadChewRing() {
+      if (!isRingEjected) return;
+      isRingEjected = false;
+      playSound('reload');
+
+      scene.remove(chewRingMesh);
+      chewRingMesh.position.set(0, 1.74, 0);
+      chewRingMesh.rotation.set(0, 0, 0);
+      wobblePivot.add(chewRingMesh);
+
+      document.getElementById('btn-eject').innerText = "🚀 Eject Chew Ring (Phase 3)";
+      document.getElementById('btn-eject').style.background = "linear-gradient(135deg, #e11d48, #9f1239)";
+      const telemRing = document.getElementById('telem-ring');
+      telemRing.className = "telemetry-status status-ok";
+      telemRing.innerText = "LOCKED ON BASE CHASSIS";
+    }
+
+    // ==========================================
+    // 4. TIER 4: LABYRINTH & FEED HOPPER (Y: 1.98 to 2.48m)
+    // ==========================================
+    const mazeShell = new THREE.Mesh(new THREE.CylinderGeometry(1.08, 1.12, 0.50, 48), matPolycarb);
+    mazeShell.position.y = 2.23;
+    tierMaze.add(mazeShell);
+
+    const hopperMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.88, 0.92, 0.13, 36), matHopper);
+    hopperMesh.position.y = 2.40;
+    tierMaze.add(hopperMesh);
+
+    const funnelMesh = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.84, 0.40, 0.10, 36, 1, true),
+      new THREE.MeshStandardMaterial({ color: 0x0abfd7, roughness: 0.3, metalness: 0.6, side: THREE.DoubleSide })
+    );
+    funnelMesh.position.y = 2.44;
+    tierMaze.add(funnelMesh);
+
+    const inversionGate = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.03, 0.18), matBrass);
+    inversionGate.position.set(0.38, 2.33, 0);
+    tierMaze.add(inversionGate);
+
+    const kibbleHopperGroup = new THREE.Group();
+    for (let kh = 0; kh < 16; kh++) {
+      const angle = (kh / 16) * Math.PI * 2;
+      const kDist = 0.54 + (kh % 2) * 0.18;
+      const khMesh = new THREE.Mesh(new THREE.DodecahedronGeometry(0.048), matKibble);
+      khMesh.position.set(Math.cos(angle) * kDist, 2.38 + (kh % 3) * 0.015, Math.sin(angle) * kDist);
+      kibbleHopperGroup.add(khMesh);
+    }
+    tierMaze.add(kibbleHopperGroup);
+
+    const pouringGroup = new THREE.Group();
+    for (let pk = 0; pk < 8; pk++) {
+      const pMesh = new THREE.Mesh(new THREE.DodecahedronGeometry(0.042), matKibble);
+      pMesh.position.set((Math.random() - 0.5) * 0.25, 2.65 + pk * 0.10, (Math.random() - 0.5) * 0.25);
+      pouringGroup.add(pMesh);
+    }
+    pouringGroup.visible = false;
+    tierMaze.add(pouringGroup);
+
+    const spiralPts = [];
+    for (let t = 0; t <= Math.PI * 4; t += 0.2) {
+      const rad = 0.72 - (t / (Math.PI * 4)) * 0.28;
+      const y = 2.32 - (t / (Math.PI * 4)) * 0.30;
+      spiralPts.push(new THREE.Vector3(Math.cos(t) * rad, y, Math.sin(t) * rad));
+    }
+    const spiralTube = new THREE.Mesh(
+      new THREE.TubeGeometry(new THREE.CatmullRomCurve3(spiralPts), 48, 0.045, 12, false),
+      new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.2, metalness: 0.85, emissive: 0x78350f, emissiveIntensity: 0.3 })
+    );
+    tierMaze.add(spiralTube);
+
+    const treatBall = new THREE.Mesh(
+      new THREE.SphereGeometry(0.11, 24, 24),
+      new THREE.MeshStandardMaterial({ color: 0x0abfd7, roughness: 0.3, metalness: 0.5, emissive: 0x008296, emissiveIntensity: 0.4 })
+    );
+    treatBall.position.set(0.62, 2.22, 0);
+    tierMaze.add(treatBall);
+
+    const portGroup = new THREE.Group();
+    const portBezel = new THREE.Mesh(
+      new THREE.TorusGeometry(0.13, 0.03, 16, 24),
+      new THREE.MeshStandardMaterial({ color: 0x0abfd7, emissive: 0x0abfd7, emissiveIntensity: 0.6 })
+    );
+    portBezel.rotation.y = Math.PI / 2;
+    portGroup.add(portBezel);
+
+    const chuteRamp = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.035, 0.16), matSteel316);
+    chuteRamp.rotation.z = -0.35;
+    chuteRamp.position.set(0.08, -0.05, 0);
+    portGroup.add(chuteRamp);
+
+    portGroup.position.set(1.05, 2.06, 0);
+    tierMaze.add(portGroup);
+
+    const floorKibbles = new THREE.Group();
+    for (let fk = 0; fk < 6; fk++) {
+      const fkMesh = new THREE.Mesh(new THREE.DodecahedronGeometry(0.055), matKibble);
+      fkMesh.position.set(1.35 + fk * 0.13, 0.055, (fk % 2) * 0.12);
+      floorKibbles.add(fkMesh);
+    }
+    scene.add(floorKibbles);
+    floorKibbles.visible = false;
+
+    // ==========================================
+    // 5. TIER 5: FROZEN BROTH WELL (Y: 2.48 to 2.76m)
+    // ==========================================
+    const dishAssembly = new THREE.Group();
+    dishAssembly.position.y = 2.48;
+    tierFreeze.add(dishAssembly);
+
+    const wellRim = new THREE.Mesh(new THREE.CylinderGeometry(0.92, 1.02, 0.22, 48), matRubberTeal);
+    wellRim.position.y = 0.11;
+    dishAssembly.add(wellRim);
+
+    const dishRing = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.05, 16, 48), matSteel316);
+    dishRing.rotation.x = Math.PI / 2;
+    dishRing.position.y = 0.16;
+    dishAssembly.add(dishRing);
+
+    const brothMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.66, 0.66, 0.06, 36), matFrozenBroth);
+    brothMesh.position.y = 0.14;
+    dishAssembly.add(brothMesh);
+
+    // Texture 1: Honeycomb
+    const honeyGroup = new THREE.Group();
+    for (let hx = -2; hx <= 2; hx++) {
+      for (let hz = -2; hz <= 2; hz++) {
+        if (hx*hx + hz*hz <= 5) {
+          const hex = new THREE.Mesh(new THREE.RingGeometry(0.05, 0.08, 6), matFrozenBroth);
+          hex.rotation.x = -Math.PI / 2;
+          hex.position.set(hx * 0.18, 0.175, hz * 0.18);
+          honeyGroup.add(hex);
+        }
+      }
+    }
+    dishAssembly.add(honeyGroup);
+
+    // Texture 2: Diamond Nubs
+    const diamondGroup = new THREE.Group();
+    for (let dx = -3; dx <= 3; dx++) {
+      for (let dz = -3; dz <= 3; dz++) {
+        if (dx*dx + dz*dz <= 9) {
+          const nub = new THREE.Mesh(new THREE.ConeGeometry(0.03, 0.045, 4), matFrozenBroth);
+          nub.position.set(dx * 0.14, 0.18, dz * 0.14);
+          diamondGroup.add(nub);
+        }
+      }
+    }
+    diamondGroup.visible = false;
+    dishAssembly.add(diamondGroup);
+
+    // Texture 3: Spiral Zen Maze
+    const spiralLickGroup = new THREE.Group();
+    const lickSpiralPts = [];
+    for (let sl = 0; sl <= Math.PI * 6; sl += 0.25) {
+      const slRad = (sl / (Math.PI * 6)) * 0.58;
+      lickSpiralPts.push(new THREE.Vector3(Math.cos(sl) * slRad, 0.175, Math.sin(sl) * slRad));
+    }
+    const lickSpiralMesh = new THREE.Mesh(
+      new THREE.TubeGeometry(new THREE.CatmullRomCurve3(lickSpiralPts), 40, 0.025, 8, false),
+      matFrozenBroth
+    );
+    spiralLickGroup.add(lickSpiralMesh);
+    spiralLickGroup.visible = false;
+    dishAssembly.add(spiralLickGroup);
+
+    let dishScale = 1.0;
+    function setDishSize(sizeScale) {
+      dishScale = sizeScale;
+      dishAssembly.scale.set(dishScale, 1.0, dishScale);
+      playSound('click');
+    }
+
+    function setDishTexture(style) {
+      honeyGroup.visible = (style === 'honey');
+      diamondGroup.visible = (style === 'diamond');
+      spiralLickGroup.visible = (style === 'spiral');
+      playSound('click');
+    }
+
+    // ==========================================
+    // 6. CENTRAL ESCAPEMENT TIMER (Zero Batteries)
+    // ==========================================
+    const spindleMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 1.25, 24), matBrass);
+    spindleMesh.position.y = 1.82;
+    tierEscapement.add(spindleMesh);
+
+    const fluidCyl = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.32, 24), matPolycarb);
+    fluidCyl.position.y = 1.35;
+    tierEscapement.add(fluidCyl);
+
+    const gearGroup = new THREE.Group();
+    gearGroup.add(new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.035, 32), matBrass));
+    for (let tooth = 0; tooth < 16; tooth++) {
+      const tAngle = (tooth / 16) * Math.PI * 2;
+      const tMesh = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.035, 0.035), matBrass);
+      tMesh.position.set(Math.cos(tAngle) * 0.35, 0, Math.sin(tAngle) * 0.35);
+      tMesh.rotation.y = -tAngle + 0.3;
+      gearGroup.add(tMesh);
+    }
+    gearGroup.position.y = 1.74;
+    tierEscapement.add(gearGroup);
+
+    const palletGroup = new THREE.Group();
+    palletGroup.add(new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.035, 0.045), matSteel316));
+    palletGroup.position.set(0.38, 1.74, 0);
+    tierEscapement.add(palletGroup);
+
+    // --- State & Variables ---
+    let currentStep = 1;
+    let autoOrbit = false;
+    let explodeAmount = 0.0;
+    let xrayAmount = 0.0;
+    let timelineMinutes = 15;
+
+    const OFFSETS = {
+      base: 0.0,
+      scent: 0.35,
+      chassis: 0.85,
+      maze: 1.45,
+      freeze: 2.15,
+      escapement: 0.7
+    };
+
+    // Sub-Stepped RK4 Tumbler Physics
+    let tiltX = 0, tiltZ = 0;
+    let velX = 0, velZ = 0;
+    const gravityConst = 28.0;
+    const linearDamping = 3.2;
+    const quadraticDamping = 0.45;
+    const MASS_KG = 1.42;
+    const COM_RADIUS = 0.40;
+
+    function applyPawSwat() {
+      playSound('swat');
+      const swatStrength = 1.5 + Math.random() * 0.7;
+      const swatAngle = Math.random() * Math.PI * 2;
+      velX += Math.sin(swatAngle) * swatStrength;
+      velZ += Math.cos(swatAngle) * swatStrength;
+      if (currentStep === 2) {
+        floorKibbles.visible = true;
+        playSound('click');
+      }
+    }
+
+    function flipUpsideDown() {
+      playSound('invert');
+      tiltX = Math.PI * 0.94;
+      tiltZ = 0.08;
+      velX = (Math.random() - 0.5) * 0.4;
+      velZ = 0.35;
+      if (currentStep === 2) {
+        floorKibbles.visible = true;
+      }
+    }
+
+    function selectStep(step) {
+      currentStep = step;
+      document.querySelectorAll('.step-item').forEach(item => {
+        if (parseInt(item.getAttribute('data-step')) === step) item.classList.add('active');
+        else item.classList.remove('active');
+      });
+
+      if (step === 0) {
+        document.getElementById('badge-phase-num').innerText = "SETUP • OWNER LOADING";
+        document.getElementById('badge-phase-title').innerText = "Top Dish Lifts Off — Pour Kibbles into Conical Funnel";
+        playSound('pour');
+        pouringGroup.visible = true;
+        floorKibbles.visible = false;
+        reloadChewRing();
+        updateXrayMaterials(0.0);
+      } else if (step === 1) {
+        document.getElementById('badge-phase-num').innerText = "PHASE 1 (0 – 30 MIN)";
+        document.getElementById('badge-phase-title').innerText = "Frozen Broth Well — Endorphin Licking Drops Cortisol";
+        pouringGroup.visible = false;
+        floorKibbles.visible = false;
+        reloadChewRing();
+        updateXrayMaterials(0.0);
+      } else if (step === 2) {
+        document.getElementById('badge-phase-num').innerText = "PHASE 2 (30 – 60 MIN)";
+        document.getElementById('badge-phase-title').innerText = "Illuminated Centrifugal Labyrinth Unlocks — Treats Eject!";
+        playSound('click');
+        pouringGroup.visible = false;
+        floorKibbles.visible = true;
+        reloadChewRing();
+        updateXrayMaterials(0.68);
+        document.getElementById('range-xray').value = 68;
+        document.getElementById('label-xray').innerText = "68%";
+      } else if (step === 3) {
+        document.getElementById('badge-phase-num').innerText = "PHASE 3 (60 – 90 MIN)";
+        document.getElementById('badge-phase-title').innerText = "Dental Chew Ring Springs Off Onto Floor — Dog Chews Separately!";
+        pouringGroup.visible = false;
+        updateXrayMaterials(0.0);
+        document.getElementById('range-xray').value = 0;
+        document.getElementById('label-xray').innerText = "0%";
+        ejectChewRing();
+      } else if (step === 4) {
+        document.getElementById('badge-phase-num').innerText = "PHASE 4 (90 – 120 MIN)";
+        document.getElementById('badge-phase-title').innerText = "Base Diffuses Organic Lavender Rest Mist While Dog Sleeps";
+        playSound('puff');
+        pouringGroup.visible = false;
+        updateXrayMaterials(0.0);
+      }
+
+      if (step > 0) {
+        const midMin = (step - 1) * 30 + 15;
+        document.getElementById('range-time').value = midMin;
+        document.getElementById('label-time').innerText = midMin + " min";
+      }
+    }
+
+    document.querySelectorAll('.step-item').forEach(item => {
+      item.addEventListener('click', () => {
+        selectStep(parseInt(item.getAttribute('data-step')));
+      });
+    });
+
+    // Action Buttons
+    document.getElementById('btn-swat').addEventListener('click', applyPawSwat);
+    document.getElementById('btn-invert').addEventListener('click', flipUpsideDown);
+    document.getElementById('btn-eject').addEventListener('click', () => {
+      if (isRingEjected) reloadChewRing();
+      else ejectChewRing();
+    });
+
+    document.getElementById('btn-bottom-timer').addEventListener('click', () => {
+      camera.position.set(0, -1.8, 3.2);
+      controls.target.set(0, 0.2, 0);
+      controls.update();
+      playSound('click');
+    });
+
+    // Broth Customizer Buttons
+    document.getElementById('dish-sz-sm').addEventListener('click', (e) => {
+      document.querySelectorAll('.pill-group button[id^="dish-sz-"]').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      setDishSize(0.75);
+    });
+    document.getElementById('dish-sz-md').addEventListener('click', (e) => {
+      document.querySelectorAll('.pill-group button[id^="dish-sz-"]').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      setDishSize(1.0);
+    });
+    document.getElementById('dish-sz-lg').addEventListener('click', (e) => {
+      document.querySelectorAll('.pill-group button[id^="dish-sz-"]').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      setDishSize(1.25);
+    });
+
+    document.getElementById('dish-tx-honey').addEventListener('click', (e) => {
+      document.querySelectorAll('.pill-group button[id^="dish-tx-"]').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      setDishTexture('honey');
+    });
+    document.getElementById('dish-tx-diamond').addEventListener('click', (e) => {
+      document.querySelectorAll('.pill-group button[id^="dish-tx-"]').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      setDishTexture('diamond');
+    });
+    document.getElementById('dish-tx-spiral').addEventListener('click', (e) => {
+      document.querySelectorAll('.pill-group button[id^="dish-tx-"]').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      setDishTexture('spiral');
+    });
+
+    // Sliders
+    const rangeExplode = document.getElementById('range-explode');
+    rangeExplode.addEventListener('input', (e) => {
+      explodeAmount = parseFloat(e.target.value) / 100.0;
+      document.getElementById('label-explode').innerText = e.target.value + "%";
+    });
+
+    const rangeXray = document.getElementById('range-xray');
+    rangeXray.addEventListener('input', (e) => {
+      xrayAmount = parseFloat(e.target.value) / 100.0;
+      document.getElementById('label-xray').innerText = e.target.value + "%";
+      updateXrayMaterials(xrayAmount);
+    });
+
+    function updateXrayMaterials(amt) {
+      if (amt > 0.01) {
+        matRubberTeal.transparent = true;
+        matRubberTeal.opacity = THREE.MathUtils.lerp(1.0, 0.2, amt);
+        matRubberCyan.transparent = true;
+        matRubberCyan.opacity = THREE.MathUtils.lerp(1.0, 0.25, amt);
+      } else {
+        matRubberTeal.transparent = false;
+        matRubberTeal.opacity = 1.0;
+        matRubberCyan.transparent = false;
+        matRubberCyan.opacity = 1.0;
+      }
+    }
+
+    // View Modes
+    document.getElementById('mode-normal').addEventListener('click', () => {
+      setSectionCut(false);
+      rangeExplode.value = 0; explodeAmount = 0.0;
+      document.getElementById('label-explode').innerText = "0%";
+      rangeXray.value = 0; xrayAmount = 0.0;
+      document.getElementById('label-xray').innerText = "0%";
+      updateXrayMaterials(0);
+      setActiveMode('mode-normal');
+    });
+
+    document.getElementById('mode-cutaway').addEventListener('click', () => {
+      setSectionCut(false);
+      rangeXray.value = 75; xrayAmount = 0.75;
+      document.getElementById('label-xray').innerText = "75%";
+      updateXrayMaterials(0.75);
+      setActiveMode('mode-cutaway');
+    });
+
+    document.getElementById('mode-section').addEventListener('click', () => {
+      setSectionCut(!sectionCutActive);
+      if (sectionCutActive) setActiveMode('mode-section');
+      else setActiveMode('mode-normal');
+    });
+
+    document.getElementById('mode-exploded').addEventListener('click', () => {
+      setSectionCut(false);
+      rangeExplode.value = 85; explodeAmount = 0.85;
+      document.getElementById('label-explode').innerText = "85%";
+      setActiveMode('mode-exploded');
+    });
+
+    function setActiveMode(id) {
+      document.querySelectorAll('.action-toolbar .tool-btn').forEach(b => {
+        if (b.id.startsWith('mode-')) b.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+    }
+
+    const btnSound = document.getElementById('btn-sound-toggle');
+    btnSound.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      btnSound.classList.toggle('active', soundEnabled);
+      btnSound.innerText = soundEnabled ? "🔊 Audio: ON" : "🔇 Audio: Muted";
+    });
+
+    const btnSpin = document.getElementById('btn-toggle-spin');
+    btnSpin.addEventListener('click', () => {
+      autoOrbit = !autoOrbit;
+      btnSpin.classList.toggle('active', autoOrbit);
+      btnSpin.innerText = autoOrbit ? "🔄 Auto-Orbit: ON" : "🔄 Auto-Orbit: Off";
+      controls.autoRotate = autoOrbit;
+      controls.autoRotateSpeed = 1.8;
+    });
+
+    document.getElementById('btn-reset-view').addEventListener('click', () => {
+      camera.position.set(0, 3.2, 7.2);
+      controls.target.set(0, 1.35, 0);
+      controls.update();
+    });
+
+    document.getElementById('range-time').addEventListener('input', (e) => {
+      timelineMinutes = parseInt(e.target.value);
+      document.getElementById('label-time').innerText = timelineMinutes + " min";
+      const calcStep = Math.min(4, Math.floor(timelineMinutes / 30) + 1);
+      if (calcStep !== currentStep && currentStep !== 0) {
+        selectStep(calcStep);
+      }
+    });
+
+    // Mouse Drag-to-Tilt Simulation
+    let isDraggingModel = false;
+    let prevMouseX = 0, prevMouseY = 0;
+
+    window.addEventListener('mousedown', (e) => {
+      if (e.target === canvas) {
+        if (e.shiftKey) {
+          isDraggingModel = true;
+          prevMouseX = e.clientX;
+          prevMouseY = e.clientY;
+          controls.enabled = false;
+        }
+      }
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (isDraggingModel) {
+        const dx = (e.clientX - prevMouseX) * 0.012;
+        const dy = (e.clientY - prevMouseY) * 0.012;
+        tiltZ -= dx;
+        tiltX += dy;
+        velX = 0; velZ = 0;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isDraggingModel) {
+        isDraggingModel = false;
+        controls.enabled = true;
+      }
+    });
+
+    // --- Dynamic Render & Physics Loop with 4x Sub-Stepping ---
+    const clock = new THREE.Clock();
+
+    function renderLoop() {
+      requestAnimationFrame(renderLoop);
+
+      const frameDelta = Math.min(clock.getDelta(), 0.05);
+      const elapsed = clock.getElapsedTime();
+
+      // 1. SUB-STEPPED PHYSICS FOR BUTTERY-SMOOTH COUPLED RESTORING
+      const subSteps = 4;
+      const dt = frameDelta / subSteps;
+
+      if (!isDraggingModel) {
+        for (let s = 0; s < subSteps; s++) {
+          const speedX = Math.abs(velX);
+          const speedZ = Math.abs(velZ);
+
+          const restoringTorqueX = -MASS_KG * gravityConst * COM_RADIUS * Math.sin(tiltX);
+          const restoringTorqueZ = -MASS_KG * gravityConst * COM_RADIUS * Math.sin(tiltZ);
+
+          const dampX = -(linearDamping * velX + quadraticDamping * velX * speedX);
+          const dampZ = -(linearDamping * velZ + quadraticDamping * velZ * speedZ);
+
+          const accX = restoringTorqueX + dampX;
+          const accZ = restoringTorqueZ + dampZ;
+
+          velX += accX * dt;
+          velZ += accZ * dt;
+          tiltX += velX * dt;
+          tiltZ += velZ * dt;
+        }
+
+        const sphereR = 1.15;
+        wobblePivot.position.x = -Math.sin(tiltZ) * sphereR * 0.32;
+        wobblePivot.position.z = Math.sin(tiltX) * sphereR * 0.32;
+
+        // Dynamic Contact Shadow tracks base position & fades if airborne
+        contactShadow.position.x = wobblePivot.position.x;
+        contactShadow.position.z = wobblePivot.position.z;
+        const tiltMagnitude = Math.hypot(tiltX, tiltZ);
+        contactShadow.material.opacity = Math.max(0.25, 0.85 - tiltMagnitude * 0.35);
+      }
+
+      wobblePivot.rotation.x = tiltX;
+      wobblePivot.rotation.z = tiltZ;
+
+      const totalTiltAngleDeg = (Math.hypot(tiltX, tiltZ) * 180 / Math.PI).toFixed(1);
+      const totalTorqueNm = (MASS_KG * 9.81 * COM_RADIUS * Math.sin(Math.hypot(tiltX, tiltZ))).toFixed(2);
+      const telemTilt = document.getElementById('telem-tilt');
+      const telemTorque = document.getElementById('telem-torque');
+      if (telemTilt) telemTilt.innerText = totalTiltAngleDeg + "°";
+      if (telemTorque) telemTorque.innerText = totalTorqueNm + " N·m";
+
+      const isGateLocked = (totalTiltAngleDeg > 75.0);
+      if (isGateLocked) {
+        inversionGate.rotation.x = Math.PI * 0.45;
+      } else {
+        inversionGate.rotation.x = 0;
+      }
+
+      // 2. PARABOLIC PROJECTILE PHYSICS FOR EJECTED CHEW RING
+      if (isRingEjected) {
+        for (let s = 0; s < subSteps; s++) {
+          ringVel.y -= 9.81 * dt;
+          ringVel.x *= (1.0 - 0.08 * dt);
+          ringVel.z *= (1.0 - 0.08 * dt);
+
+          ringPos.addScaledVector(ringVel, dt);
+          ringRot.addScaledVector(ringRotVel, dt);
+
+          const floorY = 0.22;
+          if (ringPos.y < floorY) {
+            ringPos.y = floorY;
+            if (Math.abs(ringVel.y) > 0.4) {
+              ringVel.y = -ringVel.y * 0.40;
+              ringVel.x *= 0.65;
+              ringVel.z *= 0.65;
+              ringRotVel.multiplyScalar(0.55);
+              playSound('thud');
+            } else {
+              ringVel.set(0, 0, 0);
+              ringRotVel.set(0, 0, 0);
+            }
+          }
+        }
+
+        chewRingMesh.position.copy(ringPos);
+        chewRingMesh.rotation.set(ringRot.x, ringRot.y, ringRot.z);
+      }
+
+      // 3. Exploded View Smooth Lerp
+      const lerpSpeed = 0.1;
+      tierBase.position.y = THREE.MathUtils.lerp(tierBase.position.y, OFFSETS.base * explodeAmount, lerpSpeed);
+      tierScent.position.y = THREE.MathUtils.lerp(tierScent.position.y, OFFSETS.scent * explodeAmount, lerpSpeed);
+      tierChassis.position.y = THREE.MathUtils.lerp(tierChassis.position.y, OFFSETS.chassis * explodeAmount, lerpSpeed);
+      tierMaze.position.y = THREE.MathUtils.lerp(tierMaze.position.y, OFFSETS.maze * explodeAmount, lerpSpeed);
+      tierEscapement.position.y = THREE.MathUtils.lerp(tierEscapement.position.y, OFFSETS.escapement * explodeAmount, lerpSpeed);
+
+      let targetFreezeY = OFFSETS.freeze * explodeAmount;
+      let targetFreezeRotY = 0;
+      if (currentStep === 0) {
+        targetFreezeY += 1.5;
+        targetFreezeRotY = Math.sin(elapsed * 1.5) * 0.2;
+      }
+      tierFreeze.position.y = THREE.MathUtils.lerp(tierFreeze.position.y, targetFreezeY, 0.08);
+      tierFreeze.rotation.y = THREE.MathUtils.lerp(tierFreeze.rotation.y, targetFreezeRotY, 0.08);
+
+      // 4. Central Escapement Kinematics (Tooth-by-Tooth Discrete Mechanical Ticking)
+      const escapementSpeed = 0.8;
+      spindleMesh.rotation.y = elapsed * escapementSpeed;
+      gearGroup.rotation.y = elapsed * escapementSpeed;
+      palletGroup.rotation.z = Math.sin(elapsed * escapementSpeed * 16) * 0.18;
+
+      // 5. Phase 1 Broth Melting Animation
+      if (currentStep === 1) {
+        brothMesh.scale.y = 0.65;
+        brothMesh.position.y = 0.11;
+      } else if (currentStep > 1) {
+        brothMesh.scale.y = 0.1;
+        brothMesh.position.y = 0.08;
+      } else {
+        brothMesh.scale.y = 1.0;
+        brothMesh.position.y = 0.14;
+      }
+
+      // 6. Phase 2 Centrifugal Rattle Ball
+      if (currentStep === 2) {
+        const ballSpeed = 2.2 + Math.hypot(tiltX, tiltZ) * 4.5;
+        const bAngle = elapsed * ballSpeed;
+        treatBall.position.x = Math.cos(bAngle) * 0.62;
+        treatBall.position.z = Math.sin(bAngle) * 0.62;
+        treatBall.position.y = 2.16 + Math.sin(bAngle * 2) * 0.06;
+
+        floorKibbles.visible = true;
+        floorKibbles.position.x = 1.30 + Math.sin(elapsed * 2.0) * 0.06;
+        floorKibbles.position.z = Math.cos(elapsed * 2.0) * 0.03;
+      }
+
+      // 7. Phase 4 Passive Scent Shutter Alignment & Mist
+      const targetShutterRot = (currentStep === 4) ? 0.0 : Math.PI / 8;
+      scentShutterDisc.rotation.y = THREE.MathUtils.lerp(scentShutterDisc.rotation.y, targetShutterRot, 0.1);
+
+      if (currentStep === 4) {
+        particleMat.opacity = THREE.MathUtils.lerp(particleMat.opacity, 0.85, 0.05);
+        const positions = particleGeo.attributes.position.array;
+        for (let p = 0; p < particleCount; p++) {
+          positions[p * 3 + 1] += 0.006;
+          if (positions[p * 3 + 1] > 2.2) positions[p * 3 + 1] = 1.35;
+        }
+        particleGeo.attributes.position.needsUpdate = true;
+      } else {
+        particleMat.opacity = THREE.MathUtils.lerp(particleMat.opacity, 0.0, 0.08);
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    renderLoop();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // --- GLTF/GLB EXPORT PIPELINE FOR OPENCODE ---
+    function exportPawClockGLB() {
+      const btn = document.getElementById('btn-export-glb');
+      if (btn) btn.textContent = '⏳ Exporting GLB...';
+
+      try {
+        const exporter = new THREE.GLTFExporter();
+        const rootExport = new THREE.Group();
+        rootExport.name = "PawClock_4Phase_Assembly";
+
+        // Create clean clone in neutral resting pose
+        const pivotClone = wobblePivot.clone(true);
+        pivotClone.position.set(0, 0, 0);
+        pivotClone.rotation.set(0, 0, 0);
+        rootExport.add(pivotClone);
+
+        const chewClone = chewRingMesh.clone(true);
+        chewClone.position.set(0, 0.44, 0);
+        chewClone.rotation.set(0, 0, 0);
+        rootExport.add(chewClone);
+
+        exporter.parse(
+          rootExport,
+          function(result) {
+            // result is ArrayBuffer
+            const blob = new Blob([result], { type: 'model/gltf-binary' });
+
+            // Trigger browser download
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'pawclock.glb';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Also post to local node server if available
+            fetch('/api/save-glb', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/octet-stream' },
+              body: result
+            }).then(r => r.json()).then(res => {
+              console.log('✅ Server saved GLB:', res);
+              if (btn) btn.textContent = '✅ .GLB Exported!';
+              document.title = 'GLB_EXPORT_DONE';
+            }).catch(() => {
+              if (btn) btn.textContent = '✅ .GLB Downloaded!';
+              document.title = 'GLB_EXPORT_DONE';
+            });
+          },
+          { binary: true }
+        );
+      } catch (err) {
+        console.error('GLB Export Error:', err);
+        if (btn) btn.textContent = '❌ Export Failed';
+      }
+    }
+
+    const exportBtn = document.getElementById('btn-export-glb');
+    if (exportBtn) exportBtn.addEventListener('click', exportPawClockGLB);
+
+    if (window.location.search.includes('autoexport=1')) {
+      setTimeout(exportPawClockGLB, 1800);
+    }
+
+    selectStep(1);
+  </script>
+</body>
+</html>

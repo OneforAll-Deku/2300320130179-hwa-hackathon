@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      document.documentElement.classList.add('js')
+    </script>
+    <title>PawClock™ — The 4-Phase Chrono-Feeder</title>
+    <meta
+      name="description"
+      content="PawClock turns the first two hours of home-alone into a four-stage enrichment ritual — lick, sniff, chew, settle. No app, no batteries, no guesswork."
+    />
+    <meta name="theme-color" content="#f6f1e7" />
+    <link rel="canonical" href="https://2300320130179-hwa-hackathon.vercel.app/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="PawClock™ — The 4-Phase Chrono-Feeder" />
+    <meta
+      property="og:description"
+      content="A four-stage enrichment ritual for the two-hour home-alone curve. Lick, sniff, chew, settle."
+    />
+    <meta property="og:url" content="https://2300320130179-hwa-hackathon.vercel.app/" />
+    <meta property="og:image" content="https://2300320130179-hwa-hackathon.vercel.app/images/phase-2-sniff.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Manrope:wght@300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles/main.css" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="nav" data-nav>
+      <div class="wrap nav__inner">
+        <a class="brand" href="#top" aria-label="PawClock home">
+          <svg class="brand__mark" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+            <circle cx="22" cy="22" r="20.5" fill="none" stroke="currentColor" stroke-width="1.5" />
+            <path d="M22 7v4M22 33v4M7 22h4M33 22h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <ellipse cx="15.4" cy="18.2" rx="2.4" ry="3.1" transform="rotate(-18 15.4 18.2)" fill="currentColor" />
+            <ellipse cx="22" cy="15.4" rx="2.4" ry="3.1" fill="currentColor" />
+            <ellipse cx="28.6" cy="18.2" rx="2.4" ry="3.1" transform="rotate(18 28.6 18.2)" fill="currentColor" />
+            <path d="M22 21.4c3.7 0 6.3 2.7 6.3 5.7 0 2.6-2.3 4.3-6.3 4.3s-6.3-1.7-6.3-4.3c0-3 2.6-5.7 6.3-5.7Z" fill="currentColor" />
+          </svg>
+          <span class="brand__word">PawClock<sup>™</sup></span>
+        </a>
+
+        <nav class="nav__links" id="nav-links" aria-label="Primary">
+          <a href="#why">Why</a>
+          <a href="#ritual">The ritual</a>
+          <a href="#engineering">Engineering</a>
+          <a href="#specs">Specs</a>
+          <a href="#faq">FAQ</a>
+          <a class="nav__reserve" href="#reserve">Reserve — $129</a>
+        </nav>
+
+        <div class="nav__actions">
+          <a class="btn btn--small btn--dark" href="#reserve">Reserve — $129</a>
+          <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links" data-nav-toggle>
+            <span class="sr-only">Open menu</span>
+            <span class="nav__toggle-line"></span>
+            <span class="nav__toggle-line"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="wrap hero__inner">
+          <div class="hero__copy">
+            <p class="eyebrow reveal"><span class="eyebrow__dot"></span>4-phase chrono-feeder</p>
+            <h1 class="reveal" style="--delay: 60ms">Alone time,<br /><em>beautifully</em> handled.</h1>
+            <p class="lede reveal" style="--delay: 120ms">
+              PawClock turns the first two hours of home-alone into a four-stage ritual — lick, sniff, chew, settle —
+              so your dog stays engaged, calm and cared for until the door opens again.
+            </p>
+            <div class="hero__actions reveal" style="--delay: 180ms">
+              <a class="btn btn--dark" href="#reserve">Reserve yours — $129</a>
+              <a class="btn btn--ghost" href="#ritual">See the four phases</a>
+            </div>
+            <dl class="hero__stats reveal" style="--delay: 240ms">
+              <div>
+                <dt>4</dt>
+                <dd>enrichment phases</dd>
+              </div>
+              <div>
+                <dt>2 h</dt>
+                <dd>home-alone coverage</dd>
+              </div>
+              <div>
+                <dt>0</dt>
+                <dd>apps or batteries</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="hero__stage reveal" style="--delay: 120ms">
+            <div class="viewer" id="model-viewer" data-model-viewer>
+              <div class="viewer__glow" aria-hidden="true"></div>
+              <div class="viewer__badge"><span class="viewer__pulse" aria-hidden="true"></span>Live 3D</div>
+              <div class="viewer__loading" data-viewer-loading>
+                <span class="viewer__spinner" aria-hidden="true"></span>
+                <span data-viewer-progress>Loading PawClock…</span>
+              </div>
+              <div class="viewer__hint" data-viewer-hint>Drag to inspect · tap parts</div>
+              <div class="viewer__tooltip" data-viewer-tooltip aria-hidden="true">
+                <span class="viewer__tooltip-phase" data-viewer-tooltip-phase></span>
+                <span class="viewer__tooltip-name" data-viewer-tooltip-name></span>
+                <span class="viewer__tooltip-desc" data-viewer-tooltip-desc></span>
+              </div>
+              <div class="viewer__controls">
+                <button class="icon-btn" type="button" data-viewer-reset aria-label="Reset 3D view">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M4 12a8 8 0 1 0 2.6-5.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                    <path d="M4 4v5h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <button class="icon-btn" type="button" data-viewer-spin aria-pressed="true" aria-label="Toggle auto-rotation">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M20 12a8 8 0 1 1-2.6-5.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                    <path d="M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </div>
+              <img
+                class="viewer__fallback"
+                data-viewer-fallback
+                src="/images/phase-2-sniff.jpg"
+                alt="PawClock 4-phase feeder with a spiral scent labyrinth"
+                width="1376"
+                height="768"
+                hidden
+              />
+            </div>
+            <div class="viewer__phases" data-viewer-phases aria-label="Highlight a phase in the 3D model">
+              <button class="viewer__phase" type="button" data-viewer-phase="0" aria-label="Jump to Phase 01, Lick">
+                <span>01</span>Lick
+              </button>
+              <button class="viewer__phase" type="button" data-viewer-phase="1" aria-label="Jump to Phase 02, Sniff">
+                <span>02</span>Sniff
+              </button>
+              <button class="viewer__phase" type="button" data-viewer-phase="2" aria-label="Jump to Phase 03, Chew">
+                <span>03</span>Chew
+              </button>
+              <button class="viewer__phase" type="button" data-viewer-phase="3" aria-label="Jump to Phase 04, Settle">
+                <span>04</span>Settle
+              </button>
+            </div>
+            <details class="viewer__parts">
+              <summary>Parts in the model</summary>
+              <ul class="viewer__parts-list">
+                <li><b>Phase 01 · Lick</b> — Frozen lick-well bowl, Lick-well lid</li>
+                <li><b>Phase 02 · Sniff</b> — Scent chamber housing, Spiral scent labyrinth, Treat reservoir</li>
+                <li><b>Phase 03 · Chew</b> — Dental-chew collar</li>
+                <li><b>Phase 04 · Settle</b> — Brass chrono movement, Sealed damping ring</li>
+              </ul>
+            </details>
+            <p class="stage__caption">PawClock™ 4-Phase Chrono-Feeder <span>·</span> interactive concept render</p>
+          </div>
+        </div>
+
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee__track">
+            <span>Lick</span><span class="marquee__dot">·</span><span>Sniff</span><span class="marquee__dot">·</span
+            ><span>Chew</span><span class="marquee__dot">·</span><span>Settle</span><span class="marquee__dot">·</span>
+            <span>Lick</span><span class="marquee__dot">·</span><span>Sniff</span><span class="marquee__dot">·</span
+            ><span>Chew</span><span class="marquee__dot">·</span><span>Settle</span><span class="marquee__dot">·</span>
+            <span>Lick</span><span class="marquee__dot">·</span><span>Sniff</span><span class="marquee__dot">·</span
+            ><span>Chew</span><span class="marquee__dot">·</span><span>Settle</span><span class="marquee__dot">·</span>
+            <span>Lick</span><span class="marquee__dot">·</span><span>Sniff</span><span class="marquee__dot">·</span
+            ><span>Chew</span><span class="marquee__dot">·</span><span>Settle</span><span class="marquee__dot">·</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section why" id="why">
+        <div class="wrap">
+          <div class="section__head reveal">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>The two-hour curve</p>
+            <h2>You leave. The clock starts.</h2>
+            <p>
+              For many dogs, the first two hours after the door clicks shut are the hardest. The house goes quiet, the
+              routine stops, and all that energy has nowhere to go. PawClock gives it somewhere to land.
+            </p>
+          </div>
+
+          <ol class="curve">
+            <li class="curve__item reveal">
+              <span class="curve__time">0:00</span>
+              <h3>The door clicks</h3>
+              <p>The house goes quiet. For many dogs, that is the cue for a stress spike.</p>
+            </li>
+            <li class="curve__item reveal" style="--delay: 80ms">
+              <span class="curve__time">0:20</span>
+              <h3>Restlessness</h3>
+              <p>Pacing, whining, watching the window — the energy has nowhere to go.</p>
+            </li>
+            <li class="curve__item reveal" style="--delay: 160ms">
+              <span class="curve__time">1:00</span>
+              <h3>Destructive relief</h3>
+              <p>Chewing, digging and barking are often just displacement behaviours.</p>
+            </li>
+            <li class="curve__item reveal" style="--delay: 240ms">
+              <span class="curve__time">2:00</span>
+              <h3>The settle</h3>
+              <p>Most dogs finally calm down — usually after the hardest part is over.</p>
+            </li>
+          </ol>
+
+          <p class="curve__note reveal">
+            PawClock fills that gap with a guided sequence of natural calming behaviours: licking, scent work, chewing
+            and rest.
+          </p>
+        </div>
+      </section>
+
+      <section class="section ritual" id="ritual">
+        <div class="wrap">
+          <div class="section__head reveal">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>The ritual</p>
+            <h2>Four phases, one quiet countdown.</h2>
+            <p>
+              Each phase meets a different need, in the order a dog naturally reaches for them. Stack them for a
+              two-hour sequence, or use one at a time.
+            </p>
+          </div>
+
+          <div class="phases">
+            <article class="phase reveal" id="phase-lick">
+              <figure class="phase__media">
+                <img
+                  src="/images/phase-1-lick.jpg"
+                  alt="A dog licking a frozen treat well on the teal PawClock base"
+                  width="1376"
+                  height="768"
+                  loading="lazy"
+                />
+                <figcaption class="phase__tag">Phase 01</figcaption>
+              </figure>
+              <div class="phase__copy">
+                <div class="phase__meta">
+                  <p class="eyebrow">Lick</p>
+                  <span class="chip">20–30 min</span>
+                </div>
+                <h3>Frozen lick-well bowl</h3>
+                <p>
+                  Slow, rhythmic licking is a natural self-soother. Fill the well, freeze it overnight, and clip it on
+                  for the first stretch after you leave.
+                </p>
+                <ul class="chips">
+                  <li class="chip">Food-grade silicone</li>
+                  <li class="chip">Freezer-ready</li>
+                  <li class="chip">Dishwasher-safe</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="phase phase--reverse reveal" id="phase-sniff">
+              <figure class="phase__media">
+                <img
+                  src="/images/phase-2-sniff.jpg"
+                  alt="A dog rolling a PawClock scent labyrinth ball with treats inside"
+                  width="1376"
+                  height="768"
+                  loading="lazy"
+                />
+                <figcaption class="phase__tag">Phase 02</figcaption>
+              </figure>
+              <div class="phase__copy">
+                <div class="phase__meta">
+                  <p class="eyebrow">Sniff</p>
+                  <span class="chip">15–20 min</span>
+                </div>
+                <h3>Spiral scent labyrinth</h3>
+                <p>
+                  A nose-first puzzle. Treats hide along a polished stainless spiral, turning restless energy into
+                  focused foraging instead of pacing.
+                </p>
+                <ul class="chips">
+                  <li class="chip">Stainless track</li>
+                  <li class="chip">Adjustable difficulty</li>
+                  <li class="chip">Quiet on floors</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="phase reveal" id="phase-chew">
+              <figure class="phase__media">
+                <img
+                  src="/images/phase-3-chew.jpg"
+                  alt="A dog chewing a teal dental ring beside the PawClock lick bowl"
+                  width="1376"
+                  height="768"
+                  loading="lazy"
+                />
+                <figcaption class="phase__tag">Phase 03</figcaption>
+              </figure>
+              <div class="phase__copy">
+                <div class="phase__meta">
+                  <p class="eyebrow">Chew</p>
+                  <span class="chip">20–30 min</span>
+                </div>
+                <h3>Dental-chew core</h3>
+                <p>
+                  A textured ring redirects stress into a healthy chew, massaging gums while the treat reward lasts.
+                  Swap the core as your dog's chewing style changes.
+                </p>
+                <ul class="chips">
+                  <li class="chip">Vet-friendly texture</li>
+                  <li class="chip">Replaceable core</li>
+                  <li class="chip">Treat-stuffable</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="phase phase--reverse reveal" id="phase-settle">
+              <figure class="phase__media">
+                <img
+                  src="/images/phase-4-settle.jpg"
+                  alt="A dog resting beside the PawClock weighted chrono base at night"
+                  width="1376"
+                  height="768"
+                  loading="lazy"
+                />
+                <figcaption class="phase__tag">Phase 04</figcaption>
+              </figure>
+              <div class="phase__copy">
+                <div class="phase__meta">
+                  <p class="eyebrow">Settle</p>
+                  <span class="chip">60 min</span>
+                </div>
+                <h3>Weighted chrono base</h3>
+                <p>
+                  A 1.4 kg base keeps every module steady while a mechanical timer quietly counts down the last stretch
+                  of alone time. No app. No alerts. Just a calm, familiar rhythm.
+                </p>
+                <ul class="chips">
+                  <li class="chip">Mechanical timer</li>
+                  <li class="chip">No batteries</li>
+                  <li class="chip">Non-slip base</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section engineering" id="engineering">
+        <div class="wrap engineering__grid">
+          <figure class="engineering__media reveal">
+            <img
+              src="/images/engineering-cutaway.jpg"
+              alt="Cutaway render of the PawClock phase two brass timing movement and stainless spiral track"
+              width="1376"
+              height="768"
+              loading="lazy"
+            />
+            <figcaption>Phase 02 cutaway — brass movement, stainless labyrinth, sealed chamber.</figcaption>
+          </figure>
+
+          <div class="engineering__copy">
+            <p class="eyebrow eyebrow--light reveal"><span class="eyebrow__dot"></span>Inside the movement</p>
+            <h2 class="reveal" style="--delay: 60ms">Machined like a watch. Built for a dog.</h2>
+            <p class="reveal" style="--delay: 120ms">
+              Under the shell sits a mechanical sequence — no pairing screen, no charging cable, no firmware update. A
+              weighted brass movement releases each phase with a soft, damped click.
+            </p>
+
+            <ol class="parts">
+              <li class="reveal"><span>01</span>Machined solid brass timing spindle</li>
+              <li class="reveal" style="--delay: 40ms"><span>02</span>Micro-retracted stainless latch pin</li>
+              <li class="reveal" style="--delay: 80ms"><span>03</span>Translucent amber treat ball</li>
+              <li class="reveal" style="--delay: 120ms"><span>04</span>Polished stainless spiral labyrinth track</li>
+              <li class="reveal" style="--delay: 160ms"><span>05</span>Viscous silicone damping fluid and vanes</li>
+              <li class="reveal" style="--delay: 200ms"><span>06</span>Sealed, dishwasher-safe chamber</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="section steps-section">
+        <div class="wrap">
+          <div class="section__head reveal">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>Three moves, then out</p>
+            <h2>Load. Set. Leave.</h2>
+          </div>
+
+          <ol class="steps">
+            <li class="step reveal">
+              <span class="step__num">01</span>
+              <h3>Load</h3>
+              <p>Fill the lick-well, hide treats in the spiral, stuff the chew core.</p>
+            </li>
+            <li class="step reveal" style="--delay: 80ms">
+              <span class="step__num">02</span>
+              <h3>Set</h3>
+              <p>Twist the chrono base to start the two-hour sequence.</p>
+            </li>
+            <li class="step reveal" style="--delay: 160ms">
+              <span class="step__num">03</span>
+              <h3>Leave</h3>
+              <p>Walk out. PawClock takes it from there — no app, no alerts.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section specs" id="specs">
+        <div class="wrap specs__grid">
+          <div class="specs__intro reveal">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>Specifications</p>
+            <h2>Quietly over-engineered.</h2>
+            <p>
+              Every module is designed to be handled, filled, frozen, chewed and washed. The mechanism is sealed away
+              from food and paws.
+            </p>
+            <p class="specs__note">PawClock is a concept product study. Specifications are design targets.</p>
+          </div>
+
+          <dl class="specs__list">
+            <div class="specs__row reveal"><dt>Dimensions</dt><dd>180 mm diameter × 152 mm height</dd></div>
+            <div class="specs__row reveal"><dt>Weight</dt><dd>1.4 kg weighted base</dd></div>
+            <div class="specs__row reveal"><dt>Materials</dt><dd>Food-grade silicone, stainless steel, machined brass, BPA-free polymer</dd></div>
+            <div class="specs__row reveal"><dt>Timer</dt><dd>Mechanical 120-minute chrono movement</dd></div>
+            <div class="specs__row reveal"><dt>Power</dt><dd>None — no batteries, no app</dd></div>
+            <div class="specs__row reveal"><dt>Cleaning</dt><dd>Top-rack dishwasher-safe modules; hand-wash brass base</dd></div>
+            <div class="specs__row reveal"><dt>In the box</dt><dd>Lick-well, scent labyrinth, chew core, weighted base, quick-start guide</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="section reserve" id="reserve">
+        <div class="wrap reserve__grid">
+          <div class="reserve__copy reveal">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>Reserve</p>
+            <h2>Be first to the first run.</h2>
+            <p>
+              We are building PawClock in small batches. Reserve your place now and we will hold your spot for the
+              first production run.
+            </p>
+            <p class="reserve__price"><span>$129</span> concept reservation</p>
+            <ul class="reserve__points">
+              <li>No payment taken today</li>
+              <li>Fully refundable at any time</li>
+              <li>One email when production opens</li>
+            </ul>
+          </div>
+
+          <form class="order reveal" data-order-form style="--delay: 100ms">
+            <div class="order__head">
+              <h3>Reserve your PawClock</h3>
+              <span>No payment today</span>
+            </div>
+
+            <label class="field">
+              <span>Full name</span>
+              <input type="text" name="name" autocomplete="name" required minlength="2" maxlength="80" placeholder="Ada Lovelace" />
+            </label>
+
+            <label class="field">
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="email" required maxlength="160" placeholder="ada@example.com" />
+            </label>
+
+            <label class="field">
+              <span>Quantity</span>
+              <select name="quantity">
+                <option value="1">1 — $129</option>
+                <option value="2">2 — $258</option>
+                <option value="3">3 — $387</option>
+              </select>
+            </label>
+
+            <div class="field field--honeypot" aria-hidden="true">
+              <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+            </div>
+
+            <button class="btn btn--dark btn--full" type="submit">Reserve PawClock</button>
+            <p class="order__status" data-order-status role="status" aria-live="polite"></p>
+            <p class="order__note">Concept reservations are free and refundable. We only use your email for PawClock updates.</p>
+          </form>
+        </div>
+      </section>
+
+      <section class="section faq" id="faq">
+        <div class="wrap faq__inner">
+          <div class="section__head reveal">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>Questions</p>
+            <h2>A few honest answers.</h2>
+          </div>
+
+          <div class="faq__list">
+            <details class="faq__item reveal">
+              <summary>Is PawClock safe to leave unsupervised?<span class="faq__icon" aria-hidden="true"></span></summary>
+              <div class="faq__answer">
+                <p>
+                  Every module is pet-safe and chew-resistant, but no enrichment device replaces your vet's advice.
+                  Start with short sessions, inspect the modules regularly, and retire the chew core at the first sign
+                  of deep wear.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq__item reveal" style="--delay: 40ms">
+              <summary>Does it need an app or batteries?<span class="faq__icon" aria-hidden="true"></span></summary>
+              <div class="faq__answer">
+                <p>
+                  No. The chrono base is fully mechanical. Twist to set the sequence and PawClock runs the two-hour
+                  cycle without a phone, a battery or a subscription.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq__item reveal" style="--delay: 80ms">
+              <summary>How do I clean it?<span class="faq__icon" aria-hidden="true"></span></summary>
+              <div class="faq__answer">
+                <p>
+                  The lick-well, scent labyrinth and chew core are top-rack dishwasher-safe. Wipe the brass base with a
+                  damp cloth and mild soap; do not submerge it.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq__item reveal" style="--delay: 120ms">
+              <summary>What size dogs is it for?<span class="faq__icon" aria-hidden="true"></span></summary>
+              <div class="faq__answer">
+                <p>
+                  PawClock is designed for dogs from 5 kg upward. The weighted base suits most homes; for determined
+                  power chewers, choose the reinforced chew core when it launches.
+                </p>
+              </div>
+            </details>
+
+            <details class="faq__item reveal" style="--delay: 160ms">
+              <summary>When will it ship?<span class="faq__icon" aria-hidden="true"></span></summary>
+              <div class="faq__answer">
+                <p>
+                  PawClock is a concept study. Reservations are free and refundable, and we will confirm timing and
+                  final specifications before any payment is taken.
+                </p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer__grid">
+        <div class="footer__brand">
+          <a class="brand brand--light" href="#top" aria-label="PawClock home">
+            <svg class="brand__mark" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+              <circle cx="22" cy="22" r="20.5" fill="none" stroke="currentColor" stroke-width="1.5" />
+              <path d="M22 7v4M22 33v4M7 22h4M33 22h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              <ellipse cx="15.4" cy="18.2" rx="2.4" ry="3.1" transform="rotate(-18 15.4 18.2)" fill="currentColor" />
+              <ellipse cx="22" cy="15.4" rx="2.4" ry="3.1" fill="currentColor" />
+              <ellipse cx="28.6" cy="18.2" rx="2.4" ry="3.1" transform="rotate(18 28.6 18.2)" fill="currentColor" />
+              <path d="M22 21.4c3.7 0 6.3 2.7 6.3 5.7 0 2.6-2.3 4.3-6.3 4.3s-6.3-1.7-6.3-4.3c0-3 2.6-5.7 6.3-5.7Z" fill="currentColor" />
+            </svg>
+            <span class="brand__word">PawClock<sup>™</sup></span>
+          </a>
+          <p>Designed for the hours you're away.</p>
+        </div>
+
+        <nav class="footer__links" aria-label="Footer">
+          <a href="#ritual">The ritual</a>
+          <a href="#engineering">Engineering</a>
+          <a href="#specs">Specs</a>
+          <a href="#reserve">Reserve</a>
+        </nav>
+
+        <div class="footer__meta">
+          <p>© <span data-year>2026</span> PawClock. A concept product study.</p>
+          <p>Concept imagery and renders.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
