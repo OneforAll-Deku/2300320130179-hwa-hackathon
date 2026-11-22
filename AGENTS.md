@@ -36,11 +36,13 @@ This file is the single source of truth for decisions and progress, so any model
 - (2026-11-22) Phase 02 now frames the maze ball as a dog toy/food dispenser; Phase 04 calming-scent guide is read in detail; all site prices now use INR.
 - (2026-11-23) Phase 02 changed to Maze ball food dispenser; Facebook video replaced with YouTube https://youtu.be/3NEa7C8JqvI; viewer module list, cutaway caption, and buy card updated.
 - (2026-11-23) Interactive product configurator added: Teal/Cyan/Warm Peach colorway picker (#008296, #0abfd7, #eaf7fb) with live swatch preview, and optional refill subscriptions (Broth Pods ₹599/mo, Calming Chews ₹499/mo) with live total; selections carried to the order form as hidden fields.
+- (2026-11-23) MaskedHeading component added: vanilla JS text-masked heading (`src/ui/MaskedHeading.js`) revealing a metallic gradient through the letters, cursor-following spotlight, 1px brass (#b98a3c) outline, text-wrap: balance, prefers-reduced-motion support; used on the ritual section header.
 
 ## Structure
 
 - `index.html` — single landing page: hero + 3D viewer, problem timeline, four phases, engineering, steps, specs, reserve form, FAQ, footer.
-- `src/main.js` — nav, reveal animations, lazy-loads viewer, order form submission.
+- `src/main.js` — nav, reveal animations, lazy-loads viewer, order form submission, back-to-top, MaskedHeading mount.
+- `src/ui/MaskedHeading.js` — text-masked heading with brass stroke, metallic gradient reveal, cursor spotlight.
 - `src/viewer.js` — Three.js scene, GLB loading, per-mesh material recolor, raycast part hover/tooltips, phase highlighting and click-to-phase links, orbit controls, auto-rotate, fallbacks.
 - `src/styles/main.css` — design system and responsive layout.
 - `api/order.js` — Vercel serverless order endpoint; shared validation also used by the Vite dev server.

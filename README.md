@@ -84,11 +84,25 @@ Example success body:
 - **Custom CSS** — design system, responsive layout, reveal animations, smooth scroll
 - **Vercel serverless function** — `api/order.js` order endpoint
 
+## Masked Heading component
+
+**`src/ui/MaskedHeading.js`** — vanilla JS component for a text-masked heading that reveals a metallic gradient (or optional background video) through the letters.
+
+- Accepts a headline string + target element
+- CSS `background-clip: text` mask with animated metallic gradient
+- Cursor-following spotlight effect over the letters
+- Subtle 1px brass (`#b98a3c`) outline via `-webkit-text-stroke` so text stays readable over bright or dark frames
+- Fully responsive with `text-wrap: balance`
+- Honors `prefers-reduced-motion` (disables spotlight and gradient animation)
+
+Used on the **The ritual** section heading ("Four phases, one quiet countdown.").
+
 ### Repository structure
 
 ```
 index.html          # Single landing page: hero + 3D viewer, ritual curve, four phases, engineering, specs, buy, reserve, FAQ, footer
-src/main.js         # Nav, reveal animations, lazy viewer load, order form submission, back-to-top
+src/main.js         # Nav, reveal animations, lazy viewer load, order form submission, back-to-top, MaskedHeading mount
+src/ui/MaskedHeading.js  # Text-masked heading with brass stroke, metallic gradient reveal, cursor spotlight
 src/viewer.js       # Three.js scene, GLB load, per-mesh materials, part hover/tooltips, phase chips, click-to-phase
 src/styles/main.css # Design system and responsive layout
 api/order.js        # Vercel order endpoint validation
