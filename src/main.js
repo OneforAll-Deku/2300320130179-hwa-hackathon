@@ -1,4 +1,5 @@
 import './styles/main.css'
+import { MaskedHeading } from './ui/MaskedHeading.js'
 
 document.documentElement.classList.add('js')
 
@@ -128,6 +129,15 @@ navToggle?.addEventListener('click', () => {
   }
 
   updateConfig()
+  MountMaskedHeading()
+
+  function MountMaskedHeading() {
+    const container = document.querySelector('[data-masked-heading]')
+    if (container) {
+      const text = container.dataset.maskedHeading || ''
+      MaskedHeading({ el: container, text, tag: 'h2', background: 'gradient' })
+    }
+  }
 
   document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') setMenu(false)
