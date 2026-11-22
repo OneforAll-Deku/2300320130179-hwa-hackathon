@@ -64,9 +64,12 @@ This file is the single source of truth for decisions and progress, so any model
 - Phase video, calming-scent, and INR buy-content additions complete and locally verified: build passes, phase videos and buy cards render, no console errors, no horizontal overflow.
 - Phase 02 dog-toy/food-dispenser context, Phase 04 calming-scent detail, and INR-wide price updates complete and locally verified: production build passes, no console errors, no horizontal overflow.
 - Phase 02 maze-ball video/content change complete: YouTube https://youtu.be/3NEa7C8JqvI replaces Facebook embed; build passes, no console errors.
-- Phase 04 Settle expanded: weighted chrono base + calming scent routine copy, A-Z Animals calming-scent reference list, external guide link, and new phase-4-settle.svg placeholder image; build passes, no console errors.
+- Phase 04 Settle expanded: weighted chrono base + calming scent routine copy, A-Z Animals calming-scent reference list, external guide link; build passes, no console errors.
 - Phase 04 now includes the YouTube calming-scent video alongside the A-Z Animals blog link; build passes, no console errors.
+- Phase 04 image reverted to phase-4-settle.jpg; full set price corrected to ₹34,999 (saves ₹3,000 vs separate modules totaling ₹37,998); FAQ covers separate-module purchase and direct-to-consumer distribution; a back-to-top button was added.
 - Viewer timer updated: deprecated THREE.Clock replaced with THREE.Timer in src/viewer.js; build passes.
+
+- Phase 04 image reverted to phase-4-settle.jpg; full set price corrected to ₹34,999 (saves ₹3,000 vs separate modules totaling ₹37,998); FAQ covers separate-module purchase and direct-to-consumer distribution; a back-to-top button was added.
 
 ## Next steps
 

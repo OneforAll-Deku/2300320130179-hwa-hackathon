@@ -27,11 +27,21 @@ navToggle?.addEventListener('click', () => {
   setMenu(!nav?.classList.contains('is-open'))
 })
 
-navLinks?.querySelectorAll('a').forEach((link) => {
-  link.addEventListener('click', () => setMenu(false))
-})
+  navLinks?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setMenu(false))
+  })
 
-document.addEventListener('keydown', (event) => {
+  const backToTop = document.getElementById('back-to-top')
+  if (backToTop) {
+    const toggleBackToTop = () => backToTop.classList.toggle('is-visible', window.scrollY > 500)
+    window.addEventListener('scroll', toggleBackToTop, { passive: true })
+    backToTop.addEventListener('click', () => {
+      const top = document.getElementById('top')
+      if (top) top.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
+
+  document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') setMenu(false)
 })
 
