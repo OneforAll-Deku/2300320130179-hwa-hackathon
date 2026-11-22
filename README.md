@@ -112,6 +112,7 @@ index.html          # Single landing page: hero + 3D viewer, ritual curve, four 
 src/main.js         # Nav, reveal animations, lazy viewer load, order form submission, back-to-top, MaskedHeading mount
 src/ui/MaskedHeading.js  # Text-masked heading with brass stroke, metallic gradient reveal, cursor spotlight
 src/ui/RitualScrubber.js # Interactive 2-hour ritual timeline scrubber with phase detail and jump-to-phase links
+src/ui/SpotlightCard.js # Cursor-tracking brass sheen spotlight overlay for phase and buy cards
 src/viewer.js       # Three.js scene, GLB load, per-mesh materials, part hover/tooltips, phase chips, click-to-phase
 src/styles/main.css # Design system and responsive layout
 api/order.js        # Vercel order endpoint validation
