@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PawClock™ 4-Phase Chrono-Feeder — Photorealistic Kinematic Simulation</title>
+  <meta name="description" content="Interactive detailed 3D model of the PawClock 4-phase chrono-feeder.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>PawClock™ 4-Phase Chrono-Feeder — Detailed 3D Model</title>
   <style>
     :root {
       --bg: #06090e;
@@ -71,6 +73,10 @@
       flex-wrap: wrap;
     }
 
+    @media (min-width: 1200px) {
+      .top-bar { padding-right: 340px; }
+    }
+
     .brand-card {
       background: var(--card-bg);
       backdrop-filter: blur(18px);
@@ -103,6 +109,23 @@
       font-size: 10.5px;
       color: #94a3b8;
       margin-top: 3px;
+    }
+
+    .brand-back {
+      display: inline-flex;
+      margin-top: 7px;
+      color: var(--cyan);
+      font-size: 10.5px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-back:hover,
+    .brand-back:focus-visible {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
     /* Action Toolbar */
@@ -204,12 +227,15 @@
     /* Right Sidebar */
     .sidebar-right {
       position: absolute;
-      top: 68px;
+      top: 16px;
       right: 20px;
+      bottom: 160px;
       width: 320px;
       display: flex;
       flex-direction: column;
       gap: 9px;
+      overflow-y: auto;
+      scrollbar-width: thin;
     }
 
     .glass-card {
@@ -438,8 +464,10 @@
     /* Interaction Hint */
     .drag-hint {
       position: absolute;
-      bottom: 110px;
+      bottom: 160px;
       left: 18px;
+      width: 430px;
+      max-width: calc(100vw - 36px);
       background: var(--card-bg);
       backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -450,18 +478,61 @@
       display: flex;
       flex-direction: column;
       gap: 3px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
     }
     .drag-hint b { color: var(--cyan); }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1199px) {
       .sidebar-right { display: none; }
+    }
+
+    @media (max-width: 900px) {
       .stepper-grid { grid-template-columns: repeat(2, 1fr); }
+      .drag-hint { display: none; }
+      .bottom-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .bottom-header > div:last-child {
+        display: flex;
+        gap: 6px;
+      }
+      .bottom-header > div:last-child .tool-btn {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hud { padding: 12px; }
+      .brand-card { padding: 9px 12px; }
+      .action-toolbar { gap: 5px; }
+      .tool-btn,
+      .btn-swat,
+      .btn-eject,
+      .btn-invert {
+        padding: 6px 9px;
+        font-size: 10px;
+      }
+      .bottom-bar {
+        padding: 9px 11px;
+        gap: 7px;
+        border-radius: 14px;
+      }
+      .phase-badge-large {
+        flex-wrap: wrap;
+        row-gap: 2px;
+      }
+      .stepper-grid { gap: 5px; }
+      .step-item { padding: 6px 7px; }
+      .step-name { font-size: 10px; }
+      .step-mech { font-size: 8px; }
     }
   </style>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/GLTFExporter.js"></script>
 </head>
 <body>
 
@@ -479,6 +550,7 @@
         <p class="brand-subtitle">
           Studio PBR IBL Shading • Sub-Stepped RK4 Wobble Dynamics • Ejecting Chew Core • Dog-Proof Timer
         </p>
+        <a class="brand-back" href="/">← Back to PawClock site</a>
       </div>
 
       <div class="action-toolbar">
@@ -487,7 +559,6 @@
         <button class="tool-btn" id="mode-section">📐 CAD Section</button>
         <button class="tool-btn" id="mode-exploded">💥 Exploded View</button>
         <button class="tool-btn" id="btn-bottom-timer">⏱️ View Hidden Timer</button>
-        <button class="tool-btn" id="btn-export-glb" style="border-color:#10b981; color:#34d399; background:rgba(16,185,129,0.15); font-weight:800;">💾 Export .GLB</button>
         <button class="tool-btn active" id="btn-sound-toggle">🔊 Audio: ON</button>
         <!-- Kinetic Action Buttons -->
         <button class="btn-swat" id="btn-swat">🐾 Dog Paw Swat</button>
@@ -1912,70 +1983,6 @@
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
-
-    // --- GLTF/GLB EXPORT PIPELINE FOR OPENCODE ---
-    function exportPawClockGLB() {
-      const btn = document.getElementById('btn-export-glb');
-      if (btn) btn.textContent = '⏳ Exporting GLB...';
-
-      try {
-        const exporter = new THREE.GLTFExporter();
-        const rootExport = new THREE.Group();
-        rootExport.name = "PawClock_4Phase_Assembly";
-
-        // Create clean clone in neutral resting pose
-        const pivotClone = wobblePivot.clone(true);
-        pivotClone.position.set(0, 0, 0);
-        pivotClone.rotation.set(0, 0, 0);
-        rootExport.add(pivotClone);
-
-        const chewClone = chewRingMesh.clone(true);
-        chewClone.position.set(0, 0.44, 0);
-        chewClone.rotation.set(0, 0, 0);
-        rootExport.add(chewClone);
-
-        exporter.parse(
-          rootExport,
-          function(result) {
-            // result is ArrayBuffer
-            const blob = new Blob([result], { type: 'model/gltf-binary' });
-
-            // Trigger browser download
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'pawclock.glb';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            // Also post to local node server if available
-            fetch('/api/save-glb', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/octet-stream' },
-              body: result
-            }).then(r => r.json()).then(res => {
-              console.log('✅ Server saved GLB:', res);
-              if (btn) btn.textContent = '✅ .GLB Exported!';
-              document.title = 'GLB_EXPORT_DONE';
-            }).catch(() => {
-              if (btn) btn.textContent = '✅ .GLB Downloaded!';
-              document.title = 'GLB_EXPORT_DONE';
-            });
-          },
-          { binary: true }
-        );
-      } catch (err) {
-        console.error('GLB Export Error:', err);
-        if (btn) btn.textContent = '❌ Export Failed';
-      }
-    }
-
-    const exportBtn = document.getElementById('btn-export-glb');
-    if (exportBtn) exportBtn.addEventListener('click', exportPawClockGLB);
-
-    if (window.location.search.includes('autoexport=1')) {
-      setTimeout(exportPawClockGLB, 1800);
-    }
 
     selectStep(1);
   </script>

@@ -684,6 +684,45 @@ li {
   outline-offset: 2px;
 }
 
+.viewer__detail {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0.75rem auto 0;
+  padding: 0.48rem 0.9rem;
+  border: 1px solid rgba(185, 138, 60, 0.42);
+  border-radius: 999px;
+  background: rgba(185, 138, 60, 0.09);
+  color: var(--teal);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.viewer__detail span {
+  color: var(--brass);
+}
+
+.viewer__detail:hover,
+.viewer__detail:focus-visible {
+  border-color: rgba(185, 138, 60, 0.75);
+  background: rgba(185, 138, 60, 0.16);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.viewer__detail:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
 .viewer__parts {
   margin-top: 0.6rem;
   font-size: 0.72rem;

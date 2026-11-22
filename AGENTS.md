@@ -31,6 +31,7 @@ This file is the single source of truth for decisions and progress, so any model
 - (2026-11-22) Realism pass: dynamic key-light shadows on a soft contact plane, ACES exposure and stronger rim/fill lighting, PBR tuning per original material, clearcoat on painted polymer parts, and procedural brushed/noise roughness and bump maps. The GLB remains untouched.
 - (2026-11-22) Added a procedural brass chrono dial on the lid: cream face, minute ticks, phase markers, printed brand copy, raised brass bezel, center cap and hand. It is a visual detail, not a pickable module. The hero camera was raised slightly so the dial reads at first glance.
 - (2026-11-22) Kept the exploded layout with the base module separated; hiding it lost the bowl detail and attaching it visually read as a pedestal. The exploded assembly stays intentional.
+- (2026-11-22) Standalone detailed 3D studio viewer integrated at `public/pawclock-3d-model.html`; landing page adds an "Explore the detailed 3D model" link and the viewer adds a back link; missing GLB export/server save and hidden auto-export removed; responsive HUD fixes applied.
 
 ## Structure
 
@@ -40,6 +41,7 @@ This file is the single source of truth for decisions and progress, so any model
 - `src/styles/main.css` — design system and responsive layout.
 - `api/order.js` — Vercel serverless order endpoint; shared validation also used by the Vite dev server.
 - `public/` — deployable model, images, favicon.
+- `public/pawclock-3d-model.html` — detailed procedural Three.js studio viewer; landing page links to it.
 - `design/` — presentation/source visuals, not deployed.
 
 ## Progress / state
@@ -55,6 +57,7 @@ This file is the single source of truth for decisions and progress, so any model
 - Exploded base kept; comparison screenshots show hiding it removes the bowl detail and moving it lower reads as a pedestal.
 - Push hold lifted: committed and pushed to `main` (commit `4b82bf9`) on 2026-11-22. The canonical Vercel deployment matches the pushed source.
 - The clipboard image could not be read as a file; it was treated as a screenshot of the current viewer. No replacement image is pending unless the user supplies one.
+- Detailed standalone viewer integration complete and locally verified: production build passes, detailed page loads with no console errors, interactions/steppers work, mobile layout avoids horizontal overflow, and the landing-page link navigates to the detail page with no console errors.
 
 ## Next steps
 
