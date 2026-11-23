@@ -81,6 +81,7 @@ This file is the single source of truth for decisions and progress, so any model
 - Phase 04 image reverted to phase-4-settle.jpg; full set price corrected to ₹34,999 (saves ₹3,000 vs separate modules totaling ₹37,998); FAQ covers separate-module purchase and direct-to-consumer distribution; a back-to-top button was added.
 - Viewer timer updated: deprecated THREE.Clock replaced with THREE.Timer in src/viewer.js; build passes.
 - Ritual polish verified locally: two-column phase grid restored with sticky media (`mediaTop 108` while the article scrolls), `#ritual` anchor lands at 100px, apothecary tab switching works and the active panel renders, no horizontal overflow at 1440/390, no console errors.
+- Ritual polish committed (`3914600`), pushed to `main` and deployed with `vercel --prod`; live checks confirm 17px body text, sticky phase media, paused offscreen masked heading, anchor landing (ritual 100px, buy 101px), apothecary panel, no overflow/errors, and `POST /api/order` returning 201 (`PC-GNULC2X91`).
 
 ## Next steps
 
