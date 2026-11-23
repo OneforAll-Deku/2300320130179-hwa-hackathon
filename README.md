@@ -105,8 +105,10 @@ Example success body:
 
 - **Above the fold renders immediately** — the hero has no JS-gated reveal, so the headline and 3D stage paint on first load.
 - **Click-to-load video facades** — each phase shows a local poster with a play button; the YouTube (privacy-enhanced `youtube-nocookie`) iframe is injected only on click.
-- **Lazy 3D viewer** — Three.js is code-split and imported on idle; rendering pauses when the viewer scrolls offscreen, and mobile DPR is capped at 1.5.
+- **Lazy 3D viewer** — Three.js is code-split and imported on idle; rendering pauses when the viewer scrolls offscreen or the page is actively scrolling, and mobile DPR is capped at 1.5.
 - **Compositor-friendly reveals** — below-the-fold sections fade/translate in once via `IntersectionObserver` using opacity + transform only, with a shared `--ease-out` token and `prefers-reduced-motion` handling.
+- **Scroll without paint storms** — the fixed nav and phase tags use solid translucent fills instead of `backdrop-filter`, and the masked heading pauses its gradient animation while offscreen.
+- **Sticky phase media** — on desktop each phase photograph sticks beside its copy (top 108px), so long Phase 04 content scrolls while the image stays in view; `body` uses `overflow-x: clip` so sticky positioning is not disabled.
 - **Cheap section isolation** — sections use `contain: layout paint` (content-visibility was tested and rejected because it broke anchor landing positions).
 - **Nav scroll-spy** — the active section is underlined via a single IntersectionObserver with no scroll listeners.
 
@@ -119,6 +121,7 @@ Example success body:
 - Cursor-following spotlight effect over the letters
 - Subtle 1px brass (`#b98a3c`) outline via `-webkit-text-stroke` so text stays readable over bright or dark frames
 - Fully responsive with `text-wrap: balance`
+- Pauses the gradient animation when scrolled offscreen
 - Honors `prefers-reduced-motion` (disables spotlight and gradient animation)
 
 Used on the **The ritual** section heading ("Four phases, one quiet countdown.").

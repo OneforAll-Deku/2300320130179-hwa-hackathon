@@ -156,7 +156,7 @@ navToggle?.addEventListener('click', () => {
       panels.forEach((panel) => {
         const active = panel.dataset.scent === scent
         panel.classList.toggle('apothecary__panel--active', active)
-        panel.setAttribute('hidden', !active)
+        panel.hidden = !active
       })
     }
 
@@ -178,7 +178,7 @@ navToggle?.addEventListener('click', () => {
   }
 
   function MountSpotlightCard() {
-    SpotlightCard({ selector: '.phase' })
+    SpotlightCard({ selector: '.phase', wrapChildren: false })
     SpotlightCard({ selector: '.buy__card' })
   }
 

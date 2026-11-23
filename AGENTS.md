@@ -43,13 +43,15 @@ This file is the single source of truth for decisions and progress, so any model
 - (2026-11-23) UI polish pass: hero marquee, "Parts in the model" list, stage caption, duplicate nav Reserve link, and redundant Phase 04 scent note removed; Buy section rebuilt with full-bleed product images, phase number tags, price+CTA footer rows, and a premium full-set banner (badge, strike-through compare price ₹37,998 → ₹34,999); hero gained bottom padding after marquee removal; unused marquee/parts/nav-reserve/video-note CSS deleted.
 - (2026-11-23) Buy expanded into a shop-with-accessories section: "Buy" added to navbar and footer; new "Dog products, made to pair" grid with four companion products — Broth Pods 8-pack ₹699, Calming Chews jar ₹599, Replacement chew core ₹1,299, Travel & storage pouch ₹1,499 — each with a procedurally drawn brand-palette SVG product render in `public/images/` (no text baked into art, tag pills overlay); cards gained a hover lift; full-set banner retained below.
 - (2026-11-23) Rendering/animation optimization pass: hero content renders immediately (no JS-gated reveals above the fold); redundant "Load. Set. Leave." steps section and hero stat row removed; three YouTube embeds replaced with click-to-load facades using local phase photos as posters (iframes injected as youtube-nocookie on click); unified `--ease-out` token with subtler 14px reveals; nav scroll-spy active state; safer `contain: layout paint` section isolation (content-visibility was rejected because it broke anchor landing); mobile viewer DPR capped at 1.5; global reduced-motion duration override replaced with targeted handling.
+- (2026-11-23) Ritual typography/UX polish: body base 17px; global `text-wrap: balance` for headings and `pretty` for prose; phase rows get dividers and generous spacing; sticky phase media on desktop (top 108px) inside a two-column start-aligned grid; phase headings tightened (clamp 1.85–2.35rem, line-height 1.1); chips and apothecary tabs restyled with 1px borders, brass active state and focus rings. Copy fixes: Phase 01/02/04 paragraphs tightened, Phase 04 heading shortened to "Weighted chrono base", curly apostrophes normalized.
+- (2026-11-23) Scroll-jank fixes: nav and phase tags no longer use `backdrop-filter` (solid translucent backgrounds instead); `body overflow-x` switched from `hidden` to `clip` so sticky media works; MaskedHeading pauses its gradient animation via IntersectionObserver when offscreen; Three.js viewer skips rendering while the page is actively scrolling. SpotlightCard gained `wrapChildren: false` for open-layout cards because its wrapper collapsed the phase grid and disabled sticky. Apothecary active panel now toggles the `hidden` DOM property (the previous `hidden="false"` attribute kept every panel hidden).
 
 ## Structure
 
 - `index.html` — single landing page: hero + 3D viewer, problem timeline, four phases, engineering, steps, specs, reserve form, FAQ, footer.
 - `src/main.js` — nav, reveal animations, lazy-loads viewer, order form submission, back-to-top, MaskedHeading mount.
 - `src/ui/MaskedHeading.js` — text-masked heading with brass stroke, metallic gradient reveal, cursor spotlight.
-- `src/ui/SpotlightCard.js` — cursor-tracking brass sheen spotlight overlay for phase and buy cards.
+- `src/ui/SpotlightCard.js` — cursor-tracking brass sheen spotlight overlay for phase and buy cards; `wrapChildren: false` keeps open layouts (phase grid + sticky media) intact.
 - `src/viewer.js` — Three.js scene, GLB loading, per-mesh material recolor, raycast part hover/tooltips, phase highlighting and click-to-phase links, orbit controls, auto-rotate, fallbacks.
 - `src/styles/main.css` — design system and responsive layout.
 - `api/order.js` — Vercel serverless order endpoint; shared validation also used by the Vite dev server.
@@ -78,8 +80,7 @@ This file is the single source of truth for decisions and progress, so any model
 - Phase 04 now includes the YouTube calming-scent video alongside the A-Z Animals blog link; build passes, no console errors.
 - Phase 04 image reverted to phase-4-settle.jpg; full set price corrected to ₹34,999 (saves ₹3,000 vs separate modules totaling ₹37,998); FAQ covers separate-module purchase and direct-to-consumer distribution; a back-to-top button was added.
 - Viewer timer updated: deprecated THREE.Clock replaced with THREE.Timer in src/viewer.js; build passes.
-
-- Phase 04 image reverted to phase-4-settle.jpg; full set price corrected to ₹34,999 (saves ₹3,000 vs separate modules totaling ₹37,998); FAQ covers separate-module purchase and direct-to-consumer distribution; a back-to-top button was added.
+- Ritual polish verified locally: two-column phase grid restored with sticky media (`mediaTop 108` while the article scrolls), `#ritual` anchor lands at 100px, apothecary tab switching works and the active panel renders, no horizontal overflow at 1440/390, no console errors.
 
 ## Next steps
 

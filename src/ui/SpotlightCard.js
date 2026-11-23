@@ -7,13 +7,13 @@
  *
  * Usage:
  *   import { SpotlightCard } from './ui/SpotlightCard.js';
- *   SpotlightCard({ selector: '.phase' });
+ *   SpotlightCard({ selector: '.phase', wrapChildren: false });
  *   SpotlightCard({ selector: '.buy__card' });
  */
 
 const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-export function SpotlightCard({ selector } = {}) {
+export function SpotlightCard({ selector, wrapChildren = true } = {}) {
   const cards = document.querySelectorAll(selector);
   if (!cards.length) return null;
 
@@ -22,15 +22,17 @@ export function SpotlightCard({ selector } = {}) {
 
     card.classList.add('spotlight-card');
     card.style.position = 'relative';
-    card.style.overflow = 'hidden';
 
-    // Move existing children into an inner wrapper so the overlay can sit on top.
-    const inner = document.createElement('div');
-    inner.className = 'spotlight-card__inner';
-    while (card.firstChild) {
-      inner.appendChild(card.firstChild);
+    if (wrapChildren) {
+      card.style.overflow = 'hidden';
+
+      const inner = document.createElement('div');
+      inner.className = 'spotlight-card__inner';
+      while (card.firstChild) {
+        inner.appendChild(card.firstChild);
+      }
+      card.appendChild(inner);
     }
-    card.appendChild(inner);
 
     const overlay = document.createElement('div');
     overlay.className = 'spotlight-card__overlay';

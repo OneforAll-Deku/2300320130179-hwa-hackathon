@@ -697,9 +697,23 @@ export function createModelViewer(root) {
   const timer = new THREE.Timer()
   timer.start()
 
+  let scrolling = false
+  let scrollTimeout = 0
+  window.addEventListener(
+    'scroll',
+    () => {
+      scrolling = true
+      window.clearTimeout(scrollTimeout)
+      scrollTimeout = window.setTimeout(() => {
+        scrolling = false
+      }, 140)
+    },
+    { passive: true }
+  )
+
   function render() {
     requestAnimationFrame(render)
-    if (!visible) return
+    if (!visible || scrolling) return
     controls.update(Math.min(timer.getDelta(), 0.05))
     renderer.render(scene, camera)
   }

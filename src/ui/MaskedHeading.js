@@ -62,6 +62,17 @@ export function MaskedHeading({
   container.innerHTML = '';
   container.appendChild(heading);
 
+  const motionObserver =
+    'IntersectionObserver' in window
+      ? new IntersectionObserver(
+          ([entry]) => {
+            heading.classList.toggle('is-paused', !entry.isIntersecting)
+          },
+          { rootMargin: '120px' }
+        )
+      : null;
+  motionObserver?.observe(heading);
+
   const reduced = REDUCED_MOTION.matches;
   let raf = null;
 
@@ -98,6 +109,7 @@ export function MaskedHeading({
     destroy() {
       heading.removeEventListener('mousemove', updateSpotlight);
       heading.removeEventListener('mouseleave', hideSpotlight);
+      motionObserver?.disconnect();
       REDUCED_MOTION.removeEventListener('change', () => {});
     },
   };
