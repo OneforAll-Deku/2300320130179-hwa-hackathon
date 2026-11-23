@@ -1,11 +1,11 @@
 import './styles/main.css'
-import { CustomCursor } from './ui/CustomCursor.js'
+import { CursorLens } from './ui/CursorLens.js'
 import { MaskedHeading } from './ui/MaskedHeading.js'
 import { SpotlightCard } from './ui/SpotlightCard.js'
 
 document.documentElement.classList.add('js')
 
-CustomCursor()
+CursorLens()
 
 const year = document.querySelector('[data-year]')
 if (year) year.textContent = String(new Date().getFullYear())

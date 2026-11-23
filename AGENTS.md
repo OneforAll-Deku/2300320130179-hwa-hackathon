@@ -46,6 +46,7 @@ This file is the single source of truth for decisions and progress, so any model
 - (2026-11-23) Ritual typography/UX polish: body base 17px; global `text-wrap: balance` for headings and `pretty` for prose; phase rows get dividers and generous spacing; sticky phase media on desktop (top 108px) inside a two-column start-aligned grid; phase headings tightened (clamp 1.85–2.35rem, line-height 1.1); chips and apothecary tabs restyled with 1px borders, brass active state and focus rings. Copy fixes: Phase 01/02/04 paragraphs tightened, Phase 04 heading shortened to "Weighted chrono base", curly apostrophes normalized.
 - (2026-11-23) Scroll-jank fixes: nav and phase tags no longer use `backdrop-filter` (solid translucent backgrounds instead); `body overflow-x` switched from `hidden` to `clip` so sticky media works; MaskedHeading pauses its gradient animation via IntersectionObserver when offscreen; Three.js viewer skips rendering while the page is actively scrolling. SpotlightCard gained `wrapChildren: false` for open-layout cards because its wrapper collapsed the phase grid and disabled sticky. Apothecary active panel now toggles the `hidden` DOM property (the previous `hidden="false"` attribute kept every panel hidden).
 - (2026-11-23) Custom cursor added (`src/ui/CustomCursor.js`): desktop-only brass dot with a trailing ring, native cursor hidden only while active; the ring expands over links/buttons and shows contextual labels from `data-cursor-label` ("Drag" on the 3D viewer, "Play" on video facades); the cursor hides when a facade swaps in a YouTube iframe; touch devices and `prefers-reduced-motion` keep the native cursor.
+- (2026-11-23) Cursor reworked into a theme-native brass lens (`src/ui/CursorLens.js`): cream-filled disc with a brass rim and teal core, soft trailing motion, grows over links/buttons and emits brass ripple rings on click; the dot/ring with Drag/Play labels was removed. Still desktop-only, with native cursor on touch/reduced motion and hidden over injected video iframes.
 
 ## Structure
 
@@ -53,7 +54,7 @@ This file is the single source of truth for decisions and progress, so any model
 - `src/main.js` — nav, reveal animations, lazy-loads viewer, order form submission, back-to-top, MaskedHeading mount.
 - `src/ui/MaskedHeading.js` — text-masked heading with brass stroke, metallic gradient reveal, cursor spotlight.
 - `src/ui/SpotlightCard.js` — cursor-tracking brass sheen spotlight overlay for phase and buy cards; `wrapChildren: false` keeps open layouts (phase grid + sticky media) intact.
-- `src/ui/CustomCursor.js` — desktop cursor dot/ring treatment with hover states and contextual labels.
+- `src/ui/CursorLens.js` — desktop brass-rimmed lens cursor with click ripples.
 - `src/viewer.js` — Three.js scene, GLB loading, per-mesh material recolor, raycast part hover/tooltips, phase highlighting and click-to-phase links, orbit controls, auto-rotate, fallbacks.
 - `src/styles/main.css` — design system and responsive layout.
 - `api/order.js` — Vercel serverless order endpoint; shared validation also used by the Vite dev server.
@@ -86,6 +87,7 @@ This file is the single source of truth for decisions and progress, so any model
 - Ritual polish committed (`3914600`), pushed to `main` and deployed with `vercel --prod`; live checks confirm 17px body text, sticky phase media, paused offscreen masked heading, anchor landing (ritual 100px, buy 101px), apothecary panel, no overflow/errors, and `POST /api/order` returning 201 (`PC-GNULC2X91`).
 - Custom cursor verified locally: follower and ring track the pointer, ring expands over nav links, viewer shows the "Drag" label, facade button shows "Play", pressed state works, buttons remain clickable, no cursor on touch/reduced-motion, no console errors.
 - Custom cursor committed (`2c6739e`), pushed to `main` and deployed; live checks confirm dot/ring tracking, native cursor suppression, "Drag"/"Play" labels, pressed state, working tab clicks, and no cursor on touch or reduced motion.
+- Brass lens cursor verified locally: follows the pointer with a trailing lens, grows over nav links, ripples on click and cleans up, hides over injected iframes, buttons remain clickable, no cursor on touch/reduced-motion, no console errors.
 
 ## Next steps
 
