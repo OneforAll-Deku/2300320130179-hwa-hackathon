@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="PawClock Broth Pods refill pack of eight frozen broth pods in a cream tray">
+  <rect width="800" height="450" fill="#f1e8d8"/>
+  <circle cx="640" cy="120" r="90" fill="#e9dcc7" opacity="0.6"/>
+  <circle cx="170" cy="340" r="70" fill="#e9dcc7" opacity="0.45"/>
+  <ellipse cx="400" cy="330" rx="250" ry="26" fill="rgba(16,46,42,0.10)"/>
+  <rect x="160" y="140" width="480" height="190" rx="32" fill="#fffdf8" stroke="#b98a3c" stroke-width="4"/>
+  <g>
+    <circle cx="250" cy="196" r="38" fill="#0c5a52"/><ellipse cx="239" cy="184" rx="13" ry="9" fill="rgba(255,255,255,0.35)"/>
+    <circle cx="400" cy="196" r="38" fill="#0c5a52"/><ellipse cx="389" cy="184" rx="13" ry="9" fill="rgba(255,255,255,0.35)"/>
+    <circle cx="550" cy="196" r="38" fill="#0c5a52"/><ellipse cx="539" cy="184" rx="13" ry="9" fill="rgba(255,255,255,0.35)"/>
+    <circle cx="250" cy="280" r="38" fill="#0abfd7"/><ellipse cx="239" cy="268" rx="13" ry="9" fill="rgba(255,255,255,0.45)"/>
+    <circle cx="400" cy="280" r="38" fill="#0abfd7"/><ellipse cx="389" cy="268" rx="13" ry="9" fill="rgba(255,255,255,0.45)"/>
+    <circle cx="550" cy="280" r="38" fill="#0abfd7"/><ellipse cx="539" cy="268" rx="13" ry="9" fill="rgba(255,255,255,0.45)"/>
+  </g>
+  <g fill="#0c5a52" transform="translate(694,346) scale(1.1)">
+    <circle cx="-18" cy="-14" r="7"/><circle cx="0" cy="-18" r="7"/><circle cx="18" cy="-14" r="7"/><circle cx="-26" cy="0" r="6"/><circle cx="26" cy="0" r="6"/>
+    <path d="M0 4c-14 0-22 10-20 20 2 9 12 12 20 12s18-3 20-12c2-10-6-20-20-20z"/>
+  </g>
+</svg>

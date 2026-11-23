@@ -41,6 +41,7 @@ This file is the single source of truth for decisions and progress, so any model
 - (2026-11-23) SpotlightCard component added: cursor-tracking brass sheen overlay (`src/ui/SpotlightCard.js`) applied to `.phase` and `.buy__card` elements; soft radial gradient `rgba(185,138,60,0.15)` follows pointer on desktop hover and fades smoothly on leave; respects prefers-reduced-motion.
 - (2026-11-23) Ritual scrubber section removed; Phase 02 renamed from "Sniff" to "Play" across phase cards, viewer, buy card, and meta descriptions.
 - (2026-11-23) UI polish pass: hero marquee, "Parts in the model" list, stage caption, duplicate nav Reserve link, and redundant Phase 04 scent note removed; Buy section rebuilt with full-bleed product images, phase number tags, price+CTA footer rows, and a premium full-set banner (badge, strike-through compare price ₹37,998 → ₹34,999); hero gained bottom padding after marquee removal; unused marquee/parts/nav-reserve/video-note CSS deleted.
+- (2026-11-23) Buy expanded into a shop-with-accessories section: "Buy" added to navbar and footer; new "Dog products, made to pair" grid with four companion products — Broth Pods 8-pack ₹699, Calming Chews jar ₹599, Replacement chew core ₹1,299, Travel & storage pouch ₹1,499 — each with a procedurally drawn brand-palette SVG product render in `public/images/` (no text baked into art, tag pills overlay); cards gained a hover lift; full-set banner retained below.
 
 ## Structure
 

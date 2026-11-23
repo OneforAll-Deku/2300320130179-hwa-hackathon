@@ -43,6 +43,19 @@ You can buy **individual phases separately** or combine all four into **one set*
 | Phase 04 · Settle — Weighted chrono base | ₹9,999 |
 | **Full set — all four phases in one kit** | **₹34,999** *(saves ₹3,000 vs separate total of ₹37,998)* |
 
+### Companion dog products
+
+The Buy section also carries refills, spares and accessories designed around the ritual:
+
+| Item | Price (INR) |
+|------|-------------|
+| Broth Pods 8-pack (refill, pairs with Phase 01) | ₹699 |
+| Calming Chews jar (refill, pairs with Phase 04) | ₹599 |
+| Replacement chew core (spare part, Phase 03) | ₹1,299 |
+| Travel & storage pouch (accessory) | ₹1,499 |
+
+Each product has a procedurally drawn brand-palette SVG render in `public/images/` (`product-broth-pods.svg`, `product-calming-chews.svg`, `product-chew-core.svg`, `product-travel-pouch.svg`).
+
 Reserve via the form at the bottom of the page (name, email, quantity 1–3). On success you receive a reservation code such as `PC-XXXXXX`.
 
 ## Product configurator

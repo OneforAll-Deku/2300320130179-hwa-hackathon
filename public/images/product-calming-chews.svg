@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="PawClock Calming Chews jar with brass lid and two bone-shaped chews">
+  <rect width="800" height="450" fill="#f1e8d8"/>
+  <circle cx="170" cy="110" r="80" fill="#e9dcc7" opacity="0.55"/>
+  <circle cx="655" cy="350" r="70" fill="#e9dcc7" opacity="0.45"/>
+  <ellipse cx="400" cy="352" rx="220" ry="24" fill="rgba(16,46,42,0.10)"/>
+  <rect x="296" y="132" width="208" height="44" rx="17" fill="#b98a3c"/>
+  <rect x="296" y="124" width="208" height="20" rx="10" fill="#d8b26a"/>
+  <rect x="304" y="170" width="192" height="182" rx="26" fill="#0c5a52"/>
+  <rect x="322" y="208" width="156" height="108" rx="14" fill="#fffdf8"/>
+  <g fill="#b98a3c" transform="translate(400,248) scale(0.9)">
+    <circle cx="-16" cy="-12" r="6"/><circle cx="0" cy="-16" r="6"/><circle cx="16" cy="-12" r="6"/>
+    <circle cx="-24" cy="2" r="5"/><circle cx="24" cy="2" r="5"/>
+    <path d="M0 6c-12 0-19 9-17 17 2 8 10 10 17 10s15-2 17-10c2-8-5-17-17-17z"/>
+  </g>
+  <rect x="344" y="286" width="112" height="4" rx="2" fill="#b98a3c" opacity="0.5"/>
+  <g fill="#d8b26a">
+    <rect x="540" y="284" width="88" height="32" rx="16"/>
+    <circle cx="540" cy="284" r="18"/><circle cx="540" cy="316" r="18"/>
+    <circle cx="628" cy="284" r="18"/><circle cx="628" cy="316" r="18"/>
+  </g>
+  <g fill="#e9dcc7">
+    <rect x="560" y="232" width="66" height="24" rx="12"/>
+    <circle cx="560" cy="232" r="14"/><circle cx="560" cy="256" r="14"/>
+    <circle cx="626" cy="232" r="14"/><circle cx="626" cy="256" r="14"/>
+  </g>
+</svg>
