@@ -45,6 +45,7 @@ This file is the single source of truth for decisions and progress, so any model
 - (2026-11-23) Rendering/animation optimization pass: hero content renders immediately (no JS-gated reveals above the fold); redundant "Load. Set. Leave." steps section and hero stat row removed; three YouTube embeds replaced with click-to-load facades using local phase photos as posters (iframes injected as youtube-nocookie on click); unified `--ease-out` token with subtler 14px reveals; nav scroll-spy active state; safer `contain: layout paint` section isolation (content-visibility was rejected because it broke anchor landing); mobile viewer DPR capped at 1.5; global reduced-motion duration override replaced with targeted handling.
 - (2026-11-23) Ritual typography/UX polish: body base 17px; global `text-wrap: balance` for headings and `pretty` for prose; phase rows get dividers and generous spacing; sticky phase media on desktop (top 108px) inside a two-column start-aligned grid; phase headings tightened (clamp 1.85–2.35rem, line-height 1.1); chips and apothecary tabs restyled with 1px borders, brass active state and focus rings. Copy fixes: Phase 01/02/04 paragraphs tightened, Phase 04 heading shortened to "Weighted chrono base", curly apostrophes normalized.
 - (2026-11-23) Scroll-jank fixes: nav and phase tags no longer use `backdrop-filter` (solid translucent backgrounds instead); `body overflow-x` switched from `hidden` to `clip` so sticky media works; MaskedHeading pauses its gradient animation via IntersectionObserver when offscreen; Three.js viewer skips rendering while the page is actively scrolling. SpotlightCard gained `wrapChildren: false` for open-layout cards because its wrapper collapsed the phase grid and disabled sticky. Apothecary active panel now toggles the `hidden` DOM property (the previous `hidden="false"` attribute kept every panel hidden).
+- (2026-11-23) Custom cursor added (`src/ui/CustomCursor.js`): desktop-only brass dot with a trailing ring, native cursor hidden only while active; the ring expands over links/buttons and shows contextual labels from `data-cursor-label` ("Drag" on the 3D viewer, "Play" on video facades); the cursor hides when a facade swaps in a YouTube iframe; touch devices and `prefers-reduced-motion` keep the native cursor.
 
 ## Structure
 
@@ -52,6 +53,7 @@ This file is the single source of truth for decisions and progress, so any model
 - `src/main.js` — nav, reveal animations, lazy-loads viewer, order form submission, back-to-top, MaskedHeading mount.
 - `src/ui/MaskedHeading.js` — text-masked heading with brass stroke, metallic gradient reveal, cursor spotlight.
 - `src/ui/SpotlightCard.js` — cursor-tracking brass sheen spotlight overlay for phase and buy cards; `wrapChildren: false` keeps open layouts (phase grid + sticky media) intact.
+- `src/ui/CustomCursor.js` — desktop cursor dot/ring treatment with hover states and contextual labels.
 - `src/viewer.js` — Three.js scene, GLB loading, per-mesh material recolor, raycast part hover/tooltips, phase highlighting and click-to-phase links, orbit controls, auto-rotate, fallbacks.
 - `src/styles/main.css` — design system and responsive layout.
 - `api/order.js` — Vercel serverless order endpoint; shared validation also used by the Vite dev server.
@@ -82,6 +84,7 @@ This file is the single source of truth for decisions and progress, so any model
 - Viewer timer updated: deprecated THREE.Clock replaced with THREE.Timer in src/viewer.js; build passes.
 - Ritual polish verified locally: two-column phase grid restored with sticky media (`mediaTop 108` while the article scrolls), `#ritual` anchor lands at 100px, apothecary tab switching works and the active panel renders, no horizontal overflow at 1440/390, no console errors.
 - Ritual polish committed (`3914600`), pushed to `main` and deployed with `vercel --prod`; live checks confirm 17px body text, sticky phase media, paused offscreen masked heading, anchor landing (ritual 100px, buy 101px), apothecary panel, no overflow/errors, and `POST /api/order` returning 201 (`PC-GNULC2X91`).
+- Custom cursor verified locally: follower and ring track the pointer, ring expands over nav links, viewer shows the "Drag" label, facade button shows "Play", pressed state works, buttons remain clickable, no cursor on touch/reduced-motion, no console errors.
 
 ## Next steps
 

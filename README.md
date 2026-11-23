@@ -112,6 +112,10 @@ Example success body:
 - **Cheap section isolation** — sections use `contain: layout paint` (content-visibility was tested and rejected because it broke anchor landing positions).
 - **Nav scroll-spy** — the active section is underlined via a single IntersectionObserver with no scroll listeners.
 
+## Custom cursor
+
+Desktop-only (`hover: hover` + `pointer: fine`): a brass dot with a trailing ring follows the pointer, the ring grows over links and buttons, and contextual labels come from `data-cursor-label` ("Drag" on the 3D viewer, "Play" on video facades). The native cursor is hidden only while this is active; touch devices and `prefers-reduced-motion` keep the default cursor.
+
 ## Masked Heading component
 
 **`src/ui/MaskedHeading.js`** — vanilla JS component for a text-masked heading that reveals a metallic gradient (or optional background video) through the letters.
@@ -130,7 +134,8 @@ Used on the **The ritual** section heading ("Four phases, one quiet countdown.")
 
 ```
 index.html          # Single landing page: hero + 3D viewer, ritual curve, four phases, engineering, specs, buy, configurator, reserve, FAQ, footer
-src/main.js         # Nav + scroll-spy, reveals, video facades, lazy viewer load, order form, back-to-top, component mounts
+src/main.js         # Nav + scroll-spy, reveals, video facades, custom cursor mount, lazy viewer load, order form, back-to-top
+src/ui/CustomCursor.js   # Desktop dot/ring cursor with hover states and contextual labels
 src/ui/MaskedHeading.js  # Text-masked heading with brass stroke, metallic gradient reveal, cursor spotlight
 src/ui/SpotlightCard.js # Cursor-tracking brass sheen spotlight overlay for phase and buy cards
 src/viewer.js       # Three.js scene, GLB load, per-mesh materials, part hover/tooltips, phase chips, click-to-phase

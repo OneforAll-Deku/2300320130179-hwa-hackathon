@@ -1577,6 +1577,92 @@ li {
   }
 }
 
+/* ---------- Custom cursor ---------- */
+
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 220;
+  pointer-events: none;
+  border-radius: 999px;
+  opacity: 0;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--brass);
+  transition: opacity 0.22s ease, scale 0.28s var(--ease-out);
+}
+
+.cursor-dot.is-visible {
+  opacity: 1;
+}
+
+.cursor-dot.is-active {
+  scale: 0;
+}
+
+.cursor-ring {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid rgba(185, 138, 60, 0.55);
+  background: rgba(185, 138, 60, 0.05);
+  transition: opacity 0.22s ease, width 0.28s var(--ease-out), height 0.28s var(--ease-out),
+    margin 0.28s var(--ease-out), background-color 0.28s ease, border-color 0.28s ease;
+}
+
+.cursor-ring.is-visible {
+  opacity: 1;
+}
+
+.cursor-ring.is-active {
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
+  border-color: rgba(185, 138, 60, 0.9);
+  background: rgba(185, 138, 60, 0.09);
+}
+
+.cursor-ring.is-labeled {
+  width: 76px;
+  height: 76px;
+  margin: -38px 0 0 -38px;
+  border-color: transparent;
+  background: rgba(12, 90, 82, 0.94);
+}
+
+.cursor-ring.is-visible.is-pressed {
+  opacity: 0.55;
+}
+
+.cursor-ring__label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  white-space: nowrap;
+}
+
+.cursor-ring.is-labeled .cursor-ring__label {
+  opacity: 1;
+}
+
 /* ---------- Configurator ---------- */
 
 .configurator__inner {
