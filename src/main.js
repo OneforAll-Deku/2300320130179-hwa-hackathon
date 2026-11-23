@@ -200,10 +200,50 @@ if (reduceMotion || !('IntersectionObserver' in window)) {
         observer.unobserve(entry.target)
       })
     },
-    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    { threshold: 0.1, rootMargin: '0px 0px -10% 0px' }
   )
 
   revealElements.forEach((element) => revealObserver.observe(element))
+}
+
+document.querySelectorAll('[data-video-facade]').forEach((facade) => {
+  const button = facade.querySelector('.phase__video-play')
+  if (!button) return
+
+  button.addEventListener(
+    'click',
+    () => {
+      const id = button.dataset.videoId
+      if (!id) return
+      const iframe = document.createElement('iframe')
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`
+      iframe.title = button.dataset.videoTitle || 'PawClock video'
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+      iframe.allowFullscreen = true
+      iframe.loading = 'eager'
+      facade.replaceChildren(iframe)
+      iframe.focus()
+    },
+    { once: true }
+  )
+})
+
+const spyLinks = Array.from(document.querySelectorAll('.nav__links a[href^="#"]'))
+const spySections = spyLinks.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean)
+
+if (spySections.length && 'IntersectionObserver' in window) {
+  const spyObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        const id = `#${entry.target.id}`
+        spyLinks.forEach((link) => link.classList.toggle('is-active', link.getAttribute('href') === id))
+      })
+    },
+    { rootMargin: '-40% 0px -55% 0px' }
+  )
+
+  spySections.forEach((section) => spyObserver.observe(section))
 }
 
 const viewerRoot = document.querySelector('[data-model-viewer]')

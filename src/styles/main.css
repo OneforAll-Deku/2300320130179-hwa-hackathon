@@ -17,6 +17,7 @@
   --color-peach: #eaf7fb;
   --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-sans: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 *,
@@ -325,6 +326,14 @@ li {
   transform: scaleX(1);
 }
 
+.nav__links a.is-active {
+  color: var(--ink);
+}
+
+.nav__links a.is-active::after {
+  transform: scaleX(1);
+}
+
 .nav__actions {
   display: flex;
   align-items: center;
@@ -404,31 +413,6 @@ li {
   flex-wrap: wrap;
   gap: 0.8rem;
   margin-top: 2.2rem;
-}
-
-.hero__stats {
-  display: flex;
-  gap: clamp(1.6rem, 4vw, 3rem);
-  margin-top: 2.6rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
-}
-
-.hero__stats dt {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-}
-
-.hero__stats dd {
-  margin-top: 0.35rem;
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
 }
 
 .hero__stage {
@@ -785,6 +769,7 @@ li {
 
 .section {
   padding-block: clamp(5rem, 9vw, 8rem);
+  contain: layout paint;
 }
 
 .section__head {
@@ -1060,44 +1045,6 @@ li {
   font-family: var(--font-display);
   font-size: 0.82rem;
   color: var(--brass-light);
-}
-
-/* ---------- Steps ---------- */
-
-.steps-section {
-  background: var(--paper-2);
-}
-
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1.5rem, 4vw, 3rem);
-  margin-top: clamp(2.5rem, 5vw, 3.5rem);
-}
-
-.step {
-  padding-top: 1.3rem;
-  border-top: 1px solid rgba(16, 46, 42, 0.22);
-}
-
-.step__num {
-  display: block;
-  margin-bottom: 1.4rem;
-  font-family: var(--font-display);
-  font-size: 0.9rem;
-  letter-spacing: 0.06em;
-  color: var(--brass);
-}
-
-.step h3 {
-  font-size: 1.6rem;
-  margin-bottom: 0.5rem;
-}
-
-.step p {
-  max-width: 30ch;
-  font-size: 0.9rem;
-  color: var(--ink-soft);
 }
 
 /* ---------- Specs ---------- */
@@ -1388,8 +1335,7 @@ li {
   background: var(--ink);
 }
 
-.phase__video iframe,
-.phase__video--external {
+.phase__video iframe {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -1398,41 +1344,60 @@ li {
   display: block;
 }
 
-.phase__video--external {
+.phase__video-thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+}
+
+.phase__video-play {
+  position: absolute;
+  inset: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background:
-    radial-gradient(70% 60% at 50% 40%, rgba(12, 90, 82, 0.35), transparent 70%),
-    var(--ink);
+  gap: 0.75rem;
+  width: 100%;
+  border: 0;
+  background: linear-gradient(180deg, rgba(8, 59, 54, 0.08), rgba(8, 59, 54, 0.58));
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.phase__video-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.9rem 1.3rem;
-  border-radius: 999px;
-  background: var(--brass-light);
-  color: var(--ink);
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
+.phase__video-play:hover {
+  background: linear-gradient(180deg, rgba(8, 59, 54, 0.02), rgba(8, 59, 54, 0.46));
 }
 
-.phase__video-link-icon {
-  display: inline-grid;
+.phase__video-play-icon {
+  display: grid;
   place-items: center;
-  width: 22px;
-  height: 22px;
+  width: 62px;
+  height: 62px;
   border-radius: 50%;
-  background: var(--ink);
-  color: var(--brass-light);
-  font-size: 0.7rem;
+  background: rgba(246, 241, 231, 0.94);
+  color: var(--teal-deep);
+  box-shadow: 0 14px 34px -14px rgba(8, 59, 54, 0.7);
+  transition: transform 0.3s var(--ease-out);
 }
 
-.phase__video-link-text {
-  text-align: left;
+.phase__video-play:hover .phase__video-play-icon {
+  transform: scale(1.07);
+}
+
+.phase__video-play-icon svg {
+  width: 26px;
+  height: 26px;
+  transform: translateX(2px);
 }
 
 /* ---------- Botanical Scent Apothecary ---------- */
@@ -2182,8 +2147,8 @@ li {
 
 .js .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.75s ease, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(14px);
+  transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
   transition-delay: var(--delay, 0ms);
 }
 
@@ -2300,15 +2265,6 @@ li {
     order: initial;
   }
 
-  .steps {
-    grid-template-columns: 1fr;
-    gap: 1.6rem;
-  }
-
-  .step p {
-    max-width: 46ch;
-  }
-
   .specs__row dd {
     max-width: 58%;
   }
@@ -2339,18 +2295,6 @@ li {
 
   .hero__actions .btn {
     flex: 1 1 auto;
-  }
-
-  .hero__stats {
-    gap: 1.4rem;
-  }
-
-  .hero__stats dt {
-    font-size: 1.6rem;
-  }
-
-  .hero__stats dd {
-    font-size: 0.58rem;
   }
 
   .viewer {
@@ -2405,17 +2349,10 @@ li {
     scroll-behavior: auto;
   }
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-
   .js .reveal {
     opacity: 1;
     transform: none;
+    transition: none;
   }
 
   .phase.is-active .phase__media {

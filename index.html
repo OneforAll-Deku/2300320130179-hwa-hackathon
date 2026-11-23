@@ -72,33 +72,19 @@
       <section class="hero" id="top">
         <div class="wrap hero__inner">
           <div class="hero__copy">
-            <p class="eyebrow reveal"><span class="eyebrow__dot"></span>4-phase chrono-feeder</p>
-            <h1 class="reveal" style="--delay: 60ms">Alone time,<br /><em>beautifully</em> handled.</h1>
-            <p class="lede reveal" style="--delay: 120ms">
+            <p class="eyebrow"><span class="eyebrow__dot"></span>4-phase chrono-feeder</p>
+            <h1>Alone time,<br /><em>beautifully</em> handled.</h1>
+            <p class="lede">
               PawClock turns the first two hours of home-alone into a four-stage ritual — lick, play, chew, settle —
               so your dog stays engaged, calm and cared for until the door opens again.
             </p>
-            <div class="hero__actions reveal" style="--delay: 180ms">
+            <div class="hero__actions">
               <a class="btn btn--dark" href="#reserve">Reserve yours — ₹8,999</a>
               <a class="btn btn--ghost" href="#ritual">See the four phases</a>
             </div>
-            <dl class="hero__stats reveal" style="--delay: 240ms">
-              <div>
-                <dt>4</dt>
-                <dd>enrichment phases</dd>
-              </div>
-              <div>
-                <dt>2 h</dt>
-                <dd>home-alone coverage</dd>
-              </div>
-              <div>
-                <dt>0</dt>
-                <dd>apps or batteries</dd>
-              </div>
-            </dl>
           </div>
 
-          <div class="hero__stage reveal" style="--delay: 120ms">
+          <div class="hero__stage">
             <div class="viewer" id="model-viewer" data-model-viewer>
               <div class="viewer__glow" aria-hidden="true"></div>
               <div class="viewer__badge"><span class="viewer__pulse" aria-hidden="true"></span>Live 3D</div>
@@ -236,14 +222,28 @@
                   <li class="chip">Freezer-ready</li>
                   <li class="chip">Dishwasher-safe</li>
                 </ul>
-                <div class="phase__video">
-                  <iframe
-                    src="https://www.youtube.com/embed/buBbUWmfFE4?si=TvfTm8g069EUqocO"
-                    title="Frozen lick-well bowl being licked by a dog on the PawClock base"
+                <div class="phase__video" data-video-facade>
+                  <img
+                    class="phase__video-thumb"
+                    src="/images/phase-1-lick.jpg"
+                    alt=""
+                    width="1376"
+                    height="768"
                     loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
+                    decoding="async"
+                  />
+                  <button
+                    class="phase__video-play"
+                    type="button"
+                    data-video-id="buBbUWmfFE4"
+                    data-video-title="Frozen lick-well bowl being licked by a dog on the PawClock base"
+                    aria-label="Play video: frozen lick-well bowl being licked by a dog"
+                  >
+                    <span class="phase__video-play-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false"><path d="M9 6.5v11l9-5.5-9-5.5Z" fill="currentColor" /></svg>
+                    </span>
+                    <span>Watch how it works</span>
+                  </button>
                 </div>
               </div>
             </article>
@@ -276,17 +276,28 @@
                   <li class="chip">Quiet on floors</li>
                   <li class="chip">Dog toy + food dispenser</li>
                 </ul>
-                <div class="phase__video">
-                  <iframe
-                    src="https://www.youtube.com/embed/3NEa7C8JqvI"
-                    title="Maze ball food dispenser video for PawClock Phase 02"
+                <div class="phase__video" data-video-facade>
+                  <img
+                    class="phase__video-thumb"
+                    src="/images/phase-2-sniff.jpg"
+                    alt=""
+                    width="1376"
+                    height="768"
                     loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    width="560"
-                    height="315"
-                    scrolling="no"
-                  ></iframe>
+                    decoding="async"
+                  />
+                  <button
+                    class="phase__video-play"
+                    type="button"
+                    data-video-id="3NEa7C8JqvI"
+                    data-video-title="Maze ball food dispenser video for PawClock Phase 02"
+                    aria-label="Play video: maze ball food dispenser in action"
+                  >
+                    <span class="phase__video-play-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false"><path d="M9 6.5v11l9-5.5-9-5.5Z" fill="currentColor" /></svg>
+                    </span>
+                    <span>Watch how it works</span>
+                  </button>
                 </div>
               </div>
             </article>
@@ -431,17 +442,28 @@
                     </div>
                   </div>
                 </div>
-                <div class="phase__video">
-                  <iframe
-                    src="https://www.youtube.com/embed/bOG3verEbiQ"
-                    title="Calming scents for anxious dogs video for PawClock Phase 04"
+                <div class="phase__video" data-video-facade>
+                  <img
+                    class="phase__video-thumb"
+                    src="/images/phase-4-settle.jpg"
+                    alt=""
+                    width="1376"
+                    height="768"
                     loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    width="560"
-                    height="315"
-                    scrolling="no"
-                  ></iframe>
+                    decoding="async"
+                  />
+                  <button
+                    class="phase__video-play"
+                    type="button"
+                    data-video-id="bOG3verEbiQ"
+                    data-video-title="Calming scents for anxious dogs video for PawClock Phase 04"
+                    aria-label="Play video: calming scents for anxious dogs"
+                  >
+                    <span class="phase__video-play-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false"><path d="M9 6.5v11l9-5.5-9-5.5Z" fill="currentColor" /></svg>
+                    </span>
+                    <span>Watch how it works</span>
+                  </button>
                 </div>
                 <a class="btn btn--ghost" href="https://a-z-animals.com/articles/these-are-9-scents-that-calm-anxious-dogs/" target="_blank" rel="noopener noreferrer">Read the calming scent guide in detail ↗</a>
               </div>
@@ -480,33 +502,6 @@
               <li class="reveal" style="--delay: 200ms"><span>06</span>Sealed, dishwasher-safe chamber</li>
             </ol>
           </div>
-        </div>
-      </section>
-
-      <section class="section steps-section">
-        <div class="wrap">
-          <div class="section__head reveal">
-            <p class="eyebrow"><span class="eyebrow__dot"></span>Three moves, then out</p>
-            <h2>Load. Set. Leave.</h2>
-          </div>
-
-          <ol class="steps">
-            <li class="step reveal">
-              <span class="step__num">01</span>
-              <h3>Load</h3>
-              <p>Fill the lick-well, hide treats in the spiral, stuff the chew core.</p>
-            </li>
-            <li class="step reveal" style="--delay: 80ms">
-              <span class="step__num">02</span>
-              <h3>Set</h3>
-              <p>Twist the chrono base to start the two-hour sequence.</p>
-            </li>
-            <li class="step reveal" style="--delay: 160ms">
-              <span class="step__num">03</span>
-              <h3>Leave</h3>
-              <p>Walk out. PawClock takes it from there — no app, no alerts.</p>
-            </li>
-          </ol>
         </div>
       </section>
 

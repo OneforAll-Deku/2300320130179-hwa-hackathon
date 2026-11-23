@@ -101,6 +101,15 @@ Example success body:
 - **Custom CSS** — design system, responsive layout, reveal animations, smooth scroll
 - **Vercel serverless function** — `api/order.js` order endpoint
 
+## Performance and motion
+
+- **Above the fold renders immediately** — the hero has no JS-gated reveal, so the headline and 3D stage paint on first load.
+- **Click-to-load video facades** — each phase shows a local poster with a play button; the YouTube (privacy-enhanced `youtube-nocookie`) iframe is injected only on click.
+- **Lazy 3D viewer** — Three.js is code-split and imported on idle; rendering pauses when the viewer scrolls offscreen, and mobile DPR is capped at 1.5.
+- **Compositor-friendly reveals** — below-the-fold sections fade/translate in once via `IntersectionObserver` using opacity + transform only, with a shared `--ease-out` token and `prefers-reduced-motion` handling.
+- **Cheap section isolation** — sections use `contain: layout paint` (content-visibility was tested and rejected because it broke anchor landing positions).
+- **Nav scroll-spy** — the active section is underlined via a single IntersectionObserver with no scroll listeners.
+
 ## Masked Heading component
 
 **`src/ui/MaskedHeading.js`** — vanilla JS component for a text-masked heading that reveals a metallic gradient (or optional background video) through the letters.
@@ -117,8 +126,8 @@ Used on the **The ritual** section heading ("Four phases, one quiet countdown.")
 ### Repository structure
 
 ```
-index.html          # Single landing page: hero + 3D viewer, ritual curve, four phases, engineering, specs, buy, reserve, FAQ, footer
-src/main.js         # Nav, reveal animations, lazy viewer load, order form submission, back-to-top, MaskedHeading mount
+index.html          # Single landing page: hero + 3D viewer, ritual curve, four phases, engineering, specs, buy, configurator, reserve, FAQ, footer
+src/main.js         # Nav + scroll-spy, reveals, video facades, lazy viewer load, order form, back-to-top, component mounts
 src/ui/MaskedHeading.js  # Text-masked heading with brass stroke, metallic gradient reveal, cursor spotlight
 src/ui/SpotlightCard.js # Cursor-tracking brass sheen spotlight overlay for phase and buy cards
 src/viewer.js       # Three.js scene, GLB load, per-mesh materials, part hover/tooltips, phase chips, click-to-phase

@@ -383,7 +383,8 @@ export function createModelViewer(root) {
     return null
   }
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+  const dprCap = window.matchMedia('(max-width: 720px)').matches ? 1.5 : 2
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, dprCap))
   renderer.outputColorSpace = THREE.SRGBColorSpace
   renderer.toneMapping = THREE.ACESFilmicToneMapping
   renderer.toneMappingExposure = 1.06
