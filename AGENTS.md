@@ -85,6 +85,7 @@ This file is the single source of truth for decisions and progress, so any model
 - Ritual polish verified locally: two-column phase grid restored with sticky media (`mediaTop 108` while the article scrolls), `#ritual` anchor lands at 100px, apothecary tab switching works and the active panel renders, no horizontal overflow at 1440/390, no console errors.
 - Ritual polish committed (`3914600`), pushed to `main` and deployed with `vercel --prod`; live checks confirm 17px body text, sticky phase media, paused offscreen masked heading, anchor landing (ritual 100px, buy 101px), apothecary panel, no overflow/errors, and `POST /api/order` returning 201 (`PC-GNULC2X91`).
 - Custom cursor verified locally: follower and ring track the pointer, ring expands over nav links, viewer shows the "Drag" label, facade button shows "Play", pressed state works, buttons remain clickable, no cursor on touch/reduced-motion, no console errors.
+- Custom cursor committed (`2c6739e`), pushed to `main` and deployed; live checks confirm dot/ring tracking, native cursor suppression, "Drag"/"Play" labels, pressed state, working tab clicks, and no cursor on touch or reduced motion.
 
 ## Next steps
 
