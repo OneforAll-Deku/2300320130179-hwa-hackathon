@@ -88,6 +88,7 @@ This file is the single source of truth for decisions and progress, so any model
 - Custom cursor verified locally: follower and ring track the pointer, ring expands over nav links, viewer shows the "Drag" label, facade button shows "Play", pressed state works, buttons remain clickable, no cursor on touch/reduced-motion, no console errors.
 - Custom cursor committed (`2c6739e`), pushed to `main` and deployed; live checks confirm dot/ring tracking, native cursor suppression, "Drag"/"Play" labels, pressed state, working tab clicks, and no cursor on touch or reduced motion.
 - Brass lens cursor verified locally: follows the pointer with a trailing lens, grows over nav links, ripples on click and cleans up, hides over injected iframes, buttons remain clickable, no cursor on touch/reduced-motion, no console errors.
+- Brass lens cursor committed (`802b78d`), pushed to `main` and deployed; live checks confirm lens tracking, native cursor suppression, hover growth, click ripples, iframe hiding, working tab clicks, and no cursor on touch or reduced motion.
 
 ## Next steps
 
